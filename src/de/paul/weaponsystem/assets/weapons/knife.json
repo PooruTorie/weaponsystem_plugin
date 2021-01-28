@@ -1,0 +1,8 @@
+{
+	"type": "melee",
+	"name": "knife",
+	"item_name": "&6Knife",
+	"item_id": 267,
+	"item_lore": ["&3Tolles Messer"],
+	"damage": 5
+}
