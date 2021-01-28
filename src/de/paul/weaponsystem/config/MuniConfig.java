@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+import org.bukkit.ChatColor;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 
@@ -33,7 +34,7 @@ public class MuniConfig extends Config {
 		((JSONArray) get("item_lore")).forEach(new Consumer<Object>() {
 			@Override
 			public void accept(Object t) {
-				itemLore.add((String) t);
+				itemLore.add(ChatColor.translateAlternateColorCodes('&', (String) t));
 			}});
 	}
 	

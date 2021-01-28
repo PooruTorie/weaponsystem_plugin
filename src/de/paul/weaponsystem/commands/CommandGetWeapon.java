@@ -18,12 +18,12 @@ public class CommandGetWeapon implements CommandExecutor {
 				if (args.length >= 1) {
 					Weapon w = Weapon.getWeaponByName(args[0]);
 					if (w != null) {
-						
+						w.give(p);
 					} else {
 						p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("noweapon"));
 					}
 				} else {
-					p.sendMessage("cUsage: /getWeapon <WeaponName>");
+					p.sendMessage("§cUsage: /getWeapon <WeaponName>");
 				}
 			} else {
 				p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));

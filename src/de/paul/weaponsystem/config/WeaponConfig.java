@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+import org.bukkit.ChatColor;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 
@@ -18,9 +19,9 @@ public class WeaponConfig extends Config {
 	private String itemName;
 	private int itemID;
 	private ArrayList<String> itemLore = new ArrayList<>();
+	private int cooldown;
 	private int meleeDamage;
 	private int gunDamage;
-	private int gunCooldown;
 	private int gunMuniCapacity;
 	private int gunMuniId;
 	private int gunReloadTime;
@@ -39,12 +40,12 @@ public class WeaponConfig extends Config {
 		((JSONArray) get("item_lore")).forEach(new Consumer<Object>() {
 			@Override
 			public void accept(Object t) {
-				itemLore.add((String) t);
+				itemLore.add(ChatColor.translateAlternateColorCodes('&', (String) t));
 			}});
+		cooldown = ((Long) get("cooldown")).intValue();
 		switch (type) {
 		case gun:
-			gunDamage = ((Long) get("damage")).intValue();
-			gunCooldown = ((Long) get("cooldown")).intValue();
+			gunDamage = ((Long) get("damage_per_bullet")).intValue();
 			gunMuniCapacity = ((Long) get("muni")).intValue();
 			gunMuniId = ((Long) get("muni_id")).intValue();
 			gunReloadTime = ((Long) get("reload_time")).intValue();
@@ -86,8 +87,8 @@ public class WeaponConfig extends Config {
 		return gunDamage;
 	}
 	
-	public int getGunCooldown() {
-		return gunCooldown;
+	public int getCooldown() {
+		return cooldown;
 	}
 	
 	public int getGunMuniCapacity() {

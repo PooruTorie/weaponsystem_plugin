@@ -3,6 +3,8 @@ package de.paul.weaponsystem.weapon;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.entity.Player;
+
 import de.paul.weaponsystem.config.WeaponConfig;
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
 
@@ -15,7 +17,7 @@ public class Weapon {
 	private ArrayList<String> itemLore = new ArrayList<>();
 	private int meleeDamage;
 	private int gunDamage;
-	private int gunCooldown;
+	private int cooldown;
 	private int gunMuniCapacity;
 	private int gunMuniId;
 	private int gunReloadTime;
@@ -28,7 +30,7 @@ public class Weapon {
 		itemLore = config.getItemLore();
 		meleeDamage = config.getMeleeDamage();
 		gunDamage = config.getGunDamage();
-		gunCooldown = config.getGunCooldown();
+		cooldown = config.getCooldown();
 		gunMuniCapacity = config.getGunMuniCapacity();
 		gunMuniId = config.getGunMuniId();
 		gunReloadTime = config.getGunReloadTime();
@@ -62,8 +64,8 @@ public class Weapon {
 		return gunDamage;
 	}
 	
-	public int getGunCooldown() {
-		return gunCooldown;
+	public int getCooldown() {
+		return cooldown;
 	}
 	
 	public int getGunMuniCapacity() {
@@ -76,6 +78,11 @@ public class Weapon {
 	
 	public int getGunReloadTime() {
 		return gunReloadTime;
+	}
+	
+	public void give(Player p) {
+		WeaponItem item = new WeaponItem(this);
+		p.getInventory().addItem(item);
 	}
 
 	public enum WeaponType {

@@ -9,6 +9,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.sqlite.SQLiteConfig.SynchronousMode;
 
 import de.paul.weaponsystem.assets.Assets;
 import de.paul.weaponsystem.commands.CommandGetWeapon;
@@ -16,6 +17,7 @@ import de.paul.weaponsystem.config.Config;
 import de.paul.weaponsystem.config.MuniConfig;
 import de.paul.weaponsystem.config.WeaponConfig;
 import de.paul.weaponsystem.weapon.Weapon;
+import de.paul.weaponsystem.weapon.WeaponItem;
 import de.paul.weaponsystem.weapon.muni.Muni;
 
 public class WeaponSystem extends JavaPlugin {
@@ -50,6 +52,8 @@ public class WeaponSystem extends JavaPlugin {
 		}
 		
 		getCommand("getWeapon").setExecutor(new CommandGetWeapon());
+		
+		Bukkit.getPluginManager().registerEvents(new WeaponItem(), WeaponSystem.plugin);
 	}
 	
 	private void loadMuni() throws IOException, ParseException {
