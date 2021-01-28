@@ -1,11 +1,11 @@
 {
-	"name": "",
-	"item_name": "",
+	"name": "deagle",
+	"item_name": "&6Deagle",
 	"item_id": "",
-	"item_lore": [],
-	"damage_per_bullet": [schaden]
-	"cooldown": [schuss cooldown]
-	"muni": [munition anzahl]
-	"muni_id": [item id]
-	"reload_time": [Reload Time in sekunden]
+	"item_lore": ["&3Tolle Deagle"],
+	"damage_per_bullet": 10,
+	"cooldown": 1,
+	"muni": 7,
+	"muni_id": 1,
+	"reload_time": 3
 }

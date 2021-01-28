@@ -1,4 +1,4 @@
-package de.paul.weaponsystem;
+package de.paul.weaponsystem.config;
 
 import java.io.BufferedWriter;
 import java.io.File;
