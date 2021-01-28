@@ -20,6 +20,10 @@ public class WeaponConfig extends Config {
 	private ArrayList<String> itemLore = new ArrayList<>();
 	private int meleeDamage;
 	private int gunDamage;
+	private int gunCooldown;
+	private int gunMuniCapacity;
+	private int gunMuniId;
+	private int gunReloadTime;
 
 	public WeaponConfig(File f) throws IOException, ParseException {
 		super(f);
@@ -28,7 +32,7 @@ public class WeaponConfig extends Config {
 	}
 	
 	private void load() {
-		type = Weapon.WeaponType.valueOf((String) get("type"));
+		type = Weapon.WeaponType.valueOf(((String) get("type")).toLowerCase());
 		name = (String) get("name");
 		itemName = getChatColorString("item_name");
 		itemID = ((Long) get("item_id")).intValue();
@@ -38,10 +42,14 @@ public class WeaponConfig extends Config {
 				itemLore.add((String) t);
 			}});
 		switch (type) {
-		case Gun:
+		case gun:
 			gunDamage = ((Long) get("damage")).intValue();
+			gunCooldown = ((Long) get("cooldown")).intValue();
+			gunMuniCapacity = ((Long) get("muni")).intValue();
+			gunMuniId = ((Long) get("muni_id")).intValue();
+			gunReloadTime = ((Long) get("reload_time")).intValue();
 			break;
-		case Melee:
+		case melee:
 			meleeDamage = ((Long) get("damage")).intValue();
 			break;
 		}
@@ -76,5 +84,21 @@ public class WeaponConfig extends Config {
 	
 	public int getGunDamage() {
 		return gunDamage;
+	}
+	
+	public int getGunCooldown() {
+		return gunCooldown;
+	}
+	
+	public int getGunMuniCapacity() {
+		return gunMuniCapacity;
+	}
+	
+	public int getGunMuniId() {
+		return gunMuniId;
+	}
+	
+	public int getGunReloadTime() {
+		return gunReloadTime;
 	}
 }

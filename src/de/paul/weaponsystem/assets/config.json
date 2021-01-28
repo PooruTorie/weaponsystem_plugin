@@ -1,0 +1,9 @@
+{
+	"permissions": {
+		"getweapon": "weaponsystem.getweapon",
+	},
+	"messages": {
+		"noweapon": "&cDiese Waffe gibt es nicht",
+		"nopermission": "&cDu darfst das nicht"
+	}
+}

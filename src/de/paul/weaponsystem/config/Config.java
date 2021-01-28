@@ -85,7 +85,7 @@ public class Config {
 	}
 	
 	public String getChatColorString(String name) {
-		return ChatColor.translateAlternateColorCodes('%', (String) get(name));
+		return ChatColor.translateAlternateColorCodes('&', (String) get(name));
 	}
 
 	private JSONObject readJSON(File f) throws IOException, ParseException {

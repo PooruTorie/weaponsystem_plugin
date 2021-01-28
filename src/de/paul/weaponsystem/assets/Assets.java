@@ -41,19 +41,18 @@ public class Assets {
 		}
 	}
 
-	public static void loadLanguages(File langFolder) {
+	public static void loadFolder(String jarFolderPath, File folder) {
 		try {
 			File jarFile = new File(Assets.class.getProtectionDomain().getCodeSource().getLocation().toURI());
 			JarFile jar = new JarFile(jarFile);
 		    Enumeration<JarEntry> entries = jar.entries();
 		    while(entries.hasMoreElements()) {
 		        String name = entries.nextElement().getName();
-		        String path = "assets/lang/";
+		        String classDir = "de/paul/weaponsystem/assets/";
+		        String path = classDir+jarFolderPath;
 		        Path p = Paths.get(name);
 				if (name.startsWith(path)) {
-					if (name.endsWith(".lang")) {
-						copyFile(new File(langFolder, p.getFileName().toString()), name.replace("assets/", ""));
-					}
+					copyFile(new File(folder, p.getFileName().toString()), name.replace(classDir, ""));
 		        }
 		    }
 		    jar.close();
