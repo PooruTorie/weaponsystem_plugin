@@ -19,6 +19,7 @@ public class WeaponConfig extends Config {
 	private int itemID;
 	private ArrayList<String> itemLore = new ArrayList<>();
 	private int meleeDamage;
+	private int gunDamage;
 
 	public WeaponConfig(File f) throws IOException, ParseException {
 		super(f);
@@ -71,5 +72,9 @@ public class WeaponConfig extends Config {
 	
 	public int getMeleeDamage() {
 		return meleeDamage;
+	}
+	
+	public int getGunDamage() {
+		return gunDamage;
 	}
 }
