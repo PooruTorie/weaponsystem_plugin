@@ -1,0 +1,11 @@
+{
+	"name": "",
+	"item_name": "",
+	"item_id": "",
+	"item_lore": [],
+	"damage_per_bullet": [schaden]
+	"cooldown": [schuss cooldown]
+	"muni": [munition anzahl]
+	"muni_id": [item id]
+	"reload_time": [Reload Time in sekunden]
+}
