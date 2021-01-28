@@ -2,21 +2,18 @@ package de.paul.weaponsystem.weapon;
 
 import java.util.HashMap;
 
-import org.bukkit.entity.Entity;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
-
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
 
 public class WeaponItem extends ItemStack implements Listener {
@@ -48,15 +45,24 @@ public class WeaponItem extends ItemStack implements Listener {
 	}
 	
 	private void gunReleod(Player p) {
+		for (Player all : Bukkit.getOnlinePlayers()) {
+			all.playSound(p.getLocation(), "minecraft:weapon.reload", 50, (float) (1f+(Math.random()/10f)));
+		}
 		p.sendMessage("Gun Reload Test");
 	}
 	
 	private void gunShot(Player p) {
-		p.playSound(p.getLocation(), "minecraft:weapon.blast1", 50, (float) (1f+(Math.random()/10f)));
+		for (Player all : Bukkit.getOnlinePlayers()) {
+			all.playSound(p.getLocation(), "minecraft:weapon.blast1", 50, (float) (1f+(Math.random()/10f)));
+		}
+		Snowball bullet = p.launchProjectile(Snowball.class);
+		bullet.setGravity(false);
+		bullet.setCustomName(weapon.getName()+"_"+weapon.getGunDamage());
 	}
 	
 	@EventHandler
 	private void onShot(PlayerInteractEvent e) {
+		Player p = e.getPlayer();
 		ItemStack item = e.getItem();
 		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if (item != null) {
@@ -66,7 +72,10 @@ public class WeaponItem extends ItemStack implements Listener {
 						if (items.containsKey(id)) {
 							WeaponItem itemWeapon = items.get(id);
 							if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
-								itemWeapon.gunShot(e.getPlayer());
+								if (p.getCooldown(item.getType()) == 0) {
+									p.setCooldown(item.getType(), itemWeapon.getWeapon().getCooldown()*20);
+									itemWeapon.gunShot(p);
+								}
 								e.setCancelled(true);
 							}
 						}

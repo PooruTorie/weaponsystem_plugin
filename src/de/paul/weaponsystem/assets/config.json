@@ -3,7 +3,8 @@
 		"getweapon": "weaponsystem.getweapon",
 	},
 	"messages": {
-		"noweapon": "&cDiese Waffe gibt es nicht",
-		"nopermission": "&cDu darfst das nicht"
+		"noweapon": "&8• &eWaffenSystem &8┃ &cDiese Waffe gibt es nicht",
+		"nopermission": "&8• &eWaffenSystem &8┃ &cDu darfst das nicht",
+		"munifull": "&8• &eWaffenSystem &8┃ &7Du kannst die Waffe nicht nachladen"
 	}
 }
