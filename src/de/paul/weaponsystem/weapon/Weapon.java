@@ -22,7 +22,14 @@ public class Weapon {
 	private int gunMuniId;
 	private int gunReloadTime;
 	
+	private WeaponConfig config;
+	
+	public WeaponConfig getConfig() {
+		return config;
+	}
+	
 	public Weapon(WeaponConfig config) {
+		this.config = config;
 		type = config.getType();
 		name = config.getName();
 		itemName = config.getItemName();

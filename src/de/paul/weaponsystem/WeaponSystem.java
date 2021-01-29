@@ -47,6 +47,8 @@ public class WeaponSystem extends JavaPlugin {
 		
 			loadWeapons();
 			loadMuni();
+			
+			WeaponItem.load();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -54,6 +56,11 @@ public class WeaponSystem extends JavaPlugin {
 		getCommand("getWeapon").setExecutor(new CommandGetWeapon());
 		
 		Bukkit.getPluginManager().registerEvents(new WeaponItem(), WeaponSystem.plugin);
+	}
+	
+	@Override
+	public void onDisable() {
+		WeaponItem.save();
 	}
 	
 	private void loadMuni() throws IOException, ParseException {
