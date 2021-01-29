@@ -1,0 +1,12 @@
+{
+	"type": "gun",
+	"name": "akm",
+	"item_name": "&4AKM",
+	"item_id": 275,
+	"item_lore": ["&3Tolle AKM"],
+	"damage_per_bullet": 1,
+	"cooldown": 0.05,
+	"muni": 30,
+	"muni_id": 1,
+	"reload_time": 4
+}

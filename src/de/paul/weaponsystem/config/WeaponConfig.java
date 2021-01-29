@@ -21,7 +21,6 @@ public class WeaponConfig extends Config {
 	private ArrayList<String> itemLore = new ArrayList<>();
 	private double cooldown;
 	private int meleeDamage;
-	private double gunRecoil;
 	private int gunDamage;
 	private int gunMuniCapacity;
 	private int gunMuniId;
@@ -46,7 +45,6 @@ public class WeaponConfig extends Config {
 		cooldown = (double) get("cooldown");
 		switch (type) {
 		case gun:
-			gunRecoil = (double) get("recoil");
 			gunDamage = ((Long) get("damage_per_bullet")).intValue();
 			gunMuniCapacity = ((Long) get("muni")).intValue();
 			gunMuniId = ((Long) get("muni_id")).intValue();
@@ -83,10 +81,6 @@ public class WeaponConfig extends Config {
 	
 	public int getMeleeDamage() {
 		return meleeDamage;
-	}
-	
-	public double getGunRecoil() {
-		return gunRecoil;
 	}
 	
 	public int getGunDamage() {

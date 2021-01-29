@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -16,8 +18,10 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Vector;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -109,36 +113,72 @@ public class WeaponItem extends ItemStack implements Listener {
 	}
 	
 	public void showAmmo(Player p) {
-		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§b"+magazin+"§8/§b"+weapon.getGunMuniCapacity()));
+		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§b"+magazin+"§7/§b"+weapon.getGunMuniCapacity()));
 	}
 	
-	private void gunReleod(Player p) {
-		if (magazin < weapon.getGunMuniCapacity()) {
-			Muni muni = Muni.getWeaponById(weapon.getGunMuniId());
-			int i = muni.getMuniItems(p.getInventory());
-			if (i > 0) {
-				for (Player all : Bukkit.getOnlinePlayers()) {
-					all.playSound(p.getLocation(), "minecraft:weapon.reload", 50, 1);
+	private void gunReleod(ItemStack item, Player p) {
+		Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
+			
+			private int task;
+
+			@Override
+			public void run() {
+				if (magazin < weapon.getGunMuniCapacity()) {
+					Muni muni = Muni.getWeaponById(weapon.getGunMuniId());
+					int i = muni.getMuniItems(p.getInventory());
+					if (i > 0) {
+						WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.reload", 5, 1);
+						p.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+						p.getInventory().setItemInOffHand(item);
+						task = Bukkit.getScheduler().runTaskTimer(WeaponSystem.plugin, new Runnable() {
+							int i = 0;
+							
+							@Override
+							public void run() {
+								String text = "";
+								for (int j = 0; j < 20; j++) {
+									if (j > i) {
+										text += "§7#";
+									} else {
+										text += "§a#";
+									}
+								}
+								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(text));
+								i++;
+								if (i == 20) {
+									Bukkit.getScheduler().cancelTask(task);
+								}
+							}
+						}, 0, (weapon.getGunReloadTime()*20)/20).getTaskId();
+						Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
+							
+							@Override
+							public void run() {
+								p.getInventory().setItemInOffHand(new ItemStack(Material.AIR));
+								p.getInventory().setItemInMainHand(item);
+								muni.removeItem(p.getInventory());
+								magazin = weapon.getGunMuniCapacity();
+								WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.reload", 5, 1);
+							}
+						}, weapon.getGunReloadTime()*20);
+					}
+					showAmmo(p);
+				} else {
+					p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("munifull"));
 				}
-				magazin = muni.removeItems(p.getInventory(), magazin, weapon.getGunMuniCapacity());
 			}
-			showAmmo(p);
-		} else {
-			p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("munifull"));
-		}
+		}, 1);
 	}
 	
 	private void gunShot(Player p) {
 		if (magazin > 0) {
-			for (Player all : Bukkit.getOnlinePlayers()) {
-				all.playSound(p.getLocation(), "minecraft:weapon.blast1", 50, 1);
-			}
+			WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.blast1", 30, 1);
 			Snowball bullet = p.launchProjectile(Snowball.class);
 			bullet.setVelocity(bullet.getVelocity().multiply(2));
 			bullet.setCustomName(weapon.getName()+"_"+weapon.getGunDamage());
 			magazin--;
 		} else {
-			p.playSound(p.getLocation(), "minecraft:weapon.empty", 50, 1);
+			WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.empty", 5, 1);
 		}
 		showAmmo(p);
 	}
@@ -162,18 +202,20 @@ public class WeaponItem extends ItemStack implements Listener {
 		Player p = e.getPlayer();
 		ItemStack item = e.getItem();
 		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			if (item != null) {
-				if (item.hasItemMeta()) {
-					if (item.getItemMeta().hasLocalizedName()) {
-						int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-						if (items.containsKey(id)) {
-							WeaponItem itemWeapon = items.get(id);
-							if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
-								if (p.getCooldown(item.getType()) == 0) {
-									p.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20));
-									itemWeapon.gunShot(p);
+			if (e.getHand() == EquipmentSlot.HAND) {
+				if (item != null) {
+					if (item.hasItemMeta()) {
+						if (item.getItemMeta().hasLocalizedName()) {
+							int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+							if (items.containsKey(id)) {
+								WeaponItem itemWeapon = items.get(id);
+								if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
+									if (p.getCooldown(item.getType()) == 0) {
+										p.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20));
+										itemWeapon.gunShot(p);
+									}
+									e.setCancelled(true);
 								}
-								e.setCancelled(true);
 							}
 						}
 					}
@@ -191,7 +233,7 @@ public class WeaponItem extends ItemStack implements Listener {
 				if (items.containsKey(id)) {
 					WeaponItem itemWeapon = items.get(id);
 					if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
-						itemWeapon.gunReleod(e.getPlayer());
+						itemWeapon.gunReleod(item, e.getPlayer());
 					}
 					e.setCancelled(true);
 				}
@@ -208,7 +250,7 @@ public class WeaponItem extends ItemStack implements Listener {
 				if (items.containsKey(id)) {
 					WeaponItem itemWeapon = items.get(id);
 					if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
-						itemWeapon.gunReleod(e.getPlayer());
+						itemWeapon.gunReleod(item, e.getPlayer());
 					}
 					e.setCancelled(true);
 				}

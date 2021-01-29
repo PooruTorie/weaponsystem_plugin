@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -104,5 +105,14 @@ public class WeaponSystem extends JavaPlugin {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static void playSound(Location l, String name, float radius, float pitch) {
+		for (Player p : l.getWorld().getPlayers()) {
+			Location pl = p.getLocation();
+			float d = (float) (radius*100f/pl.distanceSquared(l));
+			System.out.println(p.getName()+" : "+d);
+			p.playSound(l, name, d, pitch);
+		}
 	}
 }

@@ -19,7 +19,6 @@ public class MuniConfig extends Config {
 	private String itemName;
 	private int itemID;
 	private ArrayList<String> itemLore = new ArrayList<>();
-	private int size;
 
 	public MuniConfig(File f) throws IOException, ParseException {
 		super(f);
@@ -37,7 +36,6 @@ public class MuniConfig extends Config {
 			public void accept(Object t) {
 				itemLore.add(ChatColor.translateAlternateColorCodes('&', (String) t));
 			}});
-		size = ((Long) get("size")).intValue();
 	}
 	
 	public int getId() {
@@ -50,10 +48,6 @@ public class MuniConfig extends Config {
 	
 	public String getItemName() {
 		return itemName;
-	}
-	
-	public int getSize() {
-		return size;
 	}
 	
 	public int getItemID() {
