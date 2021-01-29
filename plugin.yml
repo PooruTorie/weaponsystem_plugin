@@ -5,3 +5,5 @@ main: de.paul.weaponsystem.WeaponSystem
 commands:
    getWeapon:
       description: Gibt dir eine Waffe.
+   getMuni:
+      description: Gibt dir Muni.

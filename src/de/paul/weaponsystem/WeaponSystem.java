@@ -12,6 +12,7 @@ import org.json.simple.parser.ParseException;
 import org.sqlite.SQLiteConfig.SynchronousMode;
 
 import de.paul.weaponsystem.assets.Assets;
+import de.paul.weaponsystem.commands.CommandGetMuni;
 import de.paul.weaponsystem.commands.CommandGetWeapon;
 import de.paul.weaponsystem.config.Config;
 import de.paul.weaponsystem.config.MuniConfig;
@@ -54,6 +55,7 @@ public class WeaponSystem extends JavaPlugin {
 		}
 		
 		getCommand("getWeapon").setExecutor(new CommandGetWeapon());
+		getCommand("getMuni").setExecutor(new CommandGetMuni());
 		
 		Bukkit.getPluginManager().registerEvents(new WeaponItem(), WeaponSystem.plugin);
 	}

@@ -21,6 +21,7 @@ import org.json.simple.JSONObject;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.config.Config;
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
+import de.paul.weaponsystem.weapon.muni.Muni;
 
 public class WeaponItem extends ItemStack implements Listener {
 	
@@ -104,6 +105,8 @@ public class WeaponItem extends ItemStack implements Listener {
 	
 	private void gunReleod(Player p) {
 		if (magazin < weapon.getGunMuniCapacity()) {
+			Muni muni = Muni.getWeaponById(weapon.getGunMuniId());
+			int i = muni.getMuniItems(p.getInventory());
 			for (Player all : Bukkit.getOnlinePlayers()) {
 				all.playSound(p.getLocation(), "minecraft:weapon.reload", 50, (float) (1f+Math.random()));
 			}

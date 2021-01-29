@@ -1,9 +1,11 @@
 {
 	"permissions": {
 		"getweapon": "weaponsystem.getweapon",
+		"getmuni": "weaponsystem.getmuni"
 	},
 	"messages": {
 		"noweapon": "&8• &eWaffenSystem &8┃ &cDiese Waffe gibt es nicht",
+		"nomuni": "&8• &eWaffenSystem &8┃ &cDiese Munition gibt es nicht",
 		"nopermission": "&8• &eWaffenSystem &8┃ &cDu darfst das nicht",
 		"munifull": "&8• &eWaffenSystem &8┃ &7Du kannst die Waffe nicht nachladen"
 	}
