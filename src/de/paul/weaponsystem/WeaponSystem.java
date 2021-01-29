@@ -20,6 +20,7 @@ import de.paul.weaponsystem.config.WeaponConfig;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.WeaponItem;
 import de.paul.weaponsystem.weapon.muni.Muni;
+import de.paul.weaponsystem.weapon.muni.MuniItem;
 
 public class WeaponSystem extends JavaPlugin {
 	
@@ -50,6 +51,7 @@ public class WeaponSystem extends JavaPlugin {
 			loadMuni();
 			
 			WeaponItem.load();
+			MuniItem.load();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,6 +65,7 @@ public class WeaponSystem extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		WeaponItem.save();
+		MuniItem.save();
 	}
 	
 	private void loadMuni() throws IOException, ParseException {

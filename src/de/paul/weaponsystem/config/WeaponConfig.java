@@ -19,7 +19,7 @@ public class WeaponConfig extends Config {
 	private String itemName;
 	private int itemID;
 	private ArrayList<String> itemLore = new ArrayList<>();
-	private int cooldown;
+	private double cooldown;
 	private int meleeDamage;
 	private int gunDamage;
 	private int gunMuniCapacity;
@@ -42,7 +42,7 @@ public class WeaponConfig extends Config {
 			public void accept(Object t) {
 				itemLore.add(ChatColor.translateAlternateColorCodes('&', (String) t));
 			}});
-		cooldown = ((Long) get("cooldown")).intValue();
+		cooldown = (double) get("cooldown");
 		switch (type) {
 		case gun:
 			gunDamage = ((Long) get("damage_per_bullet")).intValue();
@@ -87,8 +87,8 @@ public class WeaponConfig extends Config {
 		return gunDamage;
 	}
 	
-	public int getCooldown() {
-		return cooldown;
+	public float getCooldown() {
+		return (float) cooldown;
 	}
 	
 	public int getGunMuniCapacity() {

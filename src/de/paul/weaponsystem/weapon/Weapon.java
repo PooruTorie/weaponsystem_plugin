@@ -17,7 +17,7 @@ public class Weapon {
 	private ArrayList<String> itemLore = new ArrayList<>();
 	private int meleeDamage;
 	private int gunDamage;
-	private int cooldown;
+	private float cooldown;
 	private int gunMuniCapacity;
 	private int gunMuniId;
 	private int gunReloadTime;
@@ -71,7 +71,7 @@ public class Weapon {
 		return gunDamage;
 	}
 	
-	public int getCooldown() {
+	public float getCooldown() {
 		return cooldown;
 	}
 	

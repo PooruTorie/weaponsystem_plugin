@@ -74,7 +74,7 @@ public class Muni {
 						int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
 						if (MuniItem.getItems().containsKey(id)) {
 							if (getId() == id) {
-								count++;
+								count += item.getAmount();
 							}
 						}
 					}

@@ -4,12 +4,15 @@ import java.io.File;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
@@ -22,6 +25,8 @@ import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.config.Config;
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
 import de.paul.weaponsystem.weapon.muni.Muni;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class WeaponItem extends ItemStack implements Listener {
 	
@@ -103,16 +108,22 @@ public class WeaponItem extends ItemStack implements Listener {
 		return magazin;
 	}
 	
+	public void showAmmo(Player p) {
+		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§b"+magazin+"§8/§b"+weapon.getGunMuniCapacity()));
+	}
+	
 	private void gunReleod(Player p) {
 		if (magazin < weapon.getGunMuniCapacity()) {
 			Muni muni = Muni.getWeaponById(weapon.getGunMuniId());
 			int i = muni.getMuniItems(p.getInventory());
+			System.out.println(i);
 			if (i > 0) {
 				for (Player all : Bukkit.getOnlinePlayers()) {
-					all.playSound(p.getLocation(), "minecraft:weapon.reload", 50, (float) (1f+Math.random()));
+					all.playSound(p.getLocation(), "minecraft:weapon.reload", 50, 1);
 				}
 				magazin = weapon.getGunMuniCapacity();
 			}
+			showAmmo(p);
 		} else {
 			p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("munifull"));
 		}
@@ -121,14 +132,29 @@ public class WeaponItem extends ItemStack implements Listener {
 	private void gunShot(Player p) {
 		if (magazin > 0) {
 			for (Player all : Bukkit.getOnlinePlayers()) {
-				all.playSound(p.getLocation(), "minecraft:weapon.blast1", 50, (float) (1f+Math.random()));
+				all.playSound(p.getLocation(), "minecraft:weapon.blast1", 50, 1);
 			}
 			Snowball bullet = p.launchProjectile(Snowball.class);
-			bullet.setGravity(false);
+			bullet.setVelocity(bullet.getVelocity().multiply(2));
 			bullet.setCustomName(weapon.getName()+"_"+weapon.getGunDamage());
 			magazin--;
 		} else {
-			p.playSound(p.getLocation(), "minecraft:weapon.empty", 50, (float) (1f+Math.random()));
+			p.playSound(p.getLocation(), "minecraft:weapon.empty", 50, 1);
+		}
+		showAmmo(p);
+	}
+	
+	@EventHandler
+	private void onHit(ProjectileHitEvent e) {
+		Projectile p = e.getEntity();
+		if (p instanceof Snowball) {
+			String name = p.getCustomName();
+			if (name.contains("_")) {
+				int damage = Integer.parseInt(name.split("[_]")[1]);
+				if (e.getHitEntity() instanceof LivingEntity) {
+					((LivingEntity) e.getHitEntity()).damage(damage);
+				}
+			}
 		}
 	}
 	
@@ -145,7 +171,7 @@ public class WeaponItem extends ItemStack implements Listener {
 							WeaponItem itemWeapon = items.get(id);
 							if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
 								if (p.getCooldown(item.getType()) == 0) {
-									p.setCooldown(item.getType(), itemWeapon.getWeapon().getCooldown()*20);
+									p.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20));
 									itemWeapon.gunShot(p);
 								}
 								e.setCancelled(true);
@@ -207,7 +233,7 @@ public class WeaponItem extends ItemStack implements Listener {
 							} else {
 								if (damager.getCooldown(item.getType()) == 0) {
 									e.setDamage(itemWeapon.getWeapon().getMeleeDamage());
-									damager.setCooldown(item.getType(), itemWeapon.getWeapon().getCooldown()*20);
+									damager.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20));
 								}
 							}
 						}
