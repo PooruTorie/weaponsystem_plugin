@@ -58,7 +58,7 @@ public class Muni {
 	
 	public static Muni getWeaponByName(String searchName) {
 		for (Muni muni : muni.values()) {
-			if (muni.getName().equals(searchName)) {
+			if (muni.getName().equalsIgnoreCase(searchName)) {
 				return muni;
 			}
 		}

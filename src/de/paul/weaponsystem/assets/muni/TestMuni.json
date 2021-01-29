@@ -1,7 +1,7 @@
 {
 	"id": 1,
-	"name": "testMuni",
-	"item_name": "&TestMuni",
-	"item_id": 351,
+	"name": "TestMuni",
+	"item_name": "&6TestMuni",
+	"item_id": 262,
 	"item_lore": ["&5Colle Muni"]
 }

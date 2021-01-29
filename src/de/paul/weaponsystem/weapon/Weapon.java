@@ -110,7 +110,7 @@ public class Weapon {
 	
 	public static Weapon getWeaponByName(String searchName) {
 		for (Weapon weapon : weapons.values()) {
-			if (weapon.getName().equals(searchName)) {
+			if (weapon.getName().equalsIgnoreCase(searchName)) {
 				return weapon;
 			}
 		}
