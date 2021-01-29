@@ -116,12 +116,11 @@ public class WeaponItem extends ItemStack implements Listener {
 		if (magazin < weapon.getGunMuniCapacity()) {
 			Muni muni = Muni.getWeaponById(weapon.getGunMuniId());
 			int i = muni.getMuniItems(p.getInventory());
-			System.out.println(i);
 			if (i > 0) {
 				for (Player all : Bukkit.getOnlinePlayers()) {
 					all.playSound(p.getLocation(), "minecraft:weapon.reload", 50, 1);
 				}
-				magazin = weapon.getGunMuniCapacity();
+				magazin = muni.removeItems(p.getInventory(), magazin, weapon.getGunMuniCapacity());
 			}
 			showAmmo(p);
 		} else {

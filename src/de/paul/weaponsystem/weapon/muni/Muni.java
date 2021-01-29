@@ -17,6 +17,7 @@ public class Muni {
 	private String itemName;
 	private int itemID;
 	private ArrayList<String> itemLore = new ArrayList<>();
+	private int size;
 	
 	public Muni(MuniConfig config) {
 		id = config.getId();
@@ -24,6 +25,7 @@ public class Muni {
 		itemName = config.getItemName();
 		itemID = config.getItemID();
 		itemLore = config.getItemLore();
+		size = config.getSize();
 	}
 
 	public int getId() {
@@ -44,6 +46,10 @@ public class Muni {
 	
 	public ArrayList<String> getItemLore() {
 		return itemLore;
+	}
+	
+	public int getSize() {
+		return size;
 	}
 	
 	private static HashMap<Integer, Muni> muni = new HashMap<>();
@@ -74,7 +80,7 @@ public class Muni {
 						int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
 						if (MuniItem.getItems().containsKey(id)) {
 							if (getId() == id) {
-								count += item.getAmount();
+								count += item.getAmount()*size;
 							}
 						}
 					}
@@ -87,6 +93,43 @@ public class Muni {
 	public void give(Player p) {
 		MuniItem item = new MuniItem(this);
 		p.getInventory().addItem(item);
+	}
+
+	public int removeItems(PlayerInventory i, int magazin, int max) {
+		int items = getMuniItems(i);
+		if (items+magazin >= max) {
+			for (ItemStack item : i) {
+				if (item != null) {
+					if (item.hasItemMeta()) {
+						if (item.getItemMeta().hasLocalizedName()) {
+							int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+							if (MuniItem.getItems().containsKey(id)) {
+								if (getId() == id) {
+									item.setAmount((int) (item.getAmount()-Math.ceil(((float) max-magazin)/size)));
+								}
+							}
+						}
+					}
+				}
+			}
+			return max;
+		} else {
+			for (ItemStack item : i) {
+				if (item != null) {
+					if (item.hasItemMeta()) {
+						if (item.getItemMeta().hasLocalizedName()) {
+							int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+							if (MuniItem.getItems().containsKey(id)) {
+								if (getId() == id) {
+									item.setAmount(item.getAmount()-Math.max(items/size, (max-magazin)/size));
+								}
+							}
+						}
+					}
+				}
+			}
+			return magazin+items;
+		}
 	}
 
 }

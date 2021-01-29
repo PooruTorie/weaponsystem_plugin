@@ -6,6 +6,7 @@
 	"item_lore": ["&3Tolle Deagle"],
 	"damage_per_bullet": 10,
 	"cooldown": 0.1,
+	"recoil": 0.8,
 	"muni": 7,
 	"muni_id": 1,
 	"reload_time": 3

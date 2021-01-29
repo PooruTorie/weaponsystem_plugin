@@ -3,5 +3,6 @@
 	"name": "TestMuni",
 	"item_name": "&6TestMuni",
 	"item_id": 262,
-	"item_lore": ["&5Colle Muni"]
+	"item_lore": ["&5Colle Muni"],
+	"size": 3
 }
