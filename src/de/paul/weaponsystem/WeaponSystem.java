@@ -111,7 +111,6 @@ public class WeaponSystem extends JavaPlugin {
 		for (Player p : l.getWorld().getPlayers()) {
 			Location pl = p.getLocation();
 			float d = (float) (radius*100f/pl.distanceSquared(l));
-			System.out.println(p.getName()+" : "+d);
 			p.playSound(l, name, d, pitch);
 		}
 	}

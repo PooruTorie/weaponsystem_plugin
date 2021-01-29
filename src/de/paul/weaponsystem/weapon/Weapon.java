@@ -19,6 +19,8 @@ public class Weapon {
 	private int gunDamage;
 	private float cooldown;
 	private int gunMuniCapacity;
+	private int gunBullets;
+	private int gunAcuracy;
 	private int gunMuniId;
 	private int gunReloadTime;
 	
@@ -41,6 +43,8 @@ public class Weapon {
 		gunMuniCapacity = config.getGunMuniCapacity();
 		gunMuniId = config.getGunMuniId();
 		gunReloadTime = config.getGunReloadTime();
+		gunBullets = config.getGunBullets();
+		gunAcuracy = config.getGunAcuracy();
 	}
 	
 	public WeaponType getType() {
@@ -81,6 +85,14 @@ public class Weapon {
 	
 	public int getGunMuniId() {
 		return gunMuniId;
+	}
+	
+	public int getGunBullets() {
+		return gunBullets;
+	}
+	
+	public int getGunAcuracy() {
+		return gunAcuracy;
 	}
 	
 	public int getGunReloadTime() {

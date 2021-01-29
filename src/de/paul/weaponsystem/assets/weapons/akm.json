@@ -5,7 +5,9 @@
 	"item_id": 275,
 	"item_lore": ["&3Tolle AKM"],
 	"damage_per_bullet": 1,
-	"cooldown": 0.05,
+	"cooldown": 0.001,
+	"bullets": 8,
+	"acuracy": 80,
 	"muni": 30,
 	"muni_id": 1,
 	"reload_time": 4

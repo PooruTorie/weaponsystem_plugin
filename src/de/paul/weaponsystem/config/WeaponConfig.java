@@ -22,6 +22,8 @@ public class WeaponConfig extends Config {
 	private double cooldown;
 	private int meleeDamage;
 	private int gunDamage;
+	private int gunBullets;
+	private int gunAcuracy;
 	private int gunMuniCapacity;
 	private int gunMuniId;
 	private int gunReloadTime;
@@ -49,6 +51,8 @@ public class WeaponConfig extends Config {
 			gunMuniCapacity = ((Long) get("muni")).intValue();
 			gunMuniId = ((Long) get("muni_id")).intValue();
 			gunReloadTime = ((Long) get("reload_time")).intValue();
+			gunBullets = ((Long) get("bullets")).intValue();
+			gunAcuracy = ((Long) get("acuracy")).intValue();
 			break;
 		case melee:
 			meleeDamage = ((Long) get("damage")).intValue();
@@ -93,6 +97,14 @@ public class WeaponConfig extends Config {
 	
 	public int getGunMuniCapacity() {
 		return gunMuniCapacity;
+	}
+	
+	public int getGunAcuracy() {
+		return gunAcuracy;
+	}
+	
+	public int getGunBullets() {
+		return gunBullets;
 	}
 	
 	public int getGunMuniId() {

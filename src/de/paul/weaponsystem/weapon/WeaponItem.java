@@ -2,6 +2,7 @@ package de.paul.weaponsystem.weapon;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -172,10 +173,14 @@ public class WeaponItem extends ItemStack implements Listener {
 	
 	private void gunShot(Player p) {
 		if (magazin > 0) {
-			WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.blast1", 30, 1);
-			Snowball bullet = p.launchProjectile(Snowball.class);
-			bullet.setVelocity(bullet.getVelocity().multiply(2));
-			bullet.setCustomName(weapon.getName()+"_"+weapon.getGunDamage());
+			float a = ((weapon.getGunAcuracy()-100f)*-1f)/100f;
+			Random r = new Random();
+			for (int i = 0; i < weapon.getGunBullets(); i++) {
+				WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.blast1", 30, 1);
+				Snowball bullet = p.launchProjectile(Snowball.class);
+				bullet.setVelocity(bullet.getVelocity().multiply(2f).add(new Vector(((r.nextFloat()*2)-1)*a, ((r.nextFloat()*2)-1)*a, ((r.nextFloat()*2)-1)*a)));
+				bullet.setCustomName(weapon.getName()+"_"+weapon.getGunDamage());
+			}
 			magazin--;
 		} else {
 			WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.empty", 5, 1);
@@ -211,7 +216,7 @@ public class WeaponItem extends ItemStack implements Listener {
 								WeaponItem itemWeapon = items.get(id);
 								if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
 									if (p.getCooldown(item.getType()) == 0) {
-										p.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20));
+										p.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20f));
 										itemWeapon.gunShot(p);
 									}
 									e.setCancelled(true);
