@@ -21,6 +21,10 @@ public class AirStrike extends Throwable implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, WeaponSystem.plugin);
 	}
 	
+	public AirStrike(Muni muni, int costs) {
+		super(muni);
+	}
+	
 	protected void Throw(Player p) {
 		ItemStack e = this.clone();
 		Bukkit.getScheduler().runTask(WeaponSystem.plugin, new Runnable() {

@@ -35,6 +35,10 @@ public class FlashBang extends Throwable implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, WeaponSystem.plugin);
 	}
 	
+	public FlashBang(Muni muni, int costs) {
+		super(muni);
+	}
+	
 	protected void Throw(Player p) {
 		ItemStack e = this.clone();
 		e.setAmount(1);

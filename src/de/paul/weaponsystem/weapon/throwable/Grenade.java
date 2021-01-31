@@ -33,6 +33,10 @@ public class Grenade extends Throwable implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, WeaponSystem.plugin);
 	}
 	
+	public Grenade(Muni muni, int costs) {
+		super(muni);
+	}
+	
 	protected void Throw(Player p) {
 		ItemStack e = this.clone();
 		e.setAmount(1);
