@@ -1,0 +1,96 @@
+package de.paul.weaponsystem.weapon.rocketLauncher;
+
+import java.util.List;
+import java.util.Random;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.FallingBlock;
+import org.bukkit.entity.Fireball;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Wolf;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.ItemSpawnEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.material.MaterialData;
+import org.bukkit.util.Vector;
+
+import de.paul.weaponsystem.WeaponSystem;
+
+public class Rocket implements Listener {
+
+	public static void shot(Player p) {
+		Fireball ball = p.launchProjectile(Fireball.class);
+		ball.setCustomName("rocket");
+		ball.setYield(4);
+		Wolf rocket = (Wolf) ball.getLocation().getWorld().spawnEntity(ball.getLocation(), EntityType.WOLF);
+		rocket.setAdult();
+		rocket.setAI(false);
+		rocket.setAgeLock(true);
+		rocket.setInvulnerable(true);
+		rocket.setSilent(true);
+		ball.setPassenger(rocket);
+		
+		Bukkit.getPluginManager().registerEvents(new Rocket(), WeaponSystem.plugin);
+	}
+	
+	@EventHandler
+	private void onHit(ProjectileHitEvent e) {
+		Projectile p = e.getEntity();
+		if (p.getCustomName().equals("rocket")) {
+			p.getPassenger().remove();
+			p.remove();
+		}
+	}
+	
+	@EventHandler
+	private void onExplosion(EntityExplodeEvent e) {
+		if (e.getEntity().getCustomName().equals("rocket")) {
+			for (Block b : e.blockList()) {
+				if (new Random().nextInt(10) == 1) {
+					Location l = e.getLocation();
+					Entity f = l.getWorld().spawnFallingBlock(e.getLocation(), b.getType(), b.getData());
+					if (f instanceof FallingBlock) {
+						f.setCustomName("rocket");
+						f.setVelocity(new Vector((Math.random()*2)-1, (Math.random()*2)-1, (Math.random()*2)-1));
+					} else {
+						f.remove();
+					}
+				}
+			}
+			e.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	private void onLand(EntityChangeBlockEvent e) {
+		if (e.getEntity().getCustomName().equals("rocket")) {
+			e.setCancelled(true);
+			e.getBlock().getWorld().spawnParticle(Particle.BLOCK_CRACK, e.getBlock().getLocation(), 10, new MaterialData(((FallingBlock) e.getEntity()).getBlockId(), ((FallingBlock) e.getEntity()).getBlockData()));
+			e.getEntity().remove();
+		}
+	}
+	
+	@EventHandler
+	public void onItemSpawn(ItemSpawnEvent e){
+	    List<Entity> ents = e.getEntity().getNearbyEntities(2, 2, 2);
+	    for(Entity ent : ents) {
+	        if(ent.getType() == EntityType.FALLING_BLOCK) {
+	        	if (ent.getCustomName().equals("rocket")) {
+	        		e.getEntity().getWorld().spawnParticle(Particle.BLOCK_CRACK, e.getEntity().getLocation(), 10, new MaterialData(((FallingBlock) ent).getBlockId(), ((FallingBlock) ent).getBlockData()));
+	        		e.getEntity().remove();
+	        	}
+	        }
+	    }
+	}
+}

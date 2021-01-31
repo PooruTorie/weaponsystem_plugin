@@ -1,14 +1,19 @@
 package de.paul.weaponsystem.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.weapon.Weapon;
+import de.paul.weaponsystem.weapon.muni.Muni;
 
-public class CommandGetWeapon implements CommandExecutor {
+public class CommandGetWeapon implements CommandExecutor, TabCompleter {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -30,6 +35,11 @@ public class CommandGetWeapon implements CommandExecutor {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String lsbel, String[] args) {
+		return Weapon.getAllNames();
 	}
 
 }

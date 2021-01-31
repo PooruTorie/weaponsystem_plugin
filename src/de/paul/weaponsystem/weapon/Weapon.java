@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import de.paul.weaponsystem.config.WeaponConfig;
-import de.paul.weaponsystem.weapon.Weapon.WeaponType;
+import de.paul.weaponsystem.crates.Crate;
 
 public class Weapon {
 	
@@ -23,15 +24,9 @@ public class Weapon {
 	private int gunAcuracy;
 	private int gunMuniId;
 	private int gunReloadTime;
-	
-	private WeaponConfig config;
-	
-	public WeaponConfig getConfig() {
-		return config;
-	}
+	private Class<? extends WeaponItem> weaponClass = null;
 	
 	public Weapon(WeaponConfig config) {
-		this.config = config;
 		type = config.getType();
 		name = config.getName();
 		itemName = config.getItemName();
@@ -45,6 +40,23 @@ public class Weapon {
 		gunReloadTime = config.getGunReloadTime();
 		gunBullets = config.getGunBullets();
 		gunAcuracy = config.getGunAcuracy();
+	}
+	
+	public Weapon(WeaponType type, String name, String itemName, int itemID, ArrayList<String> itemLore, int gunMuniCapacity, int gunMuniId, int gunReloadTime, Class<? extends WeaponItem> weaponClass) {
+		this.type = type;
+		this.name = name;
+		this.itemName = itemName;
+		this.itemID = itemID;
+		this.itemLore = itemLore;
+		this.meleeDamage = 0;
+		this.gunDamage = 0;
+		this.cooldown = 0;
+		this.gunMuniCapacity = gunMuniCapacity;
+		this.gunMuniId = gunMuniId;
+		this.gunReloadTime = gunReloadTime;
+		this.gunBullets = 0;
+		this.gunAcuracy = 0;
+		this.weaponClass = weaponClass;
 	}
 	
 	public WeaponType getType() {
@@ -99,9 +111,26 @@ public class Weapon {
 		return gunReloadTime;
 	}
 	
+	public boolean hasWeaponClass() {
+		return weaponClass != null;
+	}
+	
+	public Class<? extends WeaponItem> getWeaponClass() {
+		return weaponClass;
+	}
+	
 	public void give(Player p) {
-		WeaponItem item = new WeaponItem(this);
-		p.getInventory().addItem(item);
+		if (hasWeaponClass()) {
+			try {
+				Object item = weaponClass.getConstructor(Weapon.class).newInstance(this);
+				p.getInventory().addItem((ItemStack) item);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			WeaponItem item = new WeaponItem(this);
+			p.getInventory().addItem(item);
+		}
 	}
 
 	public enum WeaponType {
@@ -127,5 +156,43 @@ public class Weapon {
 			}
 		}
 		return null;
+	}
+	
+	public static ArrayList<String> getAllNames() {
+		ArrayList<String> a = new ArrayList<>();
+		for (Weapon weapon : weapons.values()) {
+			a.add(weapon.getName());
+		}
+		return a;
+	}
+
+	public Object loadItem(int i, int magazin) {
+		if (hasWeaponClass()) {
+			try {
+				Object item = weaponClass.getConstructor(Weapon.class, int.class, int.class).newInstance(this, i, magazin);
+				return item;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		} else {
+			WeaponItem item = new WeaponItem(this, i, magazin);
+			return item;
+		}
+	}
+
+	public ItemStack toItemStack(Crate crate) {
+		if (hasWeaponClass()) {
+			try {
+				Object item = weaponClass.getConstructor(Weapon.class, Crate.class).newInstance(this, crate);
+				return (ItemStack) item;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		} else {
+			WeaponItem item = new WeaponItem(this, crate);
+			return item;
+		}
 	}
 }

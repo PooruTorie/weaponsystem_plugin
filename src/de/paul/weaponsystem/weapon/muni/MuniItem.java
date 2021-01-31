@@ -1,7 +1,6 @@
 package de.paul.weaponsystem.weapon.muni;
 
 import java.util.HashMap;
-
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.json.simple.JSONArray;
@@ -9,8 +8,7 @@ import org.json.simple.JSONObject;
 
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.config.Config;
-import de.paul.weaponsystem.weapon.Weapon;
-import de.paul.weaponsystem.weapon.WeaponItem;
+import de.paul.weaponsystem.crates.Crate;
 
 public class MuniItem extends ItemStack {
 	
@@ -36,7 +34,7 @@ public class MuniItem extends ItemStack {
 			Config c = new Config((JSONObject) o);
 			int i = ((Long) c.get("id")).intValue();
 			String name = (String) c.get("weaponName");
-			Muni muni = Muni.getWeaponByName(name);
+			Muni muni = Muni.getMuniByName(name);
 			items.put(i, new MuniItem(muni));
 		}
 		ws.clear();
@@ -46,7 +44,7 @@ public class MuniItem extends ItemStack {
 	private Muni muni;
 
 	public MuniItem(Muni muni) {
-		super(muni.getItemID());
+		super(muni.getItemID(), 1, (short) muni.getItemDamage());
 		this.muni = muni;
 		
 		ItemMeta m = getItemMeta();
@@ -58,7 +56,7 @@ public class MuniItem extends ItemStack {
 		
 		items.put(muni.getId(), this);
 	}
-	
+
 	public Muni getMuni() {
 		return muni;
 	}

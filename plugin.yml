@@ -7,3 +7,5 @@ commands:
       description: Gibt dir eine Waffe.
    getMuni:
       description: Gibt dir Muni.
+   placeCrate:
+      description: Platziert ein Lager.

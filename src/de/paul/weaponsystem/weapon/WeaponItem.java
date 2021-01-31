@@ -1,12 +1,9 @@
 package de.paul.weaponsystem.weapon;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -28,8 +25,10 @@ import org.json.simple.JSONObject;
 
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.config.Config;
+import de.paul.weaponsystem.crates.Crate;
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
 import de.paul.weaponsystem.weapon.muni.Muni;
+import de.paul.weaponsystem.weapon.throwable.Throwable;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -60,22 +59,21 @@ public class WeaponItem extends ItemStack implements Listener {
 			int magazin = ((Long) c.get("magazin")).intValue();
 			String name = (String) c.get("weaponName");
 			Weapon weapon = Weapon.getWeaponByName(name);
-			items.put(i, new WeaponItem(weapon, i, magazin));
+			items.put(i, (WeaponItem) weapon.loadItem(i, magazin));
 		}
 		ws.clear();
 		weapons.set("weapons", ws);
 	}
 	
-	private Weapon weapon;
-	private int magazin = 0;
-
-	public WeaponItem() {}
+	protected Weapon weapon;
+	protected int magazin = 0;
+	protected int id;
 	
 	public WeaponItem(Weapon weapon) {
 		super(weapon.getItemID());
 		this.weapon = weapon;
 		
-		int id = (int) (Math.random()*1000);
+		id = (int) (Math.random()*1000);
 		
 		ItemMeta m = getItemMeta();
 		m.setDisplayName(weapon.getItemName());
@@ -89,11 +87,14 @@ public class WeaponItem extends ItemStack implements Listener {
 		}
 		
 		items.put(id, this);
+		Bukkit.getPluginManager().registerEvents(this, WeaponSystem.plugin);
 	}
 	
 	public WeaponItem(Weapon weapon, int id, int magazin) {
 		super(weapon.getItemID());
 		this.weapon = weapon;
+		
+		this.id = id;
 		
 		ItemMeta m = getItemMeta();
 		m.setDisplayName(weapon.getItemName());
@@ -103,6 +104,14 @@ public class WeaponItem extends ItemStack implements Listener {
 		setItemMeta(m);
 		
 		this.magazin = magazin;
+		Bukkit.getPluginManager().registerEvents(this, WeaponSystem.plugin);
+	}
+
+	public WeaponItem(Weapon weapon, Crate crate) {
+		this(weapon);
+		ItemMeta m = getItemMeta();
+		m.setLocalizedName(weapon.getName()+"_"+id+"_"+crate.getName());
+		setItemMeta(m);
 	}
 
 	public Weapon getWeapon() {
@@ -114,10 +123,10 @@ public class WeaponItem extends ItemStack implements Listener {
 	}
 	
 	public void showAmmo(Player p) {
-		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§b"+magazin+"§7/§b"+weapon.getGunMuniCapacity()));
+		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("Â§b"+magazin+"Â§7/Â§b"+weapon.getGunMuniCapacity()));
 	}
 	
-	private void gunReleod(ItemStack item, Player p) {
+	public void gunReleod(ItemStack item, Player p) {
 		Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
 			
 			private int task;
@@ -125,12 +134,10 @@ public class WeaponItem extends ItemStack implements Listener {
 			@Override
 			public void run() {
 				if (magazin < weapon.getGunMuniCapacity()) {
-					Muni muni = Muni.getWeaponById(weapon.getGunMuniId());
+					Muni muni = Muni.getMuniById(weapon.getGunMuniId());
 					int i = muni.getMuniItems(p.getInventory());
 					if (i > 0) {
 						WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.reload", 5, 1);
-						p.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
-						p.getInventory().setItemInOffHand(item);
 						task = Bukkit.getScheduler().runTaskTimer(WeaponSystem.plugin, new Runnable() {
 							int i = 0;
 							
@@ -139,9 +146,9 @@ public class WeaponItem extends ItemStack implements Listener {
 								String text = "";
 								for (int j = 0; j < 20; j++) {
 									if (j > i) {
-										text += "§7#";
+										text += "Â§7â–‘";
 									} else {
-										text += "§a#";
+										text += "Â§aâ–ˆ";
 									}
 								}
 								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(text));
@@ -155,13 +162,12 @@ public class WeaponItem extends ItemStack implements Listener {
 							
 							@Override
 							public void run() {
-								p.getInventory().setItemInOffHand(new ItemStack(Material.AIR));
-								p.getInventory().setItemInMainHand(item);
 								muni.removeItem(p.getInventory());
 								magazin = weapon.getGunMuniCapacity();
-								WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.reload", 5, 1);
 							}
 						}, weapon.getGunReloadTime()*20);
+					} else {
+						p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("hasnomuni"));
 					}
 					showAmmo(p);
 				} else {
@@ -171,12 +177,12 @@ public class WeaponItem extends ItemStack implements Listener {
 		}, 1);
 	}
 	
-	private void gunShot(Player p) {
+	public void gunShot(Player p) {
 		if (magazin > 0) {
 			float a = ((weapon.getGunAcuracy()-100f)*-1f)/100f;
 			Random r = new Random();
+			WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.blast1", 30, 1);
 			for (int i = 0; i < weapon.getGunBullets(); i++) {
-				WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.blast1", 30, 1);
 				Snowball bullet = p.launchProjectile(Snowball.class);
 				bullet.setVelocity(bullet.getVelocity().multiply(2f).add(new Vector(((r.nextFloat()*2)-1)*a, ((r.nextFloat()*2)-1)*a, ((r.nextFloat()*2)-1)*a)));
 				bullet.setCustomName(weapon.getName()+"_"+weapon.getGunDamage());

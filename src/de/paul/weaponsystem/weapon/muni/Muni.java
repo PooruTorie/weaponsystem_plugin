@@ -2,6 +2,7 @@ package de.paul.weaponsystem.weapon.muni;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -9,6 +10,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import de.paul.weaponsystem.config.MuniConfig;
+import de.paul.weaponsystem.crates.Crate;
+import de.paul.weaponsystem.weapon.throwable.Throwable;
 
 public class Muni {
 
@@ -16,14 +19,27 @@ public class Muni {
 	private String name;
 	private String itemName;
 	private int itemID;
+	private int itemDamage;
 	private ArrayList<String> itemLore = new ArrayList<>();
+	private Class<? extends MuniItem> itemClass = null;
 	
 	public Muni(MuniConfig config) {
 		id = config.getId();
 		name = config.getName();
 		itemName = config.getItemName();
 		itemID = config.getItemID();
+		itemDamage = 0;
 		itemLore = config.getItemLore();
+	}
+	
+	public Muni(int id, String name, String itemName, int itemID, int itemDamage, ArrayList<String> itemLore, Class<? extends MuniItem> itemClass) {
+		this.id = id;
+		this.name = name;
+		this.itemName = itemName;
+		this.itemID = itemID;
+		this.itemDamage = itemDamage;
+		this.itemLore = itemLore;
+		this.itemClass  = itemClass;
 	}
 
 	public int getId() {
@@ -42,8 +58,20 @@ public class Muni {
 		return itemID;
 	}
 	
+	public int getItemDamage() {
+		return itemDamage;
+	}
+	
 	public ArrayList<String> getItemLore() {
 		return itemLore;
+	}
+	
+	public boolean hasItemClass() {
+		return itemClass != null;
+	}
+	
+	public Class<? extends MuniItem> getItemClass() {
+		return itemClass;
 	}
 	
 	private static HashMap<Integer, Muni> muni = new HashMap<>();
@@ -52,11 +80,11 @@ public class Muni {
 		Muni.muni.put(muni.getId(), muni);
 	}
 	
-	public static Muni getWeaponById(int id) {
+	public static Muni getMuniById(int id) {
 		return muni.get(id);
 	}
 	
-	public static Muni getWeaponByName(String searchName) {
+	public static Muni getMuniByName(String searchName) {
 		for (Muni muni : muni.values()) {
 			if (muni.getName().equalsIgnoreCase(searchName)) {
 				return muni;
@@ -71,11 +99,9 @@ public class Muni {
 			if (item != null) {
 				if (item.hasItemMeta()) {
 					if (item.getItemMeta().hasLocalizedName()) {
-						int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-						if (MuniItem.getItems().containsKey(id)) {
-							if (getId() == id) {
-								count += item.getAmount();
-							}
+						String name = item.getItemMeta().getLocalizedName().split("[_]")[0];
+						if (name.equals(getName())) {
+							count += item.getAmount();
 						}
 					}
 				}
@@ -85,8 +111,17 @@ public class Muni {
 	}
 
 	public void give(Player p) {
-		MuniItem item = new MuniItem(this);
-		p.getInventory().addItem(item);
+		if (hasItemClass()) {
+			try {
+				Object item = itemClass.getConstructor(Muni.class).newInstance(this);
+				p.getInventory().addItem((ItemStack) item);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			MuniItem item = new MuniItem(this);
+			p.getInventory().addItem(item);
+		}
 	}
 
 	public void removeItem(PlayerInventory i) {
@@ -105,5 +140,56 @@ public class Muni {
 				}
 			}
 		}
+	}
+
+	public static ArrayList<String> getAllNames() {
+		ArrayList<String> a = new ArrayList<>();
+		for (Muni muni : muni.values()) {
+			a.add(muni.getName());
+		}
+		return a;
+	}
+
+	public void removeItem(PlayerInventory inv, int i) {
+		for (ItemStack item : inv) {
+			if (item != null) {
+				if (item.hasItemMeta()) {
+					if (item.getItemMeta().hasLocalizedName()) {
+						int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+						if (i == id) {
+							item.setAmount(item.getAmount()-1);
+							return;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public ItemStack toItemStack() {
+		if (hasItemClass()) {
+			try {
+				Object item = itemClass.getConstructor(Muni.class).newInstance(this);
+				return (ItemStack) item;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		} else {
+			MuniItem item = new MuniItem(this);
+			return item;
+		}
+	}
+
+	public Throwable getThrowable() {
+		if (hasItemClass()) {
+			try {
+				Object item = itemClass.getConstructor(Muni.class).newInstance(this);
+				return (Throwable) item;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 }
