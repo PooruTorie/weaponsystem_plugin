@@ -40,7 +40,7 @@ public class AirStrike extends Throwable implements Listener {
 					
 					@Override
 					public void run() {
-						i.getWorld().spawnParticle(Particle.REDSTONE, i.getLocation(), (int) (((8f*20f)/100f*j)*3), (1f/(8f*20f))*j, (4f/(8f*20f))*j, (1f/(8f*20f))*j, 0);
+						i.getWorld().spawnParticle(Particle.REDSTONE, i.getLocation(), (int) ((8f*20f)/100f*j), (1f/(8f*20f))*j, (4f/(8f*20f))*j, (1f/(8f*20f))*j, 0);
 						j++;
 						if (j == 8*20) {
 							i.getWorld().spawnParticle(Particle.FLAME, i.getLocation(), 100, 0, 0, 0, 0.05);

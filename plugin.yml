@@ -9,3 +9,5 @@ commands:
       description: Gibt dir Muni.
    placeCrate:
       description: Platziert ein Lager.
+   placeShopNPC:
+      description: Platziert einen Shop NPC.

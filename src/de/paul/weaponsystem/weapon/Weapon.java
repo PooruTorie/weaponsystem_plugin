@@ -1,7 +1,9 @@
 package de.paul.weaponsystem.weapon;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,6 +18,7 @@ public class Weapon {
 	private String name;
 	private String itemName;
 	private int itemID;
+	private int itemDamage;
 	private ArrayList<String> itemLore = new ArrayList<>();
 	private int meleeDamage;
 	private int gunDamage;
@@ -25,6 +28,9 @@ public class Weapon {
 	private int gunAcuracy;
 	private int gunMuniId;
 	private int gunReloadTime;
+	private String gunShotSound;
+	private int costs;
+	
 	private Class<? extends WeaponItem> weaponClass = null;
 	
 	public Weapon(WeaponConfig config) {
@@ -32,6 +38,7 @@ public class Weapon {
 		name = config.getName();
 		itemName = config.getItemName();
 		itemID = config.getItemID();
+		itemDamage = config.getItemDamage();
 		itemLore = config.getItemLore();
 		meleeDamage = config.getMeleeDamage();
 		gunDamage = config.getGunDamage();
@@ -41,9 +48,11 @@ public class Weapon {
 		gunReloadTime = config.getGunReloadTime();
 		gunBullets = config.getGunBullets();
 		gunAcuracy = config.getGunAcuracy();
+		gunShotSound = config.getGunShotSound();
+		costs = config.getCosts();
 	}
 	
-	public Weapon(WeaponType type, String name, String itemName, int itemID, ArrayList<String> itemLore, int gunMuniCapacity, int gunMuniId, int gunReloadTime, Class<? extends WeaponItem> weaponClass) {
+	public Weapon(WeaponType type, String name, String itemName, int itemID, ArrayList<String> itemLore, int gunMuniCapacity, int gunMuniId, int gunReloadTime, int costs, Class<? extends WeaponItem> weaponClass) {
 		this.type = type;
 		this.name = name;
 		this.itemName = itemName;
@@ -57,7 +66,9 @@ public class Weapon {
 		this.gunReloadTime = gunReloadTime;
 		this.gunBullets = 0;
 		this.gunAcuracy = 0;
+		this.gunShotSound = "";
 		this.weaponClass = weaponClass;
+		this.costs = costs;
 	}
 	
 	public WeaponType getType() {
@@ -74,6 +85,10 @@ public class Weapon {
 	
 	public int getItemID() {
 		return itemID;
+	}
+	
+	public int getItemDamage() {
+		return itemDamage;
 	}
 	
 	public ArrayList<String> getItemLore() {
@@ -112,8 +127,16 @@ public class Weapon {
 		return gunReloadTime;
 	}
 	
+	public String getGunShotSound() {
+		return gunShotSound;
+	}
+	
 	public boolean hasWeaponClass() {
 		return weaponClass != null;
+	}
+	
+	public int getCosts() {
+		return costs;
 	}
 	
 	public Class<? extends WeaponItem> getWeaponClass() {
@@ -180,6 +203,10 @@ public class Weapon {
 		}
 		return a;
 	}
+	
+	public static List<Weapon> getAll() {
+		return new ArrayList(weapons.values());
+	}
 
 	public Object loadItem(int i, int magazin) {
 		if (hasWeaponClass()) {
@@ -196,18 +223,33 @@ public class Weapon {
 		}
 	}
 
-	public ItemStack toItemStack() {
-		if (hasWeaponClass()) {
-			try {
-				Object item = weaponClass.getConstructor(Weapon.class, int.class, int.class).newInstance(this, -1, 0);
-				return (ItemStack) item;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
+	public ItemStack toItemStack(boolean costs) {
+		if (costs) {
+			if (hasWeaponClass()) {
+				try {
+					Object item = weaponClass.getConstructor(Weapon.class, int.class, int.class, int.class).newInstance(this, 0, 0, getCosts());
+					return (ItemStack) item;
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}
+			} else {
+				WeaponItem item = new WeaponItem(this, 0, 0, getCosts());
+				return item;
 			}
 		} else {
-			WeaponItem item = new WeaponItem(this, -1, 0);
-			return item;
+			if (hasWeaponClass()) {
+				try {
+					Object item = weaponClass.getConstructor(Weapon.class, int.class, int.class).newInstance(this, 0, 0);
+					return (ItemStack) item;
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}
+			} else {
+				WeaponItem item = new WeaponItem(this, 0, 0);
+				return item;
+			}
 		}
 	}
 }

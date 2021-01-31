@@ -2,7 +2,8 @@
 	"type": "gun",
 	"name": "akm",
 	"item_name": "&4AKM",
-	"item_id": 275,
+	"item_id": 2256,
+	"item_damage": 0,
 	"item_lore": ["&3Tolle AKM"],
 	"damage_per_bullet": 8,
 	"cooldown": 0.001,
@@ -10,5 +11,6 @@
 	"acuracy": 80,
 	"muni": 30,
 	"muni_id": 1,
-	"reload_time": 4
+	"reload_time": 4,
+	"costs": 30000
 }

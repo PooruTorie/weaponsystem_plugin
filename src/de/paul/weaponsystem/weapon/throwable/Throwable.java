@@ -42,7 +42,7 @@ public abstract class Throwable extends MuniItem {
 	protected static HashMap<Integer, Throwable> items = new HashMap<>();
 	
 	public static void save() {
-		Config weapons = WeaponSystem.loadConfig("playerWeapons");
+		Config weapons = WeaponSystem.loadConfig("data");
 		JSONArray ws = (JSONArray) weapons.get("throwable");
 		for (int i : items.keySet()) {
 			Config c = new Config(new JSONObject());
@@ -55,7 +55,7 @@ public abstract class Throwable extends MuniItem {
 	}
 	
 	public static void load() {
-		Config weapons = WeaponSystem.loadConfig("playerWeapons");
+		Config weapons = WeaponSystem.loadConfig("data");
 		JSONArray ws = (JSONArray) weapons.get("throwable");
 		for (Object o : ws) {
 			Config c = new Config((JSONObject) o);
@@ -77,11 +77,19 @@ public abstract class Throwable extends MuniItem {
 		
 		items.put(id, this);
 	}
+	
+	public Throwable(Muni muni, int costs) {
+		super(muni, costs);
+		
+		this.id = muni.getId();
+		
+		items.put(id, this);
+	}
 
 	public static void register() {
-		Muni.register(new Muni(-1, "grenade", "§7Gre§6na§7de", 351, 8, Lists.newArrayList("§6Rightclick to launch"), Grenade.class));
-		Muni.register(new Muni(-2, "flashbang", "§fFlashbang", 341, 0, Lists.newArrayList("§6Rightclick to launch"), FlashBang.class));
-		Muni.register(new Muni(-3, "airstrike", "§cAir Strike", 369, 0, Lists.newArrayList("§6Rightclick to launch"), AirStrike.class));
+		Muni.register(new Muni(-1, "grenade", "§7Gre§6na§7de", 351, 8, Lists.newArrayList("§6Rightclick to launch"), 1000, Grenade.class));
+		Muni.register(new Muni(-2, "flashbang", "§fFlashbang", 341, 0, Lists.newArrayList("§6Rightclick to launch"), 1000, FlashBang.class));
+		Muni.register(new Muni(-3, "airstrike", "§cAir Strike", 76, 0, Lists.newArrayList("§6Rightclick to launch"), 10000, AirStrike.class));
 		
 		Bukkit.getPluginManager().registerEvents(new ThrowableEventListener(), WeaponSystem.plugin);
 	}

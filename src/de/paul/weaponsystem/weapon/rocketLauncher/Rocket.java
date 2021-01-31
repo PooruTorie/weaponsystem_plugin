@@ -36,7 +36,7 @@ public class Rocket implements Listener {
 	public static void shot(Player p) {
 		Fireball ball = p.launchProjectile(Fireball.class);
 		ball.setCustomName("rocket");
-		ball.setYield(4);
+		ball.setYield(10);
 		Wolf rocket = (Wolf) ball.getLocation().getWorld().spawnEntity(ball.getLocation(), EntityType.WOLF);
 		rocket.setAdult();
 		rocket.setAI(false);

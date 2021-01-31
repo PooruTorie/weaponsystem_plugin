@@ -1,6 +1,8 @@
 package de.paul.weaponsystem.weapon.muni;
 
 import java.util.HashMap;
+import java.util.List;
+
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.json.simple.JSONArray;
@@ -15,7 +17,7 @@ public class MuniItem extends ItemStack {
 	private static HashMap<Integer, MuniItem> items = new HashMap<>();
 	
 	public static void save() {
-		Config weapons = WeaponSystem.loadConfig("playerWeapons");
+		Config weapons = WeaponSystem.loadConfig("data");
 		JSONArray ws = (JSONArray) weapons.get("muni");
 		for (int i : items.keySet()) {
 			Config c = new Config(new JSONObject());
@@ -28,7 +30,7 @@ public class MuniItem extends ItemStack {
 	}
 	
 	public static void load() {
-		Config weapons = WeaponSystem.loadConfig("playerWeapons");
+		Config weapons = WeaponSystem.loadConfig("data");
 		JSONArray ws = (JSONArray) weapons.get("muni");
 		for (Object o : ws) {
 			Config c = new Config((JSONObject) o);
@@ -55,6 +57,15 @@ public class MuniItem extends ItemStack {
 		setItemMeta(m);
 		
 		items.put(muni.getId(), this);
+	}
+
+	public MuniItem(Muni muni, int costs) {
+		this(muni);
+		ItemMeta m = getItemMeta();
+		List<String> l = m.getLore();
+		l.add("§eKosten §6"+costs+"$");
+		m.setLore(l);
+		setItemMeta(m);
 	}
 
 	public Muni getMuni() {

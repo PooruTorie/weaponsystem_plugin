@@ -1,0 +1,11 @@
+{
+	"type": "melee",
+	"name": "basball",
+	"item_name": "&fBaseball Schlaeger",
+	"item_id": 352,
+	"item_damage": 0,
+	"item_lore": ["&3Tolles Ding"],
+	"cooldown": 3.0,
+	"damage": 15,
+	"costs": 3000
+}

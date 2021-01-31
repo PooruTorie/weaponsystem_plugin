@@ -24,10 +24,12 @@ public class WeaponEventListener implements Listener {
 		Projectile p = e.getEntity();
 		if (p instanceof Snowball) {
 			String name = p.getCustomName();
-			if (name.contains("_")) {
-				int damage = Integer.parseInt(name.split("[_]")[1]);
-				if (e.getHitEntity() instanceof LivingEntity) {
-					((LivingEntity) e.getHitEntity()).damage(damage);
+			if (name != null) {
+				if (name.contains("_")) {
+					int damage = Integer.parseInt(name.split("[_]")[1]);
+					if (e.getHitEntity() instanceof LivingEntity) {
+						((LivingEntity) e.getHitEntity()).damage(damage);
+					}
 				}
 			}
 		}

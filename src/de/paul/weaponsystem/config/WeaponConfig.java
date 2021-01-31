@@ -18,6 +18,7 @@ public class WeaponConfig extends Config {
 	private String name;
 	private String itemName;
 	private int itemID;
+	private int itemDamage;
 	private ArrayList<String> itemLore = new ArrayList<>();
 	private double cooldown;
 	private int meleeDamage;
@@ -27,6 +28,8 @@ public class WeaponConfig extends Config {
 	private int gunMuniCapacity;
 	private int gunMuniId;
 	private int gunReloadTime;
+	private String gunShotSound = "";
+	private int costs;
 
 	public WeaponConfig(File f) throws IOException, ParseException {
 		super(f);
@@ -39,12 +42,14 @@ public class WeaponConfig extends Config {
 		name = (String) get("name");
 		itemName = getChatColorString("item_name");
 		itemID = ((Long) get("item_id")).intValue();
+		itemDamage = ((Long) get("item_damage")).intValue();
 		((JSONArray) get("item_lore")).forEach(new Consumer<Object>() {
 			@Override
 			public void accept(Object t) {
 				itemLore.add(ChatColor.translateAlternateColorCodes('&', (String) t));
 			}});
 		cooldown = (double) get("cooldown");
+		costs = ((Long) get("costs")).intValue();
 		switch (type) {
 		case gun:
 			gunDamage = ((Long) get("damage_per_bullet")).intValue();
@@ -53,6 +58,9 @@ public class WeaponConfig extends Config {
 			gunReloadTime = ((Long) get("reload_time")).intValue();
 			gunBullets = ((Long) get("bullets")).intValue();
 			gunAcuracy = ((Long) get("acuracy")).intValue();
+			if (contains("shootsound")) {
+				gunShotSound = (String) get("shootsound");
+			}
 			break;
 		case melee:
 			meleeDamage = ((Long) get("damage")).intValue();
@@ -79,6 +87,11 @@ public class WeaponConfig extends Config {
 	public int getItemID() {
 		return itemID;
 	}
+	
+	public int getItemDamage() {
+		return itemDamage;
+	}
+	
 	public ArrayList<String> getItemLore() {
 		return itemLore;
 	}
@@ -113,5 +126,13 @@ public class WeaponConfig extends Config {
 	
 	public int getGunReloadTime() {
 		return gunReloadTime;
+	}
+	
+	public int getCosts() {
+		return costs;
+	}
+	
+	public String getGunShotSound() {
+		return gunShotSound;
 	}
 }

@@ -1,6 +1,7 @@
 package de.paul.weaponsystem.weapon;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -37,7 +38,7 @@ public class WeaponItem extends ItemStack {
 	public static HashMap<Integer, WeaponItem> items = new HashMap<>();
 	
 	public static void save() {
-		Config weapons = WeaponSystem.loadConfig("playerWeapons");
+		Config weapons = WeaponSystem.loadConfig("data");
 		JSONArray ws = (JSONArray) weapons.get("weapons");
 		for (int i : items.keySet()) {
 			Config c = new Config(new JSONObject());
@@ -51,7 +52,7 @@ public class WeaponItem extends ItemStack {
 	}
 	
 	public static void load() {
-		Config weapons = WeaponSystem.loadConfig("playerWeapons");
+		Config weapons = WeaponSystem.loadConfig("data");
 		JSONArray ws = (JSONArray) weapons.get("weapons");
 		for (Object o : ws) {
 			Config c = new Config((JSONObject) o);
@@ -72,10 +73,10 @@ public class WeaponItem extends ItemStack {
 	protected int id;
 	
 	public WeaponItem(Weapon weapon) {
-		super(weapon.getItemID());
+		super(weapon.getItemID(), 1, (short) weapon.getItemDamage());
 		this.weapon = weapon;
 		
-		id = (int) (Math.random()*1000);
+		id = (int) (Math.random()*1000)-1000;
 		
 		ItemMeta m = getItemMeta();
 		m.setDisplayName(weapon.getItemName());
@@ -92,7 +93,7 @@ public class WeaponItem extends ItemStack {
 	}
 	
 	public WeaponItem(Weapon weapon, int id, int magazin) {
-		super(weapon.getItemID());
+		super(weapon.getItemID(), 1, (short) weapon.getItemDamage());
 		this.weapon = weapon;
 		
 		this.id = id;
@@ -111,6 +112,15 @@ public class WeaponItem extends ItemStack {
 		this(weapon);
 		ItemMeta m = getItemMeta();
 		m.setLocalizedName(weapon.getName()+"_"+id+"_"+crate.getName());
+		setItemMeta(m);
+	}
+
+	public WeaponItem(Weapon weapon, int id, int magazin, int costs) {
+		this(weapon, id, magazin);
+		ItemMeta m = getItemMeta();
+		List<String> l = m.getLore();
+		l.add("§eKosten §6"+costs+"$");
+		m.setLore(l);
 		setItemMeta(m);
 	}
 
@@ -181,7 +191,11 @@ public class WeaponItem extends ItemStack {
 		if (magazin > 0) {
 			float a = ((weapon.getGunAcuracy()-100f)*-1f)/100f;
 			Random r = new Random();
-			WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.blast1", 30, 1);
+			if (weapon.getGunShotSound().isEmpty()) {
+				WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.blast1", 30, 1);
+			} else {
+				WeaponSystem.playSound(p.getLocation(), "minecraft:"+weapon.getGunShotSound(), 30, 1);
+			}
 			for (int i = 0; i < weapon.getGunBullets(); i++) {
 				Snowball bullet = p.launchProjectile(Snowball.class);
 				bullet.setVelocity(bullet.getVelocity().multiply(2f).add(new Vector(((r.nextFloat()*2)-1)*a, ((r.nextFloat()*2)-1)*a, ((r.nextFloat()*2)-1)*a)));

@@ -2,6 +2,8 @@
 	"id": 2,
 	"name": "shotgunshell",
 	"item_name": "&cShotgun Shell",
-	"item_id": 439,
-	"item_lore": ["&4Colle Muni"]
+	"item_id": 262,
+	"item_damage": 0,
+	"item_lore": ["&4Colle Muni"],
+	"costs": 100
 }

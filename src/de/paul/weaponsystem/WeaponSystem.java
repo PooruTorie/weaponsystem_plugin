@@ -21,11 +21,13 @@ import de.paul.weaponsystem.assets.Assets;
 import de.paul.weaponsystem.commands.CommandGetMuni;
 import de.paul.weaponsystem.commands.CommandGetWeapon;
 import de.paul.weaponsystem.commands.CommandPlaceCrate;
+import de.paul.weaponsystem.commands.CommandPlaceShopNPC;
 import de.paul.weaponsystem.config.Config;
 import de.paul.weaponsystem.config.CrateConfig;
 import de.paul.weaponsystem.config.MuniConfig;
 import de.paul.weaponsystem.config.WeaponConfig;
 import de.paul.weaponsystem.crates.Crate;
+import de.paul.weaponsystem.shop.ShopKeeper;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.WeaponItem;
 import de.paul.weaponsystem.weapon.muni.Muni;
@@ -75,6 +77,7 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 			MuniItem.load();
 			Throwable.load();
 			Crate.load();
+			ShopKeeper.load();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -85,6 +88,8 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 		getCommand("getMuni").setExecutor(new CommandGetMuni());
 		getCommand("placeCrate").setTabCompleter(new CommandPlaceCrate());
 		getCommand("placeCrate").setExecutor(new CommandPlaceCrate());
+		getCommand("placeShopNPC").setTabCompleter(new CommandPlaceShopNPC());
+		getCommand("placeShopNPC").setExecutor(new CommandPlaceShopNPC());
 		
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
@@ -98,6 +103,7 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 		MuniItem.save();
 		Throwable.save();
 		Crate.save();
+		ShopKeeper.save();
 	}
 	
 	@EventHandler

@@ -39,7 +39,7 @@ public class Crate implements Listener {
 	private static HashMap<Location, Crate> placedCrates = new HashMap<>();
 	
 	public static void save() {
-		Config weapons = WeaponSystem.loadConfig("playerWeapons");
+		Config weapons = WeaponSystem.loadConfig("data");
 		JSONArray ws = (JSONArray) weapons.get("crates");
 		for (Location loc : placedCrates.keySet()) {
 			Config c = new Config(new JSONObject());
@@ -52,7 +52,7 @@ public class Crate implements Listener {
 	}
 	
 	public static void load() {
-		Config weapons = WeaponSystem.loadConfig("playerWeapons");
+		Config weapons = WeaponSystem.loadConfig("data");
 		JSONArray ws = (JSONArray) weapons.get("crates");
 		for (Object o : ws) {
 			Config c = new Config((JSONObject) o);
@@ -124,7 +124,7 @@ public class Crate implements Listener {
 				if (pos.getItemType() == ItemType.weapon) {
 					Weapon weapon = Weapon.getWeaponByName(pos.getItemName());
 					if (weapon != null) {
-						inv.setItem(pos.getSlot(), weapon.toItemStack());
+						inv.setItem(pos.getSlot(), weapon.toItemStack(false));
 					} else {
 						p.sendMessage("§cCan't find Weapon: "+pos.getItemName());
 					}
@@ -132,7 +132,7 @@ public class Crate implements Listener {
 				if (pos.getItemType() == ItemType.muni) {
 					Muni muni = Muni.getMuniByName(pos.getItemName());
 					if (muni != null) {
-						inv.setItem(pos.getSlot(), muni.toItemStack());
+						inv.setItem(pos.getSlot(), muni.toItemStack(false));
 					} else {
 						p.sendMessage("§cCan't find Muni: "+pos.getItemName());
 					}

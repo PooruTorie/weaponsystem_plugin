@@ -1,0 +1,9 @@
+{
+	"id": 1,
+	"name": "shell",
+	"item_name": "&6Patrone",
+	"item_id": 351,
+	"item_damage": 1,
+	"item_lore": ["&5Colle Muni"],
+	"costs": 100
+}

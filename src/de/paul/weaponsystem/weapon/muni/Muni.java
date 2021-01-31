@@ -2,6 +2,7 @@ package de.paul.weaponsystem.weapon.muni;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import org.bukkit.entity.Player;
@@ -11,6 +12,7 @@ import org.bukkit.inventory.PlayerInventory;
 
 import de.paul.weaponsystem.config.MuniConfig;
 import de.paul.weaponsystem.crates.Crate;
+import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.throwable.Throwable;
 
 public class Muni {
@@ -22,24 +24,27 @@ public class Muni {
 	private int itemDamage;
 	private ArrayList<String> itemLore = new ArrayList<>();
 	private Class<? extends MuniItem> itemClass = null;
+	private int costs;
 	
 	public Muni(MuniConfig config) {
 		id = config.getId();
 		name = config.getName();
 		itemName = config.getItemName();
 		itemID = config.getItemID();
-		itemDamage = 0;
+		itemDamage = config.getItemDamage();
 		itemLore = config.getItemLore();
+		costs = config.getCosts();
 	}
 	
-	public Muni(int id, String name, String itemName, int itemID, int itemDamage, ArrayList<String> itemLore, Class<? extends MuniItem> itemClass) {
+	public Muni(int id, String name, String itemName, int itemID, int itemDamage, ArrayList<String> itemLore, int costs, Class<? extends MuniItem> itemClass) {
 		this.id = id;
 		this.name = name;
 		this.itemName = itemName;
 		this.itemID = itemID;
 		this.itemDamage = itemDamage;
 		this.itemLore = itemLore;
-		this.itemClass  = itemClass;
+		this.itemClass = itemClass;
+		this.costs = costs;
 	}
 
 	public int getId() {
@@ -68,6 +73,10 @@ public class Muni {
 	
 	public boolean hasItemClass() {
 		return itemClass != null;
+	}
+	
+	public int getCosts() {
+		return costs;
 	}
 	
 	public Class<? extends MuniItem> getItemClass() {
@@ -149,6 +158,10 @@ public class Muni {
 		}
 		return a;
 	}
+	
+	public static List<Muni> getAll() {
+		return new ArrayList(muni.values());
+	}
 
 	public void removeItem(PlayerInventory inv, int i) {
 		for (ItemStack item : inv) {
@@ -166,18 +179,33 @@ public class Muni {
 		}
 	}
 
-	public ItemStack toItemStack() {
-		if (hasItemClass()) {
-			try {
-				Object item = itemClass.getConstructor(Muni.class).newInstance(this);
-				return (ItemStack) item;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
+	public ItemStack toItemStack(boolean costs) {
+		if (costs) {
+			if (hasItemClass()) {
+				try {
+					Object item = itemClass.getConstructor(Muni.class, int.class).newInstance(this, getCosts());
+					return (ItemStack) item;
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}
+			} else {
+				MuniItem item = new MuniItem(this, getCosts());
+				return item;
 			}
 		} else {
-			MuniItem item = new MuniItem(this);
-			return item;
+			if (hasItemClass()) {
+				try {
+					Object item = itemClass.getConstructor(Muni.class).newInstance(this);
+					return (ItemStack) item;
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}
+			} else {
+				MuniItem item = new MuniItem(this);
+				return item;
+			}
 		}
 	}
 

@@ -2,7 +2,8 @@
 	"type": "gun",
 	"name": "shotgun",
 	"item_name": "&4Shotgun",
-	"item_id": 256,
+	"item_id": 2266,
+	"item_damage": 0,
 	"item_lore": ["&3Tolle Shotgun"],
 	"damage_per_bullet": 10,
 	"cooldown": 1.0,
@@ -10,5 +11,7 @@
 	"acuracy": 30,
 	"muni": 4,
 	"muni_id": 2,
-	"reload_time": 3
+	"reload_time": 3,
+	"shootsound": "shotgun.shotgun",
+	"costs": 30000
 }

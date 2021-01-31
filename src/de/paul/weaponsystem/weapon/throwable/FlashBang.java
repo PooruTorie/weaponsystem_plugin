@@ -47,13 +47,14 @@ public class FlashBang extends Throwable implements Listener {
 			@Override
 			public void run() {
 				i.getWorld().spawnParticle(Particle.END_ROD, i.getLocation(), 1000, 0.4, 0.4, 0.4, 0.4);
-				for (Entity ent : i.getWorld().getNearbyEntities(i.getLocation(), 8, 8, 8)) {
+				for (Entity ent : i.getWorld().getNearbyEntities(i.getLocation(), 14, 14, 14)) {
 					if (ent instanceof Player) {
 						Player p = (Player) ent;
 						p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 7*20, 3, false, false), true);
+						p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 7*20, 2, false, false), true);
 					}
 				}
-				WeaponSystem.playSound(i.getLocation(), "minecraft:weapon.explosion", 6, 1);
+				WeaponSystem.playSound(i.getLocation(), "minecraft:weapon.explosion", 1, 1);
 				i.remove();
 			}
 		}, 20*2);
