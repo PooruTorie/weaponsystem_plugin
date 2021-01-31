@@ -50,10 +50,10 @@ public class FlashBang extends Throwable implements Listener {
 				for (Entity ent : i.getWorld().getNearbyEntities(i.getLocation(), 8, 8, 8)) {
 					if (ent instanceof Player) {
 						Player p = (Player) ent;
-						p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 7*20, 3, false, false));
+						p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 7*20, 3, false, false), true);
 					}
 				}
-				WeaponSystem.playSound(i.getLocation(), "weapon.flashbang", 6, 1);
+				WeaponSystem.playSound(i.getLocation(), "minecraft:weapon.explosion", 6, 1);
 				i.remove();
 			}
 		}, 20*2);

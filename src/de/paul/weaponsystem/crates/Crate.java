@@ -30,6 +30,7 @@ import de.paul.weaponsystem.config.CrateConfig;
 import de.paul.weaponsystem.config.CrateConfig.CratePos;
 import de.paul.weaponsystem.config.CrateConfig.CratePos.ItemType;
 import de.paul.weaponsystem.weapon.Weapon;
+import de.paul.weaponsystem.weapon.WeaponItem;
 import de.paul.weaponsystem.weapon.muni.Muni;
 
 public class Crate implements Listener {
@@ -123,7 +124,7 @@ public class Crate implements Listener {
 				if (pos.getItemType() == ItemType.weapon) {
 					Weapon weapon = Weapon.getWeaponByName(pos.getItemName());
 					if (weapon != null) {
-						inv.setItem(pos.getSlot(), weapon.toItemStack(this));
+						inv.setItem(pos.getSlot(), weapon.toItemStack());
 					} else {
 						p.sendMessage("§cCan't find Weapon: "+pos.getItemName());
 					}
@@ -176,6 +177,8 @@ public class Crate implements Listener {
 									if (item.getItemMeta().hasLocalizedName()) {
 										if (item.getItemMeta().getLocalizedName().contains(weapon.getName())) {
 											if (item.getItemMeta().getLocalizedName().contains(getName())) {
+												int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+												WeaponItem.items.remove(id);
 												p.getInventory().setItem(i, new ItemStack(Material.AIR));
 											}
 										}
@@ -208,6 +211,9 @@ public class Crate implements Listener {
 								Weapon w = Weapon.getWeaponByName(item.getItemMeta().getLocalizedName().split("[_]")[0]);
 								if (w != null) {
 									if (playerHasWeapon(p, w)) {
+										return;
+									} else {
+										w.give(p, this);
 										return;
 									}
 								}

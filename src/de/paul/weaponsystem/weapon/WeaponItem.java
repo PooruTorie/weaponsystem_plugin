@@ -32,9 +32,9 @@ import de.paul.weaponsystem.weapon.throwable.Throwable;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
-public class WeaponItem extends ItemStack implements Listener {
+public class WeaponItem extends ItemStack {
 	
-	private static HashMap<Integer, WeaponItem> items = new HashMap<>();
+	public static HashMap<Integer, WeaponItem> items = new HashMap<>();
 	
 	public static void save() {
 		Config weapons = WeaponSystem.loadConfig("playerWeapons");
@@ -63,6 +63,8 @@ public class WeaponItem extends ItemStack implements Listener {
 		}
 		ws.clear();
 		weapons.set("weapons", ws);
+		
+		Bukkit.getPluginManager().registerEvents(new WeaponEventListener(), WeaponSystem.plugin);
 	}
 	
 	protected Weapon weapon;
@@ -87,7 +89,6 @@ public class WeaponItem extends ItemStack implements Listener {
 		}
 		
 		items.put(id, this);
-		Bukkit.getPluginManager().registerEvents(this, WeaponSystem.plugin);
 	}
 	
 	public WeaponItem(Weapon weapon, int id, int magazin) {
@@ -104,9 +105,8 @@ public class WeaponItem extends ItemStack implements Listener {
 		setItemMeta(m);
 		
 		this.magazin = magazin;
-		Bukkit.getPluginManager().registerEvents(this, WeaponSystem.plugin);
 	}
-
+	
 	public WeaponItem(Weapon weapon, Crate crate) {
 		this(weapon);
 		ItemMeta m = getItemMeta();
@@ -192,106 +192,5 @@ public class WeaponItem extends ItemStack implements Listener {
 			WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.empty", 5, 1);
 		}
 		showAmmo(p);
-	}
-	
-	@EventHandler
-	private void onHit(ProjectileHitEvent e) {
-		Projectile p = e.getEntity();
-		if (p instanceof Snowball) {
-			String name = p.getCustomName();
-			if (name.contains("_")) {
-				int damage = Integer.parseInt(name.split("[_]")[1]);
-				if (e.getHitEntity() instanceof LivingEntity) {
-					((LivingEntity) e.getHitEntity()).damage(damage);
-				}
-			}
-		}
-	}
-	
-	@EventHandler
-	private void onShot(PlayerInteractEvent e) {
-		Player p = e.getPlayer();
-		ItemStack item = e.getItem();
-		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			if (e.getHand() == EquipmentSlot.HAND) {
-				if (item != null) {
-					if (item.hasItemMeta()) {
-						if (item.getItemMeta().hasLocalizedName()) {
-							int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-							if (items.containsKey(id)) {
-								WeaponItem itemWeapon = items.get(id);
-								if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
-									if (p.getCooldown(item.getType()) == 0) {
-										p.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20f));
-										itemWeapon.gunShot(p);
-									}
-									e.setCancelled(true);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	@EventHandler
-	private void onDrop(PlayerDropItemEvent e) {
-		ItemStack item = e.getItemDrop().getItemStack();
-		if (item.hasItemMeta()) {
-			if (item.getItemMeta().hasLocalizedName()) {
-				int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-				if (items.containsKey(id)) {
-					WeaponItem itemWeapon = items.get(id);
-					if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
-						itemWeapon.gunReleod(item, e.getPlayer());
-					}
-					e.setCancelled(true);
-				}
-			}
-		}
-	}
-	
-	@EventHandler
-	private void onHandSwitch(PlayerSwapHandItemsEvent e) {
-		ItemStack item = e.getOffHandItem();
-		if (item.hasItemMeta()) {
-			if (item.getItemMeta().hasLocalizedName()) {
-				int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-				if (items.containsKey(id)) {
-					WeaponItem itemWeapon = items.get(id);
-					if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
-						itemWeapon.gunReleod(item, e.getPlayer());
-					}
-					e.setCancelled(true);
-				}
-			}
-		}
-	}
-	
-	@EventHandler
-	private void onHit(EntityDamageByEntityEvent e) {
-		if (e.getDamager() instanceof Player) {
-			Player damager = (Player) e.getDamager();
-			ItemStack item = damager.getItemInHand();
-			if (item != null) {
-				if (item.hasItemMeta()) {
-					if (item.getItemMeta().hasLocalizedName()) {
-						int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-						if (items.containsKey(id)) {
-							WeaponItem itemWeapon = items.get(id);
-							if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
-								e.setDamage(0);
-							} else {
-								if (damager.getCooldown(item.getType()) == 0) {
-									e.setDamage(itemWeapon.getWeapon().getMeleeDamage());
-									damager.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20));
-								}
-							}
-						}
-					}
-				}
-			}
-		}
 	}
 }

@@ -91,6 +91,9 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 	
 	@Override
 	public void onDisable() {
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			Bukkit.getPluginManager().callEvent(new PlayerQuitEvent(p, ""));
+		}
 		WeaponItem.save();
 		MuniItem.save();
 		Throwable.save();

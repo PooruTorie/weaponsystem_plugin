@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import de.paul.weaponsystem.config.WeaponConfig;
 import de.paul.weaponsystem.crates.Crate;
@@ -132,6 +133,20 @@ public class Weapon {
 			p.getInventory().addItem(item);
 		}
 	}
+	
+	public void give(Player p, Crate crate) {
+		if (hasWeaponClass()) {
+			try {
+				Object item = weaponClass.getConstructor(Weapon.class, Crate.class).newInstance(this, crate);
+				p.getInventory().addItem((ItemStack) item);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			WeaponItem item = new WeaponItem(this, crate);
+			p.getInventory().addItem(item);
+		}
+	}
 
 	public enum WeaponType {
 		gun, melee;
@@ -181,17 +196,17 @@ public class Weapon {
 		}
 	}
 
-	public ItemStack toItemStack(Crate crate) {
+	public ItemStack toItemStack() {
 		if (hasWeaponClass()) {
 			try {
-				Object item = weaponClass.getConstructor(Weapon.class, Crate.class).newInstance(this, crate);
+				Object item = weaponClass.getConstructor(Weapon.class, int.class, int.class).newInstance(this, -1, 0);
 				return (ItemStack) item;
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
 			}
 		} else {
-			WeaponItem item = new WeaponItem(this, crate);
+			WeaponItem item = new WeaponItem(this, -1, 0);
 			return item;
 		}
 	}
