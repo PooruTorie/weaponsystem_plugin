@@ -1,7 +1,10 @@
 package de.paul.weaponsystem.weapon.muni;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -51,7 +54,6 @@ public class MuniItem extends ItemStack {
 		
 		ItemMeta m = getItemMeta();
 		m.setDisplayName(muni.getItemName());
-		m.setLore(muni.getItemLore());
 		m.setUnbreakable(true);
 		m.setLocalizedName(muni.getName()+"_"+muni.getId());
 		setItemMeta(m);
@@ -62,9 +64,11 @@ public class MuniItem extends ItemStack {
 	public MuniItem(Muni muni, int costs) {
 		this(muni);
 		ItemMeta m = getItemMeta();
-		List<String> l = m.getLore();
-		l.add("�eKosten �6"+costs+"$");
+		List<String> l = new ArrayList<>();
+		l.add("§ePreis:");
+		l.add("§8➥ §e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(costs)+"$");
 		m.setLore(l);
+		m.setLocalizedName(muni.getName()+"_"+muni.getId()+"_"+costs);
 		setItemMeta(m);
 	}
 

@@ -36,7 +36,7 @@ public class FlashBang extends Throwable implements Listener {
 	}
 	
 	public FlashBang(Muni muni, int costs) {
-		super(muni);
+		super(muni, costs);
 	}
 	
 	protected void Throw(Player p) {
@@ -50,7 +50,7 @@ public class FlashBang extends Throwable implements Listener {
 			
 			@Override
 			public void run() {
-				i.getWorld().spawnParticle(Particle.END_ROD, i.getLocation(), 1000, 0.4, 0.4, 0.4, 0.4);
+				i.getWorld().spawnParticle(Particle.END_ROD, i.getLocation(), 1000, 0.4, 0.4, 0.4, 0.2);
 				for (Entity ent : i.getWorld().getNearbyEntities(i.getLocation(), 14, 14, 14)) {
 					if (ent instanceof Player) {
 						Player p = (Player) ent;

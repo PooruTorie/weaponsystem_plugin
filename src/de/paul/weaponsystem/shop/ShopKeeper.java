@@ -1,8 +1,10 @@
 package de.paul.weaponsystem.shop;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -101,7 +103,7 @@ public class ShopKeeper {
 	public static HashMap<UUID, Inventory> invs = new HashMap<>();
 	
 	public void openInv(Player p) {
-		Inventory inv = Bukkit.createInventory(p, 9*3, type.getName());
+		Inventory inv = Bukkit.createInventory(p, 9*3, type.getName()+" §3| §e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(WeaponSystem.economy.getBalance(p))+"$");
 		
 		for (int i = 0; i < inv.getSize(); i++) {
 			inv.setItem(i, none);

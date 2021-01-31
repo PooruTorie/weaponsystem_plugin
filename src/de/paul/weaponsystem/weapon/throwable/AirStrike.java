@@ -22,7 +22,7 @@ public class AirStrike extends Throwable implements Listener {
 	}
 	
 	public AirStrike(Muni muni, int costs) {
-		super(muni);
+		super(muni, costs);
 	}
 	
 	protected void Throw(Player p) {

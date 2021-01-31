@@ -19,7 +19,6 @@ public class WeaponConfig extends Config {
 	private String itemName;
 	private int itemID;
 	private int itemDamage;
-	private ArrayList<String> itemLore = new ArrayList<>();
 	private double cooldown;
 	private int meleeDamage;
 	private int gunDamage;
@@ -43,11 +42,6 @@ public class WeaponConfig extends Config {
 		itemName = getChatColorString("item_name");
 		itemID = ((Long) get("item_id")).intValue();
 		itemDamage = ((Long) get("item_damage")).intValue();
-		((JSONArray) get("item_lore")).forEach(new Consumer<Object>() {
-			@Override
-			public void accept(Object t) {
-				itemLore.add(ChatColor.translateAlternateColorCodes('&', (String) t));
-			}});
 		cooldown = (double) get("cooldown");
 		costs = ((Long) get("costs")).intValue();
 		switch (type) {
@@ -90,10 +84,6 @@ public class WeaponConfig extends Config {
 	
 	public int getItemDamage() {
 		return itemDamage;
-	}
-	
-	public ArrayList<String> getItemLore() {
-		return itemLore;
 	}
 	
 	public int getMeleeDamage() {

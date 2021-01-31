@@ -19,7 +19,6 @@ public class MuniConfig extends Config {
 	private String itemName;
 	private int itemID;
 	private int itemDamage;
-	private ArrayList<String> itemLore = new ArrayList<>();
 	private int costs;
 
 	public MuniConfig(File f) throws IOException, ParseException {
@@ -33,11 +32,6 @@ public class MuniConfig extends Config {
 		name = (String) get("name");
 		itemName = getChatColorString("item_name");
 		itemID = ((Long) get("item_id")).intValue();
-		((JSONArray) get("item_lore")).forEach(new Consumer<Object>() {
-			@Override
-			public void accept(Object t) {
-				itemLore.add(ChatColor.translateAlternateColorCodes('&', (String) t));
-			}});
 		itemDamage = ((Long) get("item_damage")).intValue();
 		costs = ((Long) get("costs")).intValue();
 	}
@@ -60,10 +54,6 @@ public class MuniConfig extends Config {
 	
 	public int getItemDamage() {
 		return itemDamage;
-	}
-	
-	public ArrayList<String> getItemLore() {
-		return itemLore;
 	}
 	
 	public int getCosts() {

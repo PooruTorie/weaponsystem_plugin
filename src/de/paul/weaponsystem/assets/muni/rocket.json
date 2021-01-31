@@ -4,6 +4,5 @@
 	"item_name": "&6Rocket",
 	"item_id": 351,
 	"item_damage": 2,
-	"item_lore": ["&4Colle Muni"],
 	"costs": 1000
 }

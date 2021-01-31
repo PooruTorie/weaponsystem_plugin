@@ -2,6 +2,7 @@ package de.paul.weaponsystem;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
 
 import javax.swing.event.CaretEvent;
 
@@ -12,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -34,10 +36,13 @@ import de.paul.weaponsystem.weapon.muni.Muni;
 import de.paul.weaponsystem.weapon.muni.MuniItem;
 import de.paul.weaponsystem.weapon.rocketLauncher.RPG;
 import de.paul.weaponsystem.weapon.throwable.Throwable;
+import net.milkbowl.vault.economy.Economy;
 
 public class WeaponSystem extends JavaPlugin implements Listener {
 	
 	public static Plugin plugin;
+	
+	public static Economy economy;
 	
 	private static File cratesFolder;
 	private static File weaponFolder;
@@ -91,8 +96,22 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 		getCommand("placeShopNPC").setTabCompleter(new CommandPlaceShopNPC());
 		getCommand("placeShopNPC").setExecutor(new CommandPlaceShopNPC());
 		
+		if (!setupEconomy()) {
+			getLogger().log(Level.WARNING, "Can't find Economy Plugin");
+		}
+		
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
+	
+	private boolean setupEconomy()
+    {
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null) {
+            economy = economyProvider.getProvider();
+        }
+
+        return (economy != null);
+    }
 	
 	@Override
 	public void onDisable() {

@@ -22,7 +22,6 @@ public class Muni {
 	private String itemName;
 	private int itemID;
 	private int itemDamage;
-	private ArrayList<String> itemLore = new ArrayList<>();
 	private Class<? extends MuniItem> itemClass = null;
 	private int costs;
 	
@@ -32,17 +31,15 @@ public class Muni {
 		itemName = config.getItemName();
 		itemID = config.getItemID();
 		itemDamage = config.getItemDamage();
-		itemLore = config.getItemLore();
 		costs = config.getCosts();
 	}
 	
-	public Muni(int id, String name, String itemName, int itemID, int itemDamage, ArrayList<String> itemLore, int costs, Class<? extends MuniItem> itemClass) {
+	public Muni(int id, String name, String itemName, int itemID, int itemDamage, int costs, Class<? extends MuniItem> itemClass) {
 		this.id = id;
 		this.name = name;
 		this.itemName = itemName;
 		this.itemID = itemID;
 		this.itemDamage = itemDamage;
-		this.itemLore = itemLore;
 		this.itemClass = itemClass;
 		this.costs = costs;
 	}
@@ -65,10 +62,6 @@ public class Muni {
 	
 	public int getItemDamage() {
 		return itemDamage;
-	}
-	
-	public ArrayList<String> getItemLore() {
-		return itemLore;
 	}
 	
 	public boolean hasItemClass() {

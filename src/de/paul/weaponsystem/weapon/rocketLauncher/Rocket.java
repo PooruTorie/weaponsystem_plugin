@@ -76,42 +76,49 @@ public class Rocket implements Listener {
 	
 	@EventHandler
 	private void onExplosion(EntityExplodeEvent e) {
-		if (e.getEntity().getCustomName().equals("rocket")) {
-			for (Block b : e.blockList()) {
-				if (new Random().nextInt(10) == 1) {
-					Location l = e.getLocation();
-					Entity f = l.getWorld().spawnFallingBlock(e.getLocation(), b.getType(), b.getData());
-					if (f instanceof FallingBlock) {
-						f.setCustomName("rocket");
-						f.setVelocity(new Vector((Math.random()*2)-1, (Math.random()*2)-1, (Math.random()*2)-1));
-					} else {
-						f.remove();
+		if (e.getEntity().getCustomName() != null) {
+			if (e.getEntity().getCustomName().equals("rocket")) {
+				for (Block b : e.blockList()) {
+					if (new Random().nextInt(10) == 1) {
+						Location l = e.getLocation();
+						Entity f = l.getWorld().spawnFallingBlock(e.getLocation(), b.getType(), b.getData());
+						if (f instanceof FallingBlock) {
+							f.setCustomName("rocket");
+							f.setVelocity(new Vector((Math.random()*2)-1, (Math.random()*2)-1, (Math.random()*2)-1));
+						} else {
+							f.remove();
+						}
 					}
 				}
+				e.setCancelled(true);
+				e.getLocation().getWorld().spawnParticle(Particle.CLOUD, e.getLocation(), 4000, 2, 2, 2, 0.3);
 			}
-			e.setCancelled(true);
 		}
 	}
 	
 	@EventHandler
 	private void onLand(EntityChangeBlockEvent e) {
-		if (e.getEntity().getCustomName().equals("rocket")) {
-			e.setCancelled(true);
-			e.getBlock().getWorld().spawnParticle(Particle.BLOCK_CRACK, e.getBlock().getLocation(), 10, new MaterialData(((FallingBlock) e.getEntity()).getBlockId(), ((FallingBlock) e.getEntity()).getBlockData()));
-			e.getEntity().remove();
+		if (e.getEntity().getCustomName() != null) {
+			if (e.getEntity().getCustomName().equals("rocket")) {
+				e.setCancelled(true);
+				e.getBlock().getWorld().spawnParticle(Particle.BLOCK_CRACK, e.getBlock().getLocation(), 10, new MaterialData(((FallingBlock) e.getEntity()).getBlockId(), ((FallingBlock) e.getEntity()).getBlockData()));
+				e.getEntity().remove();
+			}
 		}
 	}
 	
 	@EventHandler
 	public void onItemSpawn(ItemSpawnEvent e){
-	    List<Entity> ents = e.getEntity().getNearbyEntities(2, 2, 2);
+	    List<Entity> ents = e.getEntity().getNearbyEntities(5, 5, 5);
 	    for(Entity ent : ents) {
-	        if(ent.getType() == EntityType.FALLING_BLOCK) {
-	        	if (ent.getCustomName().equals("rocket")) {
-	        		e.getEntity().getWorld().spawnParticle(Particle.BLOCK_CRACK, e.getEntity().getLocation(), 10, new MaterialData(((FallingBlock) ent).getBlockId(), ((FallingBlock) ent).getBlockData()));
-	        		e.getEntity().remove();
+	    	if (ent.getType() == EntityType.FALLING_BLOCK) {
+	        	if (ent.getCustomName() != null) {
+		        	if (ent.getCustomName().equals("rocket")) {
+		        		e.getEntity().getWorld().spawnParticle(Particle.BLOCK_CRACK, e.getEntity().getLocation(), 10, new MaterialData(((FallingBlock) ent).getBlockId(), ((FallingBlock) ent).getBlockData()));
+		        		e.getEntity().remove();
+		        	}
 	        	}
-	        }
+	    	}
 	    }
 	}
 }

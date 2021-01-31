@@ -1,7 +1,10 @@
 package de.paul.weaponsystem.weapon;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -80,7 +83,6 @@ public class WeaponItem extends ItemStack {
 		
 		ItemMeta m = getItemMeta();
 		m.setDisplayName(weapon.getItemName());
-		m.setLore(weapon.getItemLore());
 		m.setUnbreakable(true);
 		m.setLocalizedName(weapon.getName()+"_"+id);
 		setItemMeta(m);
@@ -100,7 +102,6 @@ public class WeaponItem extends ItemStack {
 		
 		ItemMeta m = getItemMeta();
 		m.setDisplayName(weapon.getItemName());
-		m.setLore(weapon.getItemLore());
 		m.setUnbreakable(true);
 		m.setLocalizedName(weapon.getName()+"_"+id);
 		setItemMeta(m);
@@ -118,8 +119,10 @@ public class WeaponItem extends ItemStack {
 	public WeaponItem(Weapon weapon, int id, int magazin, int costs) {
 		this(weapon, id, magazin);
 		ItemMeta m = getItemMeta();
-		List<String> l = m.getLore();
-		l.add("§eKosten §6"+costs+"$");
+		List<String> l = new ArrayList<>();
+		l.add("§ePreis:");
+		l.add("§8➥ §e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(costs)+"$");
+		m.setLocalizedName(weapon.getName()+"_"+id+"_"+costs);
 		m.setLore(l);
 		setItemMeta(m);
 	}

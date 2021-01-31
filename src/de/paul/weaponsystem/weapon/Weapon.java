@@ -19,7 +19,6 @@ public class Weapon {
 	private String itemName;
 	private int itemID;
 	private int itemDamage;
-	private ArrayList<String> itemLore = new ArrayList<>();
 	private int meleeDamage;
 	private int gunDamage;
 	private float cooldown;
@@ -39,7 +38,6 @@ public class Weapon {
 		itemName = config.getItemName();
 		itemID = config.getItemID();
 		itemDamage = config.getItemDamage();
-		itemLore = config.getItemLore();
 		meleeDamage = config.getMeleeDamage();
 		gunDamage = config.getGunDamage();
 		cooldown = config.getCooldown();
@@ -52,12 +50,11 @@ public class Weapon {
 		costs = config.getCosts();
 	}
 	
-	public Weapon(WeaponType type, String name, String itemName, int itemID, ArrayList<String> itemLore, int gunMuniCapacity, int gunMuniId, int gunReloadTime, int costs, Class<? extends WeaponItem> weaponClass) {
+	public Weapon(WeaponType type, String name, String itemName, int itemID, int gunMuniCapacity, int gunMuniId, int gunReloadTime, int costs, Class<? extends WeaponItem> weaponClass) {
 		this.type = type;
 		this.name = name;
 		this.itemName = itemName;
 		this.itemID = itemID;
-		this.itemLore = itemLore;
 		this.meleeDamage = 0;
 		this.gunDamage = 0;
 		this.cooldown = 0;
@@ -89,10 +86,6 @@ public class Weapon {
 	
 	public int getItemDamage() {
 		return itemDamage;
-	}
-	
-	public ArrayList<String> getItemLore() {
-		return itemLore;
 	}
 	
 	public int getMeleeDamage() {

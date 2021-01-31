@@ -6,13 +6,18 @@
 	"items": [
 		{
 			"type": "weapon",
-			"slot": 11,
+			"slot": 12,
 			"name": "deagle"
 		},
 		{
 			"type": "muni",
 			"slot": 13,
-			"name": "testmuni"
+			"name": "flashbang"
+		},
+		{
+			"type": "muni",
+			"slot": 14,
+			"name": "shell"
 		}
 	]
 }

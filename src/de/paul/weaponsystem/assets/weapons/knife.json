@@ -4,7 +4,6 @@
 	"item_name": "&6Knife",
 	"item_id": 267,
 	"item_damage": 0,
-	"item_lore": ["&3Tolles Messer"],
 	"cooldown": 1.0,
 	"damage": 5,
 	"costs": 1000

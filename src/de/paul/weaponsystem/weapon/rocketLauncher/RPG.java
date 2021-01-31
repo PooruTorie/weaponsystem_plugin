@@ -35,7 +35,7 @@ public class RPG extends WeaponItem {
 	
 	@Override
 	public void gunReleod(ItemStack item, Player p) {
-Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
+		Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
 			
 			private int task;
 
@@ -96,7 +96,7 @@ Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
 	}
 	
 	public static void register() {
-		Weapon.register(new Weapon(WeaponType.gun, "rpg", "§8RPG", 286, Lists.newArrayList("§7RPG"), 1, 3, 4, 75000, RPG.class));
+		Weapon.register(new Weapon(WeaponType.gun, "rpg", "§8RPG", 286, 1, 3, 4, 75000, RPG.class));
 		Bukkit.getPluginManager().registerEvents(new Rocket(), WeaponSystem.plugin);
 	}
 }

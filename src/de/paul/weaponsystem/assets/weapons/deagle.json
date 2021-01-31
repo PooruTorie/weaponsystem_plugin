@@ -4,7 +4,6 @@
 	"item_name": "&6Deagle",
 	"item_id": 417,
 	"item_damage": 0,
-	"item_lore": ["&3Tolle Deagle"],
 	"damage_per_bullet": 10,
 	"cooldown": 0.4,
 	"bullets": 1,
