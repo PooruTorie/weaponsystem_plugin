@@ -1,5 +1,6 @@
 package de.paul.weaponsystem.weapon.rocketLauncher;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import com.google.common.collect.Lists;
 
@@ -37,5 +38,6 @@ public class RPG extends WeaponItem {
 	
 	public static void register() {
 		Weapon.register(new Weapon(WeaponType.gun, "rpg", "§8RPG", 286, Lists.newArrayList("§7RPG"), 1, 3, 4, RPG.class));
+		Bukkit.getPluginManager().registerEvents(new Rocket(), WeaponSystem.plugin);
 	}
 }

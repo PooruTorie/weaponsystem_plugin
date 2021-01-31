@@ -8,12 +8,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.SmallFireball;
 import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,6 +25,8 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.material.MaterialData;
+import org.bukkit.projectiles.BlockProjectileSource;
+import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.Vector;
 
 import de.paul.weaponsystem.WeaponSystem;
@@ -40,16 +44,33 @@ public class Rocket implements Listener {
 		rocket.setInvulnerable(true);
 		rocket.setSilent(true);
 		ball.setPassenger(rocket);
+	}
+	
+	public static void spawn(Location l) {
+		double pitch = ((l.getPitch() + 90) * Math.PI) / 180;
+        double yaw = ((l.getYaw() + 90) * Math.PI) / 180;
 		
-		Bukkit.getPluginManager().registerEvents(new Rocket(), WeaponSystem.plugin);
+		double x = Math.sin(pitch) * Math.cos(yaw);
+        double y = Math.sin(pitch) * Math.sin(yaw);
+        double z = Math.cos(pitch);
+
+        Vector vector = new Vector(x/2, z/2, y/2);
+		Fireball ball = l.getWorld().spawn(l, Fireball.class);
+		ball.setCustomName("rocket");
+		ball.setYield(4);
+		ball.setVelocity(vector);
 	}
 	
 	@EventHandler
 	private void onHit(ProjectileHitEvent e) {
 		Projectile p = e.getEntity();
-		if (p.getCustomName().equals("rocket")) {
-			p.getPassenger().remove();
-			p.remove();
+		if (p.getCustomName() != null) {
+			if (p.getCustomName().equals("rocket")) {
+				if (p.getPassenger() != null) {
+					p.getPassenger().remove();
+				}
+				p.remove();
+			}
 		}
 	}
 	
