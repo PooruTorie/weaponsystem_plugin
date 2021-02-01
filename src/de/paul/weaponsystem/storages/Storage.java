@@ -27,6 +27,7 @@ public class Storage extends Crate {
 	
 	public static HashMap<Entity, Storage> storagesEnitys = new HashMap<>();
 	public static HashMap<Location, Storage> storages = new HashMap<>();
+	
 	public static ItemStack none = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
 	
 	public static void save() {
@@ -51,7 +52,7 @@ public class Storage extends Crate {
 			Config c = new Config((JSONObject) o);
 			Location loc = c.getLocation("loc");
 			String name = (String) c.get("type");
-			storages.put(loc, new Storage(loc, StorageType.valueOf(name)));
+			storages.put(loc, StorageType.valueOf(name).getStorage().place(loc));
 		}
 		ws.clear();
 		weapons.set("storages", ws);
@@ -67,10 +68,15 @@ public class Storage extends Crate {
 
 	private Witch v;
 	
-	public Storage(Location loc, StorageType type) {
+	public Storage(StorageType type) {
 		super("storage"+type.name);
 		this.type = type;
 		
+		type.setStorage(this);
+	}
+	
+	@Override
+	public Storage place(Location loc) {
 		v = (Witch) loc.getWorld().spawnEntity(loc, EntityType.WITCH);
 		v.setAI(false);
 		v.setCollidable(false);
@@ -80,6 +86,8 @@ public class Storage extends Crate {
 		
 		storagesEnitys.put(v, this);
 		storages.put(loc, this);
+		
+		return this;
 	}
 	
 	public Entity getEntity() {
@@ -91,7 +99,6 @@ public class Storage extends Crate {
 	}
 	
 	public static HashMap<UUID, Inventory> invs = new HashMap<>();
-	public static HashMap<UUID, Storage> invStorages = new HashMap<>();
 	
 	public void openInv(Player p) {
 		Inventory inv = Bukkit.createInventory(p, 9*6, type.getName());
@@ -108,34 +115,68 @@ public class Storage extends Crate {
 				if (i == 16) {
 					i+=2;
 				}
+				if (i == 36) {
+					i+=2;
+				}
 			}
 		} else if (type == StorageType.muni) {
-			
+			for (ItemStack item : p.getEnderChest()) {
+				if (item != null) {
+					inv.setItem(i, item);
+					i++;
+					if (i == 16) {
+						i+=2;
+					}
+					if (i == 36) {
+						i+=2;
+					}
+					if (i == 40) {
+						i++;
+					}
+				}
+			}
 		}
 		for (; i <= 42;) {
 			inv.setItem(i, null);
 			i++;
+			if (i == 16) {
+				i+=2;
+			}
 			if (i == 36) {
 				i+=2;
+			}
+			if (type == StorageType.muni) {
+				if (i == 40) {
+					i++;
+				}
 			}
 		}
 		
 		p.openInventory(inv);
 		invs.put(p.getUniqueId(), inv);
-		invStorages.put(p.getUniqueId(), this);
 	}
 	
 	public enum StorageType {
 		weapon("§6Waffen Schrank"), muni("§6Munitions Schrank");
 
 		private String name;
+		private Storage storage;
 
 		private StorageType(String name) {
 			this.name = name;
+			new Storage(this);
+		}
+		
+		public void setStorage(Storage storage) {
+			this.storage = storage;
 		}
 		
 		public String getName() {
 			return name;
+		}
+		
+		public Storage getStorage() {
+			return storage;
 		}
 
 		public static List<String> names() {
@@ -145,6 +186,28 @@ public class Storage extends Crate {
 			}
 			return l;
 		}
+	}
+
+	public static ItemStack[] toEnderChest(ItemStack[] contents) {
+		ItemStack[] out = new ItemStack[9*3];
+		int n = 0;
+		for (int i = 11; i < contents.length;) {
+			if (n < 27) {
+				out[n] = contents[i];
+				n++;
+			}
+			i++;
+			if (i == 16) {
+				i+=2;
+			}
+			if (i == 36) {
+				i+=2;
+			}
+			if (i == 40) {
+				i++;
+			}
+		}
+		return out;
 	}
 	
 }

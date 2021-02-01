@@ -13,13 +13,13 @@
 		"noshoptype": "&8- &eWaffenSystem &8[ &cDieses Shop Typen gibt es nicht",
 		"nostorageype": "&8- &eWaffenSystem &8[ &cDieses Shop Typen gibt es nicht",
 		"nopermission": "&8- &eWaffenSystem &8[ &cDu darfst das nicht",
-		"nomoney": "&8- &eWaffenSystem &8[ &cDu hast zu wenig geld um das zu Kaufen",
+		"nomoney": "&8- &eWaffenSystem &8[ &cDu hast zu wenig geld um das zu Kaufen, du brauchst noch %money%",
 		"munifull": "&8- &eWaffenSystem &8[ &7Die Waffe ist voll",
 		"hasnomuni": "&8- &eWaffenSystem &8[ &cDu hast keine Munition fuer diese Waffe",
 		"hasweapon": "&8- &eWaffenSystem &8[ &cDu hast diese Waffe schon",
 	}
 	"weaponhelp": [
-		"&6 Rechtsklick zum Schießen",
+		"&6 Rechtsklick zum Schiessen",
 		"&6 Q oder F zum Nachladen",
 		""
 	]

@@ -25,7 +25,7 @@ public class CommandPlaceStorage implements TabCompleter, CommandExecutor {
 				if (args.length >= 1) {
 					try {
 						StorageType t = StorageType.valueOf(args[0]);
-						new Storage(p.getLocation(), t);
+						t.getStorage().place(p.getLocation());
 					} catch (Exception e) {
 						p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nostoragetype"));
 					}

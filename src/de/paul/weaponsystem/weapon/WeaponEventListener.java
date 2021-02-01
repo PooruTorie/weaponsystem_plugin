@@ -63,6 +63,23 @@ public class WeaponEventListener implements Listener {
 					}
 				}
 			}
+		} else {
+			if (e.getHand() == EquipmentSlot.HAND) {
+				if (item != null) {
+					if (item.hasItemMeta()) {
+						if (item.getItemMeta().hasLocalizedName()) {
+							int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+							if (WeaponItem.items.containsKey(id)) {
+								WeaponItem itemWeapon = WeaponItem.items.get(id);
+								if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
+									itemWeapon.showHelp(p);
+									e.setCancelled(true);
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 	

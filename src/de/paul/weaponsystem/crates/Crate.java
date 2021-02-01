@@ -29,6 +29,7 @@ import de.paul.weaponsystem.config.Config;
 import de.paul.weaponsystem.config.CrateConfig;
 import de.paul.weaponsystem.config.CrateConfig.CratePos;
 import de.paul.weaponsystem.config.CrateConfig.CratePos.ItemType;
+import de.paul.weaponsystem.storages.Storage;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.WeaponItem;
 import de.paul.weaponsystem.weapon.muni.Muni;
@@ -108,12 +109,13 @@ public class Crate implements Listener {
 		return items;
 	}
 	
-	public void place(Location loc) {
+	public Object place(Location loc) {
 		loc = loc.getBlock().getLocation();
 		
 		loc.getBlock().setTypeId(blockMat);
 		
 		placedCrates.put(loc, this);
+		return this;
 	}
 	
 	public void openInv(Player p) {

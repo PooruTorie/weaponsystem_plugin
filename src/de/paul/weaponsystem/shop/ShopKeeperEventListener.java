@@ -20,6 +20,8 @@ import org.bukkit.inventory.ItemStack;
 
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.storages.PlayerWeapons;
+import de.paul.weaponsystem.storages.Storage;
+import de.paul.weaponsystem.storages.Storage.StorageType;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.muni.Muni;
 import net.minecraft.server.v1_12_R1.ICommandHandler;
@@ -71,7 +73,7 @@ public class ShopKeeperEventListener implements Listener {
 								if (w != null) {
 									if (!PlayerWeapons.getForPlayer(p).hasWeapon(w)) {
 										if (balance >= costs) {
-											w.give(p);
+											w.give(p, StorageType.weapon.getStorage());
 											PlayerWeapons.getForPlayer(p).buy(w);
 											
 											WeaponSystem.economy.depositPlayer(p, costs*-1);
@@ -81,7 +83,7 @@ public class ShopKeeperEventListener implements Listener {
 											p.openInventory(n);
 											ShopKeeper.invs.put(p.getUniqueId(), n);
 										} else {
-											p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney"));
+											p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney").replace("%money%", "§e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(costs-balance)+"$"));
 										}
 									} else {
 										p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("hasweapon"));
@@ -98,12 +100,15 @@ public class ShopKeeperEventListener implements Listener {
 										p.openInventory(n);
 										ShopKeeper.invs.put(p.getUniqueId(), n);
 									} else {
-										p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney"));
+										p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney").replace("%money%", "§e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(costs-balance)+"$"));
 									}
 								}
 							}
 						}
 					}
+				}
+				if (ShopKeeper.invs.get(p.getUniqueId()).equals(e.getInventory())) {
+					e.setCancelled(true);
 				}
 			}
 		}

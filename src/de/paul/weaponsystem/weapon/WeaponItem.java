@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -87,10 +88,6 @@ public class WeaponItem extends ItemStack {
 		m.setUnbreakable(true);
 		m.setLocalizedName(weapon.getName()+"_"+id);
 		setItemMeta(m);
-		
-		if (weapon.getType() == WeaponType.gun) {
-			magazin = weapon.getGunMuniCapacity();
-		}
 		
 		items.put(id, this);
 	}
@@ -216,5 +213,15 @@ public class WeaponItem extends ItemStack {
 			WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.empty", 5, 1);
 		}
 		showAmmo(p);
+	}
+
+	public void showHelp(Player p) {
+		Config c = WeaponSystem.loadConfig("config");
+		JSONArray a = (JSONArray) c.get("weaponhelp");
+		for (Object o : a) {
+			String s = (String) o;
+			s = ChatColor.translateAlternateColorCodes('&', s);
+			p.sendMessage(s);
+		}
 	}
 }

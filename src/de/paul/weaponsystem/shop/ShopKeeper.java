@@ -117,6 +117,9 @@ public class ShopKeeper {
 				if (i == 16) {
 					i+=2;
 				}
+				if (i == 36) {
+					i+=2;
+				}
 			}
 		} else if (type == ShopType.muni) {
 			for (Muni m : Muni.getAll()) {
@@ -125,11 +128,17 @@ public class ShopKeeper {
 				if (i == 16) {
 					i+=2;
 				}
+				if (i == 36) {
+					i+=2;
+				}
 			}
 		}
 		for (; i <= 42;) {
 			inv.setItem(i, null);
 			i++;
+			if (i == 16) {
+				i+=2;
+			}
 			if (i == 36) {
 				i+=2;
 			}

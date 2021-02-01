@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import de.paul.weaponsystem.storages.Storage.StorageType;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.muni.Muni;
 
@@ -49,29 +51,72 @@ public class StorageEventListener implements Listener {
 		if (e.getClickedInventory() != null) {
 			if (Storage.invs.containsKey(p.getUniqueId())) {
 				if (Storage.invs.get(p.getUniqueId()).equals(e.getClickedInventory())) {
-					if (e.getCurrentItem() != null) {
-						if (e.getCurrentItem().equals(Storage.none)) {
-							e.setCancelled(true);
-						} else {
-							e.setCancelled(true);
+					if (e.getClickedInventory().getName().equals(StorageType.muni.getName())) {
+						if (e.getCurrentItem() != null) {
 							ItemStack item = e.getCurrentItem();
+							e.setCancelled(true);
 							if (item != null) {
-								Storage storage = Storage.invStorages.get(p.getUniqueId());
+								if (item.hasItemMeta()) {
+									if (item.getItemMeta().hasLocalizedName()) {
+										if (Muni.getMuniByName(item.getItemMeta().getLocalizedName().split("[_]")[0]) != null) {
+											e.setCancelled(false);
+										}
+									}
+								}
+							}
+							if (e.getCursor() != null) {
+								if (e.getCursor().hasItemMeta()) {
+									if (e.getCursor().getItemMeta().hasLocalizedName()) {
+										if (Muni.getMuniByName(e.getCursor().getItemMeta().getLocalizedName().split("[_]")[0]) != null) {
+											e.setCancelled(false);
+										}
+									}
+								}
+							}
+						}
+					} else if (e.getClickedInventory().getName().equals(StorageType.weapon.getName())) {
+						if (e.getCurrentItem() != null) {
+							ItemStack item = e.getCurrentItem();
+							if (item.hasItemMeta()) {
 								Weapon w = Weapon.getWeaponByName(item.getItemMeta().getLocalizedName().split("[_]")[0]);
 								if (w != null) {
-									if (!storage.playerHasWeapon(p, w)) {
-										w.give(p, storage);
+									if (!StorageType.weapon.getStorage().playerHasWeapon(p, w)) {
+										w.give(p, StorageType.weapon.getStorage());
 									}
-								} else {
-									Muni m = Muni.getMuniByName(item.getItemMeta().getLocalizedName().split("[_]")[0]);
-									m.give(p);
 								}
+								
 								Inventory i = e.getClickedInventory();
 								Inventory n = Bukkit.createInventory(p, i.getSize(), i.getName().split("[|]")[0]);
 								n.setContents(i.getContents());
 								p.openInventory(n);
 								Storage.invs.put(p.getUniqueId(), n);
-								Storage.invStorages.put(p.getUniqueId(), storage);
+							}
+							e.setCancelled(true);
+						}
+					}
+				}
+				if (Storage.invs.get(p.getUniqueId()).equals(e.getInventory())) {
+					if (e.getInventory().getName().equals(StorageType.weapon.getName())) {
+						e.setCancelled(true);
+					} else {
+						ItemStack item = e.getCurrentItem();
+						e.setCancelled(true);
+						if (item != null) {
+							if (item.hasItemMeta()) {
+								if (item.getItemMeta().hasLocalizedName()) {
+									if (Muni.getMuniByName(item.getItemMeta().getLocalizedName().split("[_]")[0]) != null) {
+										e.setCancelled(false);
+									}
+								}
+							}
+						}
+						if (e.getCursor() != null) {
+							if (e.getCursor().hasItemMeta()) {
+								if (e.getCursor().getItemMeta().hasLocalizedName()) {
+									if (Muni.getMuniByName(e.getCursor().getItemMeta().getLocalizedName().split("[_]")[0]) != null) {
+										e.setCancelled(false);
+									}
+								}
 							}
 						}
 					}
@@ -84,8 +129,10 @@ public class StorageEventListener implements Listener {
 	private void onClose(InventoryCloseEvent e) {
 		Player p = (Player) e.getPlayer();
 		if (Storage.invs.containsKey(p.getUniqueId())) {
+			if (e.getInventory().getName().equals(StorageType.muni.getName())) {
+				p.getEnderChest().setContents(Storage.toEnderChest(e.getInventory().getContents()));
+			}
 			Storage.invs.remove(p.getUniqueId());
-			Storage.invStorages.remove(p.getUniqueId());
 		}
 	}
 }
