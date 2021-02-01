@@ -1,0 +1,16 @@
+{
+	"type": "gun",
+	"name": "ballista",
+	"item_name": "&3Ballista",
+	"item_id": 2262,
+	"item_damage": 0,
+	"damage_per_bullet": 20,
+	"cooldown": 1.0,
+	"bullets": 1,
+	"acuracy": 100,
+	"muni": 5,
+	"muni_id": 1,
+	"zoom": true,
+	"reload_time": 3,
+	"costs": 50000
+}

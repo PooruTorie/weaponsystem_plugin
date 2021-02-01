@@ -74,6 +74,10 @@ public class Crate implements Listener {
 	private int blockMat;
 	private ArrayList<CratePos> items;
 	
+	public Crate(String name) {
+		this.name = name;
+	}
+	
 	public Crate(CrateConfig config) {
 		name = config.getName();
 		invName = config.getInvName();
@@ -178,7 +182,7 @@ public class Crate implements Listener {
 										if (item.getItemMeta().getLocalizedName().contains(weapon.getName())) {
 											if (item.getItemMeta().getLocalizedName().contains(getName())) {
 												int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-												WeaponItem.items.remove(id);
+												WeaponItem.items.get(id).remove();
 												p.getInventory().setItem(i, new ItemStack(Material.AIR));
 											}
 										}

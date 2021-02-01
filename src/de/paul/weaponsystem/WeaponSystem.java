@@ -24,12 +24,15 @@ import de.paul.weaponsystem.commands.CommandGetMuni;
 import de.paul.weaponsystem.commands.CommandGetWeapon;
 import de.paul.weaponsystem.commands.CommandPlaceCrate;
 import de.paul.weaponsystem.commands.CommandPlaceShopNPC;
+import de.paul.weaponsystem.commands.CommandPlaceStorage;
 import de.paul.weaponsystem.config.Config;
 import de.paul.weaponsystem.config.CrateConfig;
 import de.paul.weaponsystem.config.MuniConfig;
 import de.paul.weaponsystem.config.WeaponConfig;
 import de.paul.weaponsystem.crates.Crate;
 import de.paul.weaponsystem.shop.ShopKeeper;
+import de.paul.weaponsystem.storages.PlayerWeapons;
+import de.paul.weaponsystem.storages.Storage;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.WeaponItem;
 import de.paul.weaponsystem.weapon.muni.Muni;
@@ -83,6 +86,7 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 			Throwable.load();
 			Crate.load();
 			ShopKeeper.load();
+			Storage.load();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -95,6 +99,8 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 		getCommand("placeCrate").setExecutor(new CommandPlaceCrate());
 		getCommand("placeShopNPC").setTabCompleter(new CommandPlaceShopNPC());
 		getCommand("placeShopNPC").setExecutor(new CommandPlaceShopNPC());
+		getCommand("placeStorage").setTabCompleter(new CommandPlaceStorage());
+		getCommand("placeStorage").setExecutor(new CommandPlaceStorage());
 		
 		if (!setupEconomy()) {
 			getLogger().log(Level.WARNING, "Can't find Economy Plugin");
@@ -123,6 +129,8 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 		Throwable.save();
 		Crate.save();
 		ShopKeeper.save();
+		Storage.save();
+		PlayerWeapons.save();
 	}
 	
 	@EventHandler

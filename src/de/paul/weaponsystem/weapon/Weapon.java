@@ -27,6 +27,7 @@ public class Weapon {
 	private int gunAcuracy;
 	private int gunMuniId;
 	private int gunReloadTime;
+	private boolean gunZoom;
 	private String gunShotSound;
 	private int costs;
 	
@@ -47,6 +48,7 @@ public class Weapon {
 		gunBullets = config.getGunBullets();
 		gunAcuracy = config.getGunAcuracy();
 		gunShotSound = config.getGunShotSound();
+		gunZoom = config.isGunZoom();
 		costs = config.getCosts();
 	}
 	
@@ -94,6 +96,10 @@ public class Weapon {
 	
 	public int getGunDamage() {
 		return gunDamage;
+	}
+	
+	public boolean isGunZoom() {
+		return gunZoom;
 	}
 	
 	public float getCooldown() {

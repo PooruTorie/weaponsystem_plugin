@@ -4,16 +4,19 @@
 		"getmuni": "weaponsystem.getmuni",
 		"placecrate": "weaponsystem.placecrate",
 		"placeshopnpc": "weaponsystem.placeshop",
+		"placestorage": "weaponsystem.placeshop",
 	},
 	"messages": {
 		"noweapon": "&8- &eWaffenSystem &8[ &cDiese Waffe gibt es nicht",
 		"nomuni": "&8- &eWaffenSystem &8[ &cDiese Munition gibt es nicht",
 		"nocrate": "&8- &eWaffenSystem &8[ &cDieses Lager gibt es nicht",
 		"noshoptype": "&8- &eWaffenSystem &8[ &cDieses Shop Typen gibt es nicht",
+		"nostorageype": "&8- &eWaffenSystem &8[ &cDieses Shop Typen gibt es nicht",
 		"nopermission": "&8- &eWaffenSystem &8[ &cDu darfst das nicht",
 		"nomoney": "&8- &eWaffenSystem &8[ &cDu hast zu wenig geld um das zu Kaufen",
 		"munifull": "&8- &eWaffenSystem &8[ &7Die Waffe ist voll",
-		"hasnomuni": "&8- &eWaffenSystem &8[ &cDu hast keine Munition fuer diese Waffe"
+		"hasnomuni": "&8- &eWaffenSystem &8[ &cDu hast keine Munition fuer diese Waffe",
+		"hasweapon": "&8- &eWaffenSystem &8[ &cDu hast diese Waffe schon",
 	}
 	"weaponhelp": [
 		"&6 Rechtsklick zum Schießen",

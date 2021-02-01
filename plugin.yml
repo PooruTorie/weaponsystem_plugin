@@ -12,3 +12,5 @@ commands:
       description: Platziert ein Lager.
    placeShopNPC:
       description: Platziert einen Shop NPC.
+   placeStorage:
+      description: Platziert einen Schrank.

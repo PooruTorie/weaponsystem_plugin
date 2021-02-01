@@ -27,6 +27,7 @@ public class WeaponConfig extends Config {
 	private int gunMuniCapacity;
 	private int gunMuniId;
 	private int gunReloadTime;
+	private boolean gunZoom = false;
 	private String gunShotSound = "";
 	private int costs;
 
@@ -54,6 +55,9 @@ public class WeaponConfig extends Config {
 			gunAcuracy = ((Long) get("acuracy")).intValue();
 			if (contains("shootsound")) {
 				gunShotSound = (String) get("shootsound");
+			}
+			if (contains("zoom")) {
+				gunZoom = (boolean) get("zoom");
 			}
 			break;
 		case melee:
@@ -120,6 +124,10 @@ public class WeaponConfig extends Config {
 	
 	public int getCosts() {
 		return costs;
+	}
+	
+	public boolean isGunZoom() {
+		return gunZoom;
 	}
 	
 	public String getGunShotSound() {

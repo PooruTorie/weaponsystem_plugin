@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -190,6 +191,11 @@ public class WeaponItem extends ItemStack {
 		}, 1);
 	}
 	
+	public void remove() {
+		setType(Material.AIR);
+		items.remove(id);
+	}
+	
 	public void gunShot(Player p) {
 		if (magazin > 0) {
 			float a = ((weapon.getGunAcuracy()-100f)*-1f)/100f;
@@ -203,6 +209,7 @@ public class WeaponItem extends ItemStack {
 				Snowball bullet = p.launchProjectile(Snowball.class);
 				bullet.setVelocity(bullet.getVelocity().multiply(2f).add(new Vector(((r.nextFloat()*2)-1)*a, ((r.nextFloat()*2)-1)*a, ((r.nextFloat()*2)-1)*a)));
 				bullet.setCustomName(weapon.getName()+"_"+weapon.getGunDamage());
+				bullet.setGravity(false);
 			}
 			magazin--;
 		} else {

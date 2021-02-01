@@ -9,9 +9,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerChangedMainHandEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
@@ -60,6 +64,56 @@ public class WeaponEventListener implements Listener {
 				}
 			}
 		}
+	}
+	
+	@EventHandler
+	private void onZoom(PlayerToggleSneakEvent e) {
+		Player p = e.getPlayer();
+		ItemStack item = p.getItemInHand();
+		if (item != null) {
+			if (item.hasItemMeta()) {
+				if (item.getItemMeta().hasLocalizedName()) {
+					int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+					if (WeaponItem.items.containsKey(id)) {
+						WeaponItem itemWeapon = WeaponItem.items.get(id);
+						if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
+							if (itemWeapon.getWeapon().isGunZoom()) {
+								if (e.isSneaking()) {
+									p.setWalkSpeed(-1f);
+								} else {
+									p.setWalkSpeed(0.2f);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	@EventHandler
+	private void onScroll(PlayerItemHeldEvent e) {
+		Player p = e.getPlayer();
+		ItemStack item = p.getInventory().getItem(e.getNewSlot());
+		if (item != null) {
+			if (item.hasItemMeta()) {
+				if (item.getItemMeta().hasLocalizedName()) {
+					int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+					if (WeaponItem.items.containsKey(id)) {
+						WeaponItem itemWeapon = WeaponItem.items.get(id);
+						if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
+							if (itemWeapon.getWeapon().isGunZoom()) {
+								if (p.isSneaking()) {
+									p.setWalkSpeed(-1f);
+								}
+								return;
+							}
+						}
+					}
+				}
+			}
+		}
+		p.setWalkSpeed(0.2f);
 	}
 
 	@EventHandler

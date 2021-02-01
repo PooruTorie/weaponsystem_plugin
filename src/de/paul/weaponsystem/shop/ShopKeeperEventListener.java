@@ -19,6 +19,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import de.paul.weaponsystem.WeaponSystem;
+import de.paul.weaponsystem.storages.PlayerWeapons;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.muni.Muni;
 import net.minecraft.server.v1_12_R1.ICommandHandler;
@@ -61,25 +62,44 @@ public class ShopKeeperEventListener implements Listener {
 						} else {
 							e.setCancelled(true);
 							ItemStack item = e.getCurrentItem();
-							if (item != null) {
+							
+							if (item.hasItemMeta()) {
 								int costs = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[2]);
 								double balance = WeaponSystem.economy.getBalance(p);
-								if (balance >= costs) {
-									Weapon w = Weapon.getWeaponByName(item.getItemMeta().getLocalizedName().split("[_]")[0]);
-									if (w != null) {
-										w.give(p);
+							
+								Weapon w = Weapon.getWeaponByName(item.getItemMeta().getLocalizedName().split("[_]")[0]);
+								if (w != null) {
+									if (!PlayerWeapons.getForPlayer(p).hasWeapon(w)) {
+										if (balance >= costs) {
+											w.give(p);
+											PlayerWeapons.getForPlayer(p).buy(w);
+											
+											WeaponSystem.economy.depositPlayer(p, costs*-1);
+											Inventory i = e.getClickedInventory();
+											Inventory n = Bukkit.createInventory(p, i.getSize(), i.getName().split("[|]")[0]+"| §e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(WeaponSystem.economy.getBalance(p))+"$");
+											n.setContents(i.getContents());
+											p.openInventory(n);
+											ShopKeeper.invs.put(p.getUniqueId(), n);
+										} else {
+											p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney"));
+										}
 									} else {
+										p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("hasweapon"));
+									}
+								} else {
+									if (balance >= costs) {
 										Muni m = Muni.getMuniByName(item.getItemMeta().getLocalizedName().split("[_]")[0]);
 										m.give(p);
+										
+										WeaponSystem.economy.depositPlayer(p, costs*-1);
+										Inventory i = e.getClickedInventory();
+										Inventory n = Bukkit.createInventory(p, i.getSize(), i.getName().split("[|]")[0]+"| §e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(WeaponSystem.economy.getBalance(p))+"$");
+										n.setContents(i.getContents());
+										p.openInventory(n);
+										ShopKeeper.invs.put(p.getUniqueId(), n);
+									} else {
+										p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney"));
 									}
-									WeaponSystem.economy.depositPlayer(p, costs*-1);
-									Inventory i = e.getClickedInventory();
-									Inventory n = Bukkit.createInventory(p, i.getSize(), i.getName().split("[|]")[0]+"| §e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(WeaponSystem.economy.getBalance(p))+"$");
-									n.setContents(i.getContents());
-									p.openInventory(n);
-									ShopKeeper.invs.put(p.getUniqueId(), n);
-								} else {
-									p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney"));
 								}
 							}
 						}
