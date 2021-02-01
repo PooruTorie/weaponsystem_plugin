@@ -27,13 +27,13 @@ public class CommandPlaceStorage implements TabCompleter, CommandExecutor {
 						StorageType t = StorageType.valueOf(args[0]);
 						t.getStorage().place(p.getLocation());
 					} catch (Exception e) {
-						p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nostoragetype"));
+						p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nostoragetype"));
 					}
 				} else {
 					p.sendMessage("§cUsage: /placeStorage <StorageType>");
 				}
 			} else {
-				p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
+				p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
 			}
 		}
 		return false;

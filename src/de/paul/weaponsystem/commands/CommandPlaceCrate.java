@@ -24,13 +24,13 @@ public class CommandPlaceCrate implements TabCompleter, CommandExecutor {
 					if (c != null) {
 						c.place(p.getLocation());
 					} else {
-						p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nocrate"));
+						p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nocrate"));
 					}
 				} else {
 					p.sendMessage("§cUsage: /placeCrate <CrateName>");
 				}
 			} else {
-				p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
+				p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
 			}
 		}
 		return false;

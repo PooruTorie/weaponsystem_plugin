@@ -25,13 +25,13 @@ public class CommandPlaceShopNPC implements TabCompleter, CommandExecutor {
 						ShopType t = ShopType.valueOf(args[0]);
 						new ShopKeeper(p.getLocation(), t);
 					} catch (Exception e) {
-						p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("noshoptype"));
+						p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("noshoptype"));
 					}
 				} else {
 					p.sendMessage("§cUsage: /placeShopNPC <ShopType>");
 				}
 			} else {
-				p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
+				p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
 			}
 		}
 		return false;

@@ -25,13 +25,13 @@ public class CommandGetMuni implements CommandExecutor, TabCompleter {
 					if (m != null) {
 						m.give(p);
 					} else {
-						p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nomuni"));
+						p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nomuni"));
 					}
 				} else {
 					p.sendMessage("§cUsage: /getMuni <MuniName>");
 				}
 			} else {
-				p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
+				p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
 			}
 		}
 		return false;

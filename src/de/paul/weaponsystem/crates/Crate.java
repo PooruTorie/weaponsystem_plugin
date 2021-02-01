@@ -149,7 +149,7 @@ public class Crate implements Listener {
 			p.openInventory(inv);
 			invs.put(p.getUniqueId(), inv);
 		} else {
-			p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
+			p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
 		}
 	}
 	
@@ -266,7 +266,7 @@ public class Crate implements Listener {
 				b.setType(Material.AIR);
 				placedCrates.remove(b.getLocation());
 			} else {
-				p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
+				p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
 				e.setCancelled(true);
 			}
 		}

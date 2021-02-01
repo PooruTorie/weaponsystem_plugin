@@ -178,11 +178,11 @@ public class WeaponItem extends ItemStack {
 							}
 						}, weapon.getGunReloadTime()*20);
 					} else {
-						p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("hasnomuni"));
+						p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("hasnomuni"));
 					}
 					showAmmo(p);
 				} else {
-					p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("munifull"));
+					p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("munifull"));
 				}
 			}
 		}, 1);

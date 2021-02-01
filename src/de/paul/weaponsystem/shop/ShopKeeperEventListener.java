@@ -73,7 +73,6 @@ public class ShopKeeperEventListener implements Listener {
 								if (w != null) {
 									if (!PlayerWeapons.getForPlayer(p).hasWeapon(w)) {
 										if (balance >= costs) {
-											w.give(p, StorageType.weapon.getStorage());
 											PlayerWeapons.getForPlayer(p).buy(w);
 											
 											WeaponSystem.economy.depositPlayer(p, costs*-1);
@@ -83,10 +82,10 @@ public class ShopKeeperEventListener implements Listener {
 											p.openInventory(n);
 											ShopKeeper.invs.put(p.getUniqueId(), n);
 										} else {
-											p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney").replace("%money%", "§e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(costs-balance)+"$"));
+											p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney").replace("%money%", "§e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(costs-balance)+"$"));
 										}
 									} else {
-										p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("hasweapon"));
+										p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("hasweapon"));
 									}
 								} else {
 									if (balance >= costs) {
@@ -100,7 +99,7 @@ public class ShopKeeperEventListener implements Listener {
 										p.openInventory(n);
 										ShopKeeper.invs.put(p.getUniqueId(), n);
 									} else {
-										p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney").replace("%money%", "§e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(costs-balance)+"$"));
+										p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney").replace("%money%", "§e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(costs-balance)+"$"));
 									}
 								}
 							}

@@ -25,13 +25,13 @@ public class CommandGetWeapon implements CommandExecutor, TabCompleter {
 					if (w != null) {
 						w.give(p);
 					} else {
-						p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("noweapon"));
+						p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("noweapon"));
 					}
 				} else {
 					p.sendMessage("§cUsage: /getWeapon <WeaponName>");
 				}
 			} else {
-				p.sendMessage(WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
+				p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
 			}
 		}
 		return false;
