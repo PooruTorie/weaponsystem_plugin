@@ -2,7 +2,7 @@ name: WeaponSystem
 version: 1.0
 author: paulO5
 main: de.paul.weaponsystem.WeaponSystem
-depend: [Vault]
+depend: [Vault, RevieveNew]
 commands:
    getWeapon:
       description: Gibt dir eine Waffe.

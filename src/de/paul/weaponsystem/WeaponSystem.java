@@ -2,9 +2,8 @@ package de.paul.weaponsystem;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.logging.Level;
-
-import javax.swing.event.CaretEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -17,8 +16,9 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
-import org.sqlite.SQLiteConfig.SynchronousMode;
-
+import de.dyroxplays.revieve.RevieveAPI;
+import de.dyroxplays.revieve.objects.DeathPlayer;
+import de.dyroxplays.revieve.objects.PlayerRealDeathEvent;
 import de.paul.weaponsystem.assets.Assets;
 import de.paul.weaponsystem.commands.CommandGetMuni;
 import de.paul.weaponsystem.commands.CommandGetWeapon;
@@ -33,6 +33,7 @@ import de.paul.weaponsystem.crates.Crate;
 import de.paul.weaponsystem.shop.ShopKeeper;
 import de.paul.weaponsystem.storages.PlayerWeapons;
 import de.paul.weaponsystem.storages.Storage;
+import de.paul.weaponsystem.storages.Storage.StorageType;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.WeaponItem;
 import de.paul.weaponsystem.weapon.muni.Muni;
@@ -108,6 +109,12 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 			getLogger().log(Level.WARNING, "Can't find Economy Plugin");
 		}
 		
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			System.out.println(p.getName()+" - "+RevieveAPI.hasWeaponLicense(p));
+			DeathPlayer dp = DeathPlayer.getDeathPlayer(p);
+			System.out.println(dp.getDeathTime());
+		}
+		
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 	
@@ -120,6 +127,17 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 
         return (economy != null);
     }
+	
+	@EventHandler
+	private void realDeath(PlayerRealDeathEvent e) {
+		Player p = e.getDeathPlayer().getPlayer();
+		for (Crate c : Crate.crates.values()) {
+			c.removeWeaopons(p);
+		}
+		for (StorageType t : StorageType.values()) {
+			t.getStorage().removeWeaopons(p);
+		}
+	}
 	
 	@Override
 	public void onDisable() {
