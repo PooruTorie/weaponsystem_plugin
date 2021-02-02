@@ -22,6 +22,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import de.dyroxplays.revieve.objects.DeathPlayer;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.config.Config;
 import de.paul.weaponsystem.weapon.Weapon;
@@ -103,16 +104,39 @@ public class ShopKeeper {
 	public static HashMap<UUID, Inventory> invs = new HashMap<>();
 	
 	public void openInv(Player p) {
-		Inventory inv = Bukkit.createInventory(p, 9*6, type.getName()+" §3| §e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(WeaponSystem.economy.getBalance(p))+"$");
-		
-		for (int i = 0; i < inv.getSize(); i++) {
-			inv.setItem(i, none);
-		}
-		
-		int i = 11;
-		if (type == ShopType.weapon) {
-			for (Weapon w : Weapon.getAll()) {
-				inv.setItem(i, w.toItemStack(true));
+		if (!DeathPlayer.isDead(p)) {
+			Inventory inv = Bukkit.createInventory(p, 9*6, type.getName()+" §3| §e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(WeaponSystem.economy.getBalance(p))+"$");
+			
+			for (int i = 0; i < inv.getSize(); i++) {
+				inv.setItem(i, none);
+			}
+			
+			int i = 11;
+			if (type == ShopType.weapon) {
+				for (Weapon w : Weapon.getAll()) {
+					inv.setItem(i, w.toItemStack(true));
+					i++;
+					if (i == 16) {
+						i+=2;
+					}
+					if (i == 36) {
+						i+=2;
+					}
+				}
+			} else if (type == ShopType.muni) {
+				for (Muni m : Muni.getAll()) {
+					inv.setItem(i, m.toItemStack(true));
+					i++;
+					if (i == 16) {
+						i+=2;
+					}
+					if (i == 36) {
+						i+=2;
+					}
+				}
+			}
+			for (; i <= 42;) {
+				inv.setItem(i, null);
 				i++;
 				if (i == 16) {
 					i+=2;
@@ -121,31 +145,10 @@ public class ShopKeeper {
 					i+=2;
 				}
 			}
-		} else if (type == ShopType.muni) {
-			for (Muni m : Muni.getAll()) {
-				inv.setItem(i, m.toItemStack(true));
-				i++;
-				if (i == 16) {
-					i+=2;
-				}
-				if (i == 36) {
-					i+=2;
-				}
-			}
+			
+			p.openInventory(inv);
+			invs.put(p.getUniqueId(), inv);
 		}
-		for (; i <= 42;) {
-			inv.setItem(i, null);
-			i++;
-			if (i == 16) {
-				i+=2;
-			}
-			if (i == 36) {
-				i+=2;
-			}
-		}
-		
-		p.openInventory(inv);
-		invs.put(p.getUniqueId(), inv);
 	}
 	
 	public enum ShopType {

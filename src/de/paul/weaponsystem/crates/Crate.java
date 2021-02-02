@@ -24,6 +24,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import de.dyroxplays.revieve.objects.DeathPlayer;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.config.Config;
 import de.paul.weaponsystem.config.CrateConfig;
@@ -119,37 +120,39 @@ public class Crate implements Listener {
 	}
 	
 	public void openInv(Player p) {
-		if (p.hasPermission(permission)) {
-			Inventory inv = Bukkit.createInventory(p, 9*3, invName);
-			
-			for (int i = 0; i < inv.getSize(); i++) {
-				inv.setItem(i, none);
-			}
-			
-			for (CratePos pos : items) {
-				if (pos.getItemType() == ItemType.weapon) {
-					Weapon weapon = Weapon.getWeaponByName(pos.getItemName());
-					if (weapon != null) {
-						inv.setItem(pos.getSlot(), weapon.toItemStack(false));
-					} else {
-						p.sendMessage("§cCan't find Weapon: "+pos.getItemName());
+		if (!DeathPlayer.isDead(p)) {
+			if (p.hasPermission(permission)) {
+				Inventory inv = Bukkit.createInventory(p, 9*3, invName);
+				
+				for (int i = 0; i < inv.getSize(); i++) {
+					inv.setItem(i, none);
+				}
+				
+				for (CratePos pos : items) {
+					if (pos.getItemType() == ItemType.weapon) {
+						Weapon weapon = Weapon.getWeaponByName(pos.getItemName());
+						if (weapon != null) {
+							inv.setItem(pos.getSlot(), weapon.toItemStack(false));
+						} else {
+							p.sendMessage("§cCan't find Weapon: "+pos.getItemName());
+						}
+					}
+					if (pos.getItemType() == ItemType.muni) {
+						Muni muni = Muni.getMuniByName(pos.getItemName());
+						if (muni != null) {
+							inv.setItem(pos.getSlot(), muni.toItemStack(false));
+						} else {
+							p.sendMessage("§cCan't find Muni: "+pos.getItemName());
+						}
 					}
 				}
-				if (pos.getItemType() == ItemType.muni) {
-					Muni muni = Muni.getMuniByName(pos.getItemName());
-					if (muni != null) {
-						inv.setItem(pos.getSlot(), muni.toItemStack(false));
-					} else {
-						p.sendMessage("§cCan't find Muni: "+pos.getItemName());
-					}
-				}
+				
+				WeaponSystem.playSound(p.getLocation(), "minecraft:block.chest.open", 6, 1);
+				p.openInventory(inv);
+				invs.put(p.getUniqueId(), inv);
+			} else {
+				p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
 			}
-			
-			WeaponSystem.playSound(p.getLocation(), "minecraft:block.chest.open", 6, 1);
-			p.openInventory(inv);
-			invs.put(p.getUniqueId(), inv);
-		} else {
-			p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
 		}
 	}
 	

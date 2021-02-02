@@ -19,6 +19,7 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import de.dyroxplays.revieve.objects.DeathPlayer;
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
 
 public class WeaponEventListener implements Listener {
@@ -43,37 +44,39 @@ public class WeaponEventListener implements Listener {
 	private void onShot(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
 		ItemStack item = e.getItem();
-		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			if (e.getHand() == EquipmentSlot.HAND) {
-				if (item != null) {
-					if (item.hasItemMeta()) {
-						if (item.getItemMeta().hasLocalizedName()) {
-							int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-							if (WeaponItem.items.containsKey(id)) {
-								WeaponItem itemWeapon = WeaponItem.items.get(id);
-								if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
-									if (p.getCooldown(item.getType()) == 0) {
-										p.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20f));
-										itemWeapon.gunShot(p);
+		if (!DeathPlayer.isDead(p)) {
+			if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+				if (e.getHand() == EquipmentSlot.HAND) {
+					if (item != null) {
+						if (item.hasItemMeta()) {
+							if (item.getItemMeta().hasLocalizedName()) {
+								int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+								if (WeaponItem.items.containsKey(id)) {
+									WeaponItem itemWeapon = WeaponItem.items.get(id);
+									if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
+										if (p.getCooldown(item.getType()) == 0) {
+											p.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20f));
+											itemWeapon.gunShot(p);
+										}
+										e.setCancelled(true);
 									}
-									e.setCancelled(true);
 								}
 							}
 						}
 					}
 				}
-			}
-		} else {
-			if (e.getHand() == EquipmentSlot.HAND) {
-				if (item != null) {
-					if (item.hasItemMeta()) {
-						if (item.getItemMeta().hasLocalizedName()) {
-							int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-							if (WeaponItem.items.containsKey(id)) {
-								WeaponItem itemWeapon = WeaponItem.items.get(id);
-								if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
-									itemWeapon.showHelp(p);
-									e.setCancelled(true);
+			} else {
+				if (e.getHand() == EquipmentSlot.HAND) {
+					if (item != null) {
+						if (item.hasItemMeta()) {
+							if (item.getItemMeta().hasLocalizedName()) {
+								int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+								if (WeaponItem.items.containsKey(id)) {
+									WeaponItem itemWeapon = WeaponItem.items.get(id);
+									if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
+										itemWeapon.showHelp(p);
+										e.setCancelled(true);
+									}
 								}
 							}
 						}

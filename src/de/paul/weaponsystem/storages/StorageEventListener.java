@@ -78,18 +78,20 @@ public class StorageEventListener implements Listener {
 						if (e.getCurrentItem() != null) {
 							ItemStack item = e.getCurrentItem();
 							if (item.hasItemMeta()) {
-								Weapon w = Weapon.getWeaponByName(item.getItemMeta().getLocalizedName().split("[_]")[0]);
-								if (w != null) {
-									if (!StorageType.weapon.getStorage().playerHasWeapon(p, w)) {
-										w.give(p, StorageType.weapon.getStorage());
+								if (item.getItemMeta().hasLocalizedName()) {
+									Weapon w = Weapon.getWeaponByName(item.getItemMeta().getLocalizedName().split("[_]")[0]);
+									if (w != null) {
+										if (!StorageType.weapon.getStorage().playerHasWeapon(p, w)) {
+											w.give(p, StorageType.weapon.getStorage());
+										}
 									}
+									
+									Inventory i = e.getClickedInventory();
+									Inventory n = Bukkit.createInventory(p, i.getSize(), i.getName().split("[|]")[0]);
+									n.setContents(i.getContents());
+									p.openInventory(n);
+									Storage.invs.put(p.getUniqueId(), n);
 								}
-								
-								Inventory i = e.getClickedInventory();
-								Inventory n = Bukkit.createInventory(p, i.getSize(), i.getName().split("[|]")[0]);
-								n.setContents(i.getContents());
-								p.openInventory(n);
-								Storage.invs.put(p.getUniqueId(), n);
 							}
 							e.setCancelled(true);
 						}

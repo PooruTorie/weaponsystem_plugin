@@ -1,27 +1,57 @@
 package de.paul.weaponsystem.storages;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.EntityEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Server;
+import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.block.Block;
+import org.bukkit.block.PistonMoveReaction;
+import org.bukkit.entity.Ambient;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Witch;
+import org.bukkit.entity.Entity.Spigot;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.permissions.PermissionAttachmentInfo;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.EulerAngle;
+import org.bukkit.util.Vector;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import de.dyroxplays.revieve.objects.DeathPlayer;
+import de.dyroxplays.revieve.objects.FlyingItems;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.config.Config;
+import de.paul.weaponsystem.config.CrateConfig.CratePos;
+import de.paul.weaponsystem.config.CrateConfig.CratePos.ItemType;
 import de.paul.weaponsystem.crates.Crate;
 import de.paul.weaponsystem.weapon.Weapon;
+import de.paul.weaponsystem.weapon.WeaponItem;
 
 public class Storage extends Crate {
 	
@@ -76,6 +106,31 @@ public class Storage extends Crate {
 	}
 	
 	@Override
+	public void removeWeaopons(Player p) {
+		for (Weapon weapon :  PlayerWeapons.getForPlayer(p).getBuyedWeapons()) {
+			if (playerHasWeapon(p, weapon)) {
+				int i = 0;
+				for (ItemStack item : p.getInventory()) {
+					if (item != null) {
+						if (item.hasItemMeta()) {
+							if (item.getItemMeta().hasLocalizedName()) {
+								if (item.getItemMeta().getLocalizedName().contains(weapon.getName())) {
+									if (item.getItemMeta().getLocalizedName().contains(getName())) {
+										int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+										WeaponItem.items.get(id).remove();
+										p.getInventory().setItem(i, new ItemStack(Material.AIR));
+									}
+								}
+							}
+						}
+					}
+					i++;
+				}
+			}
+		}
+	}
+	
+	@Override
 	public Storage place(Location loc) {
 		v = (Witch) loc.getWorld().spawnEntity(loc, EntityType.WITCH);
 		v.setAI(false);
@@ -101,28 +156,17 @@ public class Storage extends Crate {
 	public static HashMap<UUID, Inventory> invs = new HashMap<>();
 	
 	public void openInv(Player p) {
-		Inventory inv = Bukkit.createInventory(p, 9*6, type.getName());
-		
-		for (int i = 0; i < inv.getSize(); i++) {
-			inv.setItem(i, none);
-		}
-		
-		int i = 11;
-		if (type == StorageType.weapon) {
-			for (Weapon w : PlayerWeapons.getForPlayer(p).getBuyedWeapons()) {
-				inv.setItem(i, w.toItemStack(false));
-				i++;
-				if (i == 16) {
-					i+=2;
-				}
-				if (i == 36) {
-					i+=2;
-				}
+		if (!DeathPlayer.isDead(p)) {
+			Inventory inv = Bukkit.createInventory(p, 9*6, type.getName());
+			
+			for (int i = 0; i < inv.getSize(); i++) {
+				inv.setItem(i, none);
 			}
-		} else if (type == StorageType.muni) {
-			for (ItemStack item : p.getEnderChest()) {
-				if (item != null) {
-					inv.setItem(i, item);
+			
+			int i = 11;
+			if (type == StorageType.weapon) {
+				for (Weapon w : PlayerWeapons.getForPlayer(p).getBuyedWeapons()) {
+					inv.setItem(i, w.toItemStack(false));
 					i++;
 					if (i == 16) {
 						i+=2;
@@ -130,30 +174,43 @@ public class Storage extends Crate {
 					if (i == 36) {
 						i+=2;
 					}
+				}
+			} else if (type == StorageType.muni) {
+				for (ItemStack item : p.getEnderChest()) {
+					if (item != null) {
+						inv.setItem(i, item);
+						i++;
+						if (i == 16) {
+							i+=2;
+						}
+						if (i == 36) {
+							i+=2;
+						}
+						if (i == 40) {
+							i++;
+						}
+					}
+				}
+			}
+			for (; i <= 42;) {
+				inv.setItem(i, null);
+				i++;
+				if (i == 16) {
+					i+=2;
+				}
+				if (i == 36) {
+					i+=2;
+				}
+				if (type == StorageType.muni) {
 					if (i == 40) {
 						i++;
 					}
 				}
 			}
+			
+			p.openInventory(inv);
+			invs.put(p.getUniqueId(), inv);
 		}
-		for (; i <= 42;) {
-			inv.setItem(i, null);
-			i++;
-			if (i == 16) {
-				i+=2;
-			}
-			if (i == 36) {
-				i+=2;
-			}
-			if (type == StorageType.muni) {
-				if (i == 40) {
-					i++;
-				}
-			}
-		}
-		
-		p.openInventory(inv);
-		invs.put(p.getUniqueId(), inv);
 	}
 	
 	public enum StorageType {
