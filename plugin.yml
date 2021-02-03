@@ -14,3 +14,5 @@ commands:
       description: Platziert einen Shop NPC.
    placeStorage:
       description: Platziert einen Schrank.
+   dealWeapon:
+      description: Deale eine Waffe mit einem Spieler.

@@ -23,6 +23,7 @@ import de.dyroxplays.revieve.objects.DeathPlayer;
 import de.dyroxplays.revieve.objects.FlyingItems;
 import de.dyroxplays.revieve.objects.PlayerRealDeathEvent;
 import de.paul.weaponsystem.assets.Assets;
+import de.paul.weaponsystem.commands.CommandDealWeapon;
 import de.paul.weaponsystem.commands.CommandGetMuni;
 import de.paul.weaponsystem.commands.CommandGetWeapon;
 import de.paul.weaponsystem.commands.CommandPlaceCrate;
@@ -99,28 +100,23 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 		
 		getCommand("getWeapon").setTabCompleter(new CommandGetWeapon());
 		getCommand("getWeapon").setExecutor(new CommandGetWeapon());
+		
 		getCommand("getMuni").setTabCompleter(new CommandGetMuni());
 		getCommand("getMuni").setExecutor(new CommandGetMuni());
+		
 		getCommand("placeCrate").setTabCompleter(new CommandPlaceCrate());
 		getCommand("placeCrate").setExecutor(new CommandPlaceCrate());
+		
 		getCommand("placeShopNPC").setTabCompleter(new CommandPlaceShopNPC());
 		getCommand("placeShopNPC").setExecutor(new CommandPlaceShopNPC());
+		
 		getCommand("placeStorage").setTabCompleter(new CommandPlaceStorage());
 		getCommand("placeStorage").setExecutor(new CommandPlaceStorage());
 		
+		getCommand("dealWeapon").setExecutor(new CommandDealWeapon());
+		
 		if (!setupEconomy()) {
 			getLogger().log(Level.WARNING, "Can't find Economy Plugin");
-		}
-		
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			System.out.println(p.getName()+" - "+RevieveAPI.hasWeaponLicense(p));
-			DeathPlayer dp = DeathPlayer.getDeathPlayer(p);
-			FlyingItems i = new FlyingItems();
-			i.setHeight(0.5);
-			i.setItemStack(new ItemStack(Material.REDSTONE_BLOCK));
-			i.setLocation(p.getLocation());
-			i.setText("Hi");
-			i.spawn();
 		}
 		
 		Bukkit.getPluginManager().registerEvents(this, plugin);
