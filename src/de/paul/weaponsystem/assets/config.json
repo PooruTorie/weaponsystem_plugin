@@ -17,6 +17,7 @@
 		"munifull": "&7Die Waffe ist voll",
 		"hasnomuni": "&cDu hast keine Munition fuer diese Waffe",
 		"hasweapon": "&cDu hast diese Waffe schon",
+		"nolicense": "&cDu hast keine Waffen Lizenz"
 	}
 	"weaponhelp": [
 		"&6 Rechtsklick zum Schiessen",

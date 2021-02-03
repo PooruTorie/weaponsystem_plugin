@@ -18,6 +18,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import de.dyroxplays.revieve.RevieveAPI;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.storages.PlayerWeapons;
 import de.paul.weaponsystem.storages.Storage;
@@ -72,17 +73,21 @@ public class ShopKeeperEventListener implements Listener {
 								Weapon w = Weapon.getWeaponByName(item.getItemMeta().getLocalizedName().split("[_]")[0]);
 								if (w != null) {
 									if (!PlayerWeapons.getForPlayer(p).hasWeapon(w)) {
-										if (balance >= costs) {
-											PlayerWeapons.getForPlayer(p).buy(w);
-											
-											WeaponSystem.economy.depositPlayer(p, costs*-1);
-											Inventory i = e.getClickedInventory();
-											Inventory n = Bukkit.createInventory(p, i.getSize(), i.getName().split("[|]")[0]+"| §e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(WeaponSystem.economy.getBalance(p))+"$");
-											n.setContents(i.getContents());
-											p.openInventory(n);
-											ShopKeeper.invs.put(p.getUniqueId(), n);
+										if (RevieveAPI.hasWeaponLicense(p)) {
+											if (balance >= costs) {
+												PlayerWeapons.getForPlayer(p).buy(w);
+												
+												WeaponSystem.economy.depositPlayer(p, costs*-1);
+												Inventory i = e.getClickedInventory();
+												Inventory n = Bukkit.createInventory(p, i.getSize(), i.getName().split("[|]")[0]+"| §e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(WeaponSystem.economy.getBalance(p))+"$");
+												n.setContents(i.getContents());
+												p.openInventory(n);
+												ShopKeeper.invs.put(p.getUniqueId(), n);
+											} else {
+												p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney").replace("%money%", "§e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(costs-balance)+"$"));
+											}
 										} else {
-											p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney").replace("%money%", "§e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(costs-balance)+"$"));
+											p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nolicense"));
 										}
 									} else {
 										p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("hasweapon"));

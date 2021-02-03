@@ -7,10 +7,12 @@ import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,6 +20,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import de.dyroxplays.revieve.RevieveAPI;
 import de.dyroxplays.revieve.objects.DeathPlayer;
+import de.dyroxplays.revieve.objects.FlyingItems;
 import de.dyroxplays.revieve.objects.PlayerRealDeathEvent;
 import de.paul.weaponsystem.assets.Assets;
 import de.paul.weaponsystem.commands.CommandGetMuni;
@@ -112,7 +115,12 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			System.out.println(p.getName()+" - "+RevieveAPI.hasWeaponLicense(p));
 			DeathPlayer dp = DeathPlayer.getDeathPlayer(p);
-			System.out.println(dp.getDeathTime());
+			FlyingItems i = new FlyingItems();
+			i.setHeight(0.5);
+			i.setItemStack(new ItemStack(Material.REDSTONE_BLOCK));
+			i.setLocation(p.getLocation());
+			i.setText("Hi");
+			i.spawn();
 		}
 		
 		Bukkit.getPluginManager().registerEvents(this, plugin);
