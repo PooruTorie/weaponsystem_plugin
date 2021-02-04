@@ -29,6 +29,7 @@ import de.paul.weaponsystem.commands.CommandGetWeapon;
 import de.paul.weaponsystem.commands.CommandPlaceCrate;
 import de.paul.weaponsystem.commands.CommandPlaceShopNPC;
 import de.paul.weaponsystem.commands.CommandPlaceStorage;
+import de.paul.weaponsystem.commands.admin.CommandAdmin;
 import de.paul.weaponsystem.config.Config;
 import de.paul.weaponsystem.config.CrateConfig;
 import de.paul.weaponsystem.config.MuniConfig;
@@ -113,7 +114,11 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 		getCommand("placeStorage").setTabCompleter(new CommandPlaceStorage());
 		getCommand("placeStorage").setExecutor(new CommandPlaceStorage());
 		
+		getCommand("dealWeapon").setTabCompleter(new CommandDealWeapon());
 		getCommand("dealWeapon").setExecutor(new CommandDealWeapon());
+		
+		getCommand("weaponAdmin").setTabCompleter(new CommandAdmin());
+		getCommand("weaponAdmin").setExecutor(new CommandAdmin());
 		
 		if (!setupEconomy()) {
 			getLogger().log(Level.WARNING, "Can't find Economy Plugin");

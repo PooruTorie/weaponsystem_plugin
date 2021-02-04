@@ -67,6 +67,17 @@ public class PlayerWeapons {
 
 	public void buy(Weapon w) {
 		buyedWeapons.add(w);
+		
+		JSONArray a = new JSONArray();
+		for (Weapon we : buyedWeapons) {
+			a.add(we.getName());
+		}
+		d.put("buyed", a);
+	}
+
+	public void remove(Weapon w) {
+		buyedWeapons.remove(w);
+		
 		JSONArray a = new JSONArray();
 		for (Weapon we : buyedWeapons) {
 			a.add(we.getName());

@@ -5,7 +5,8 @@
 		"placecrate": "weaponsystem.placecrate",
 		"placeshopnpc": "weaponsystem.placeshop",
 		"placestorage": "weaponsystem.placestorage",
-		"dealweapon": "weaponsystem.dealweapon"
+		"dealweapon": "weaponsystem.dealweapon",
+		"admin": "weaponsystem.admin"
 	},
 	"messages": {
 		"noweapon": "&cDiese Waffe gibt es nicht",

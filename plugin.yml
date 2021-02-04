@@ -16,3 +16,5 @@ commands:
       description: Platziert einen Schrank.
    dealWeapon:
       description: Deale eine Waffe mit einem Spieler.
+   weaponAdmin:
+      description: Admin command for WeaponSystem.

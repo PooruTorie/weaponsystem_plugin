@@ -224,4 +224,18 @@ public class WeaponItem extends ItemStack {
 			p.sendMessage(s);
 		}
 	}
+
+	public static WeaponItem getWeaponByItem(ItemStack item) {
+		if (item != null) {
+			if (item.hasItemMeta()) {
+				if (item.getItemMeta().hasLocalizedName()) {
+					int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+					if (items.containsKey(id)) {
+						return items.get(id);
+					}
+				}
+			}
+		}
+		return null;
+	}
 }
