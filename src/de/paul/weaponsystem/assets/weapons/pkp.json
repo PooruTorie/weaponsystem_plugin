@@ -1,0 +1,13 @@
+{
+	"type": "gun",
+	"name": "pkp",
+	"item_name": "&4PKP",
+	"item_id": 2256,
+	"damage_per_bullet": 8,
+	"cooldown": 0.001,
+	"bullets": 1,
+	"acuracy": 55,
+	"muni": 75,
+	"muni_id": 8,
+	"reload_time": 4
+}

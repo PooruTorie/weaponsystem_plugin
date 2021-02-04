@@ -4,7 +4,8 @@
 		"getmuni": "weaponsystem.getmuni",
 		"placecrate": "weaponsystem.placecrate",
 		"placeshopnpc": "weaponsystem.placeshop",
-		"placestorage": "weaponsystem.placeshop",
+		"placestorage": "weaponsystem.placestorage",
+		"dealweapon": "weaponsystem.dealweapon"
 	},
 	"messages": {
 		"noweapon": "&cDiese Waffe gibt es nicht",
