@@ -24,6 +24,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
 
@@ -53,7 +54,7 @@ public class CommandExplode implements TabCompleter, CommandExecutor, Listener {
 								WeaponSystem.economy.withdrawPlayer(p, 5000);
 								
 								for (Player op : Bukkit.getOnlinePlayers()) {
-									op.sendMessage("§7Es gab einen Terror anschlag an "+dest);
+									op.sendMessage(WeaponSystem.prefix+"§7Es gab einen Terror anschlag §8(§7"+dest+"§8)");
 								}
 							} else {
 								p.sendMessage(WeaponSystem.prefix+WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney").replace("%money%", "§e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(5000-balance)+"$"));

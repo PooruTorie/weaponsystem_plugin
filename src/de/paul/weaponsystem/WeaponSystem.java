@@ -3,6 +3,7 @@ package de.paul.weaponsystem;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -19,6 +20,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import de.dyroxplays.revieve.RevieveAPI;
+import de.dyroxplays.revieve.command.GetMK;
 import de.dyroxplays.revieve.objects.DeathPlayer;
 import de.dyroxplays.revieve.objects.FlyingItems;
 import de.dyroxplays.revieve.objects.PlayerRealDeathEvent;
