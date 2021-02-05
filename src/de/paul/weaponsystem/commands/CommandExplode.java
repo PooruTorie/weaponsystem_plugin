@@ -4,44 +4,60 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.ItemSpawnEvent;
+import org.bukkit.material.MaterialData;
+import org.bukkit.util.Vector;
 
+import de.dyroxplays.revieve.objects.DeathPlayer;
 import de.paul.weaponsystem.WeaponSystem;
 
-public class CommandExplode implements TabCompleter, CommandExecutor {
-
+public class CommandExplode implements TabCompleter, CommandExecutor, Listener {
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
 			if (p.hasPermission((String) WeaponSystem.loadConfig("config", "permissions").get("explode"))) {
-				if (args.length > 0) {
-					if (args[0].equalsIgnoreCase("info")) {
-						p.sendMessage(WeaponSystem.prefix+"§4Eine Sprengung kostet §e5000$");
-					} else {
-						String dest = args[0];
-						double balance = WeaponSystem.economy.getBalance(p);
-						if (balance >= 5000) {
-							Creeper c = (Creeper) p.getWorld().spawnEntity(p.getLocation(), EntityType.CREEPER);
-							c.setExplosionRadius(14);
-							c.setAI(false);
-							c.setCustomName("grenade");
-							c.setMaxFuseTicks(0);
-							WeaponSystem.economy.depositPlayer(p, 5000);
-							
-							for (Player op : Bukkit.getOnlinePlayers()) {
-								op.sendMessage("§7Es gab einen Terror anschlag an "+dest);
-							}
+				if (!DeathPlayer.isDead(p)) {
+					if (args.length > 0) {
+						if (args[0].equalsIgnoreCase("info")) {
+							p.sendMessage(WeaponSystem.prefix+"§4Eine Sprengung kostet §e5000$");
 						} else {
-							p.sendMessage(WeaponSystem.prefix+WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney").replace("%money%", "§e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(5000-balance)+"$"));
+							String dest = args[0];
+							double balance = WeaponSystem.economy.getBalance(p);
+							if (balance >= 5000) {
+								Creeper c = (Creeper) p.getWorld().spawnEntity(p.getLocation(), EntityType.CREEPER);
+								c.setExplosionRadius(20);
+								c.setAI(false);
+								c.setCustomName("bomb");
+								c.setMaxFuseTicks(0);
+								WeaponSystem.economy.withdrawPlayer(p, 5000);
+								
+								for (Player op : Bukkit.getOnlinePlayers()) {
+									op.sendMessage("§7Es gab einen Terror anschlag an "+dest);
+								}
+							} else {
+								p.sendMessage(WeaponSystem.prefix+WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney").replace("%money%", "§e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(5000-balance)+"$"));
+							}
 						}
 					}
 				}
@@ -58,5 +74,54 @@ public class CommandExplode implements TabCompleter, CommandExecutor {
 		}
 		return tab;
 	}
-
+	
+	@EventHandler
+	private void onExplosion(EntityExplodeEvent e) {
+		if (e.getEntity().getCustomName() != null) {
+			if (e.getEntity().getCustomName().equals("bomb")) {
+				for (Block b : e.blockList()) {
+					if (new Random().nextInt(10) == 1) {
+						Location l = e.getLocation();
+						Entity f = l.getWorld().spawnFallingBlock(e.getLocation(), b.getType(), b.getData());
+						if (f instanceof FallingBlock) {
+							f.setCustomName("bomb");
+							f.setVelocity(new Vector((Math.random()*2)-1, (Math.random()*2)-1, (Math.random()*2)-1));
+						} else {
+							f.remove();
+						}
+					}
+				}
+				e.setCancelled(true);
+				e.getLocation().getWorld().spawnParticle(Particle.CLOUD, e.getLocation(), 1000, 1, 1, 1, 0.1);
+			}
+		}
+	}
+	
+	@EventHandler
+	private void onLand(EntityChangeBlockEvent e) {
+		if (e.getEntity() != null) {
+			if (e.getEntity().getCustomName() != null) {
+				if (e.getEntity().getCustomName().equals("bomb")) {
+					e.setCancelled(true);
+					e.getBlock().getWorld().spawnParticle(Particle.BLOCK_CRACK, e.getBlock().getLocation(), 10, new MaterialData(((FallingBlock) e.getEntity()).getBlockId(), ((FallingBlock) e.getEntity()).getBlockData()));
+					e.getEntity().remove();
+				}
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onItemSpawn(ItemSpawnEvent e){
+	    List<Entity> ents = e.getEntity().getNearbyEntities(5, 5, 5);
+	    for(Entity ent : ents) {
+	    	if (ent.getType() == EntityType.FALLING_BLOCK) {
+	        	if (ent.getCustomName() != null) {
+		        	if (ent.getCustomName().equals("bomb")) {
+		        		e.getEntity().getWorld().spawnParticle(Particle.BLOCK_CRACK, e.getEntity().getLocation(), 10, new MaterialData(((FallingBlock) ent).getBlockId(), ((FallingBlock) ent).getBlockData()));
+		        		e.getEntity().remove();
+		        	}
+	        	}
+	    	}
+	    }
+	}
 }

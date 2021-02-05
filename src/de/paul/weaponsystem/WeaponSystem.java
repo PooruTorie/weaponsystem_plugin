@@ -128,6 +128,7 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 		
 		getCommand("sprengung").setTabCompleter(new CommandExplode());
 		getCommand("sprengung").setExecutor(new CommandExplode());
+		Bukkit.getPluginManager().registerEvents(new CommandExplode(), plugin);
 		
 		if (!setupEconomy()) {
 			getLogger().log(Level.WARNING, "Can't find Economy Plugin");
