@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -249,6 +250,24 @@ public class Weapon {
 				WeaponItem item = new WeaponItem(this, 0, 0);
 				return item;
 			}
+		}
+	}
+
+	public void removeAll(Player p) {
+		int i = 0;
+		for (ItemStack item : p.getInventory()) {
+			if (item != null) {
+				if (item.hasItemMeta()) {
+					if (item.getItemMeta().hasLocalizedName()) {
+						if (item.getItemMeta().getLocalizedName().contains(getName())) {
+							int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+							WeaponItem.items.get(id).remove();
+							p.getInventory().setItem(i, new ItemStack(Material.AIR));
+						}
+					}
+				}
+			}
+			i++;
 		}
 	}
 }

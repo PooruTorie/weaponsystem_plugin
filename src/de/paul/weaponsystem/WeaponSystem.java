@@ -24,6 +24,7 @@ import de.dyroxplays.revieve.command.GetMK;
 import de.dyroxplays.revieve.objects.DeathPlayer;
 import de.dyroxplays.revieve.objects.FlyingItems;
 import de.dyroxplays.revieve.objects.PlayerRealDeathEvent;
+import de.paul.weaponsystem.armor.BulletVest;
 import de.paul.weaponsystem.assets.Assets;
 import de.paul.weaponsystem.commands.CommandDealWeapon;
 import de.paul.weaponsystem.commands.CommandExplode;
@@ -93,6 +94,7 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 			
 			RPG.register();
 			Taser.register();
+			BulletVest.register();
 			Throwable.register();
 			
 			WeaponItem.load();
@@ -158,6 +160,7 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 		for (StorageType t : StorageType.values()) {
 			t.getStorage().removeWeaopons(p);
 		}
+		Weapon.getWeaponByName("bulletvest").removeAll(p);
 	}
 	
 	@Override

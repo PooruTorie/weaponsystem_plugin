@@ -10,6 +10,7 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -208,6 +209,7 @@ public class WeaponItem extends ItemStack {
 				bullet.setCustomName(weapon.getName()+"_"+weapon.getGunDamage());
 				bullet.setGravity(false);
 			}
+			p.spawnParticle(Particle.SMOKE_NORMAL, p.getEyeLocation().add(p.getEyeLocation().getDirection().multiply(0.2)), 30, 0.01, 0.01, 0.01, 0.03);
 			magazin--;
 		} else {
 			WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.empty", 5, 1);

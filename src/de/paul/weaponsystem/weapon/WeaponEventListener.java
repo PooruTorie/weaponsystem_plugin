@@ -1,5 +1,6 @@
 package de.paul.weaponsystem.weapon;
 
+import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -20,6 +21,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import de.dyroxplays.revieve.objects.DeathPlayer;
+import de.paul.weaponsystem.armor.BulletVest;
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
 
 public class WeaponEventListener implements Listener {
@@ -33,7 +35,16 @@ public class WeaponEventListener implements Listener {
 				if (name.contains("_")) {
 					int damage = Integer.parseInt(name.split("[_]")[1]);
 					if (e.getHitEntity() instanceof LivingEntity) {
-						((LivingEntity) e.getHitEntity()).damage(damage);
+						if (e.getHitEntity() instanceof Player) {
+							if (!BulletVest.isOn.contains(((Player) e.getHitEntity()).getUniqueId())) {
+								((LivingEntity) e.getHitEntity()).damage(damage);
+							}
+						} else {
+							((LivingEntity) e.getHitEntity()).damage(damage);
+						}
+					}
+					if (e.getHitBlock() != null) {
+						e.getHitBlock().getWorld().spawnParticle(Particle.SMOKE_NORMAL, e.getHitBlock().getLocation(), 30, 0, 0, 0, 0.01);
 					}
 				}
 			}

@@ -2,9 +2,11 @@ package de.paul.weaponsystem.commands;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -26,12 +28,15 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.material.MaterialData;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import de.dyroxplays.revieve.objects.DeathPlayer;
 import de.paul.weaponsystem.WeaponSystem;
 
 public class CommandExplode implements TabCompleter, CommandExecutor, Listener {
+	
+	private static HashMap<UUID, Integer> delay = new HashMap<>();
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -43,21 +48,47 @@ public class CommandExplode implements TabCompleter, CommandExecutor, Listener {
 						if (args[0].equalsIgnoreCase("info")) {
 							p.sendMessage(WeaponSystem.prefix+"§4Eine Sprengung kostet §e5000$");
 						} else {
-							String dest = args[0];
-							double balance = WeaponSystem.economy.getBalance(p);
-							if (balance >= 5000) {
-								Creeper c = (Creeper) p.getWorld().spawnEntity(p.getLocation(), EntityType.CREEPER);
-								c.setExplosionRadius(20);
-								c.setAI(false);
-								c.setCustomName("bomb");
-								c.setMaxFuseTicks(0);
-								WeaponSystem.economy.withdrawPlayer(p, 5000);
-								
-								for (Player op : Bukkit.getOnlinePlayers()) {
-									op.sendMessage(WeaponSystem.prefix+"§7Es gab einen Terror anschlag §8(§7"+dest+"§8)");
+							if (!delay.containsKey(p.getUniqueId())) {
+								String dest = args[0];
+								double balance = WeaponSystem.economy.getBalance(p);
+								if (balance >= 5000) {
+									Creeper c = (Creeper) p.getWorld().spawnEntity(p.getLocation(), EntityType.CREEPER);
+									c.setExplosionRadius(20);
+									c.setAI(false);
+									c.setCustomName("bomb");
+									c.setMaxFuseTicks(0);
+									WeaponSystem.economy.withdrawPlayer(p, 5000);
+									
+									delay.put(p.getUniqueId(), 60*15);
+									Bukkit.getScheduler().runTaskTimer(WeaponSystem.plugin, new BukkitRunnable() {
+										
+										@Override
+										public void run() {
+											delay.put(p.getUniqueId(), delay.get(p.getUniqueId())-1);
+											if (delay.get(p.getUniqueId()) <= 0) {
+												delay.remove(p.getUniqueId());
+												cancel();
+											}
+										}
+									}, 0, 20);
+									
+									for (Player op : Bukkit.getOnlinePlayers()) {
+										op.sendMessage(WeaponSystem.prefix+"§7Es gab einen Terror anschlag §8(§7"+dest+"§8)");
+									}
+								} else {
+									p.sendMessage(WeaponSystem.prefix+WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney").replace("%money%", "§e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(5000-balance)+"$"));
 								}
 							} else {
-								p.sendMessage(WeaponSystem.prefix+WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney").replace("%money%", "§e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(5000-balance)+"$"));
+								int[] time = splitToComponentTimes(delay.get(p.getUniqueId()));
+								if (time[0] == 0) {
+									if (time[1] == 0) {
+										p.sendMessage(WeaponSystem.prefix+"§cDu hast noch einen Cooldown: §4"+time[0]+" Stunden "+time[1]+" Minuten "+time[2]+" Sekunden");
+									} else {
+										p.sendMessage(WeaponSystem.prefix+"§cDu hast noch einen Cooldown: §4"+time[1]+" Minuten "+time[2]+" Sekunden");
+									}
+								} else {
+									p.sendMessage(WeaponSystem.prefix+"§cDu hast noch einen Cooldown: §4"+time[2]+" Sekunden");
+								}
 							}
 						}
 					}
@@ -66,7 +97,18 @@ public class CommandExplode implements TabCompleter, CommandExecutor, Listener {
 		}
 		return false;
 	}
+	
+	public static int[] splitToComponentTimes(int time) {
+	    int hours = time / 3600;
+	    int remainder = time - hours * 3600;
+	    int mins = remainder / 60;
+	    remainder = remainder - mins * 60;
+	    int secs = remainder;
 
+	    int[] ints = {hours , mins , secs};
+	    return ints;
+	}
+	
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
 		ArrayList<String> tab = new ArrayList<>();

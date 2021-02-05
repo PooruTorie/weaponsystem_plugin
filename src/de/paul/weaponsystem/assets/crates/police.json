@@ -6,6 +6,16 @@
 	"items": [
 		{
 			"type": "weapon",
+			"slot": 11,
+			"name": "shotgun"
+		},
+		{
+			"type": "muni",
+			"slot": 20,
+			"name": "shotgunshell"
+		},
+		{
+			"type": "weapon",
 			"slot": 12,
 			"name": "deagle"
 		},
@@ -15,8 +25,13 @@
 			"name": "flashbang"
 		},
 		{
-			"type": "muni",
+			"type": "weapon",
 			"slot": 14,
+			"name": "taser"
+		},
+		{
+			"type": "muni",
+			"slot": 21,
 			"name": "shell"
 		}
 	]

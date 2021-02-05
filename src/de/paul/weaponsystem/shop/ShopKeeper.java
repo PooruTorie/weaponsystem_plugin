@@ -115,15 +115,28 @@ public class ShopKeeper {
 			int i = 11;
 			if (type == ShopType.weapon) {
 				for (Weapon w : Weapon.getAll()) {
-					ItemStack item = w.toItemStack(true);
-					if (PlayerWeapons.getForPlayer(p).hasWeapon(w)) {
-						ItemMeta m = item.getItemMeta();
-						List<String> l = m.getLore();
-						l.add(WeaponSystem.loadConfig("config", "messages").getChatColorString("hasweapon"));
-						m.setLore(l);
-						item.setItemMeta(m);
+					if (w.getCosts() != 0 && !w.getName().equals("bulletvest")) {
+						ItemStack item = w.toItemStack(true);
+						if (PlayerWeapons.getForPlayer(p).hasWeapon(w)) {
+							ItemMeta m = item.getItemMeta();
+							List<String> l = m.getLore();
+							l.add(WeaponSystem.loadConfig("config", "messages").getChatColorString("hasweapon"));
+							m.setLore(l);
+							item.setItemMeta(m);
+						}
+						inv.setItem(i, item);
+						i++;
 					}
-					inv.setItem(i, item);
+					if (i == 16) {
+						i+=2;
+					}
+					if (i == 36) {
+						i+=2;
+					}
+				}
+				
+				for (; i <= 42;) {
+					inv.setItem(i, null);
 					i++;
 					if (i == 16) {
 						i+=2;
@@ -143,16 +156,19 @@ public class ShopKeeper {
 						i+=2;
 					}
 				}
-			}
-			for (; i <= 42;) {
-				inv.setItem(i, null);
-				i++;
-				if (i == 16) {
-					i+=2;
+				
+				for (; i <= 42;) {
+					inv.setItem(i, null);
+					i++;
+					if (i == 16) {
+						i+=2;
+					}
+					if (i == 36) {
+						i+=2;
+					}
 				}
-				if (i == 36) {
-					i+=2;
-				}
+			} else if (type == ShopType.vest) {
+				inv.setItem(22, Weapon.getWeaponByName("bulletvest").toItemStack(true));
 			}
 			
 			p.openInventory(inv);
@@ -161,7 +177,7 @@ public class ShopKeeper {
 	}
 	
 	public enum ShopType {
-		weapon("§6Waffen Shop"), muni("§6Munitions Shop");
+		weapon("§6Waffen Shop"), muni("§6Munitions Shop"), vest("§6Schutzweste");
 
 		private String name;
 

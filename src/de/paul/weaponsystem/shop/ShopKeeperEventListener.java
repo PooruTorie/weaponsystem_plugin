@@ -75,7 +75,11 @@ public class ShopKeeperEventListener implements Listener {
 									if (!PlayerWeapons.getForPlayer(p).hasWeapon(w)) {
 										if (RevieveAPI.hasWeaponLicense(p)) {
 											if (balance >= costs) {
-												PlayerWeapons.getForPlayer(p).buy(w);
+												if (!w.getName().equals("bulletvest")) {
+													PlayerWeapons.getForPlayer(p).buy(w);
+												} else {
+													w.give(p, Storage.StorageType.weapon.getStorage());
+												}
 												
 												WeaponSystem.economy.depositPlayer(p, costs*-1);
 												Inventory i = e.getClickedInventory();
