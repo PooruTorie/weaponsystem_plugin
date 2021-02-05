@@ -36,8 +36,15 @@ public class WeaponEventListener implements Listener {
 					int damage = Integer.parseInt(name.split("[_]")[1]);
 					if (e.getHitEntity() instanceof LivingEntity) {
 						if (e.getHitEntity() instanceof Player) {
-							if (!BulletVest.isOn.contains(((Player) e.getHitEntity()).getUniqueId())) {
-								((LivingEntity) e.getHitEntity()).damage(damage);
+							Player hit = (Player) e.getHitEntity();
+							if (!BulletVest.isOn.contains(hit.getUniqueId())) {
+								hit.damage(damage);
+							} else {
+								boolean is = BulletVest.isLastBlocked.get(hit.getUniqueId());
+								if (is == true) {
+									hit.damage(damage);
+								}
+								BulletVest.isLastBlocked.put(hit.getUniqueId(), !is);
 							}
 						} else {
 							((LivingEntity) e.getHitEntity()).damage(damage);
