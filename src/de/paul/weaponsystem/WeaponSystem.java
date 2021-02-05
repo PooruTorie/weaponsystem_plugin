@@ -24,6 +24,8 @@ import de.dyroxplays.revieve.objects.FlyingItems;
 import de.dyroxplays.revieve.objects.PlayerRealDeathEvent;
 import de.paul.weaponsystem.assets.Assets;
 import de.paul.weaponsystem.commands.CommandDealWeapon;
+import de.paul.weaponsystem.commands.CommandExplode;
+import de.paul.weaponsystem.commands.CommandGetList;
 import de.paul.weaponsystem.commands.CommandGetMuni;
 import de.paul.weaponsystem.commands.CommandGetWeapon;
 import de.paul.weaponsystem.commands.CommandPlaceCrate;
@@ -44,6 +46,7 @@ import de.paul.weaponsystem.weapon.WeaponItem;
 import de.paul.weaponsystem.weapon.muni.Muni;
 import de.paul.weaponsystem.weapon.muni.MuniItem;
 import de.paul.weaponsystem.weapon.rocketLauncher.RPG;
+import de.paul.weaponsystem.weapon.taser.Taser;
 import de.paul.weaponsystem.weapon.throwable.Throwable;
 import net.milkbowl.vault.economy.Economy;
 
@@ -87,6 +90,7 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 			loadMuni();
 			
 			RPG.register();
+			Taser.register();
 			Throwable.register();
 			
 			WeaponItem.load();
@@ -119,6 +123,11 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 		
 		getCommand("weaponAdmin").setTabCompleter(new CommandAdmin());
 		getCommand("weaponAdmin").setExecutor(new CommandAdmin());
+		
+		getCommand("getList").setExecutor(new CommandGetList());
+		
+		getCommand("sprengung").setTabCompleter(new CommandExplode());
+		getCommand("sprengung").setExecutor(new CommandExplode());
 		
 		if (!setupEconomy()) {
 			getLogger().log(Level.WARNING, "Can't find Economy Plugin");

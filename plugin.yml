@@ -18,3 +18,8 @@ commands:
       description: Deale eine Waffe mit einem Spieler.
    weaponAdmin:
       description: Admin command for WeaponSystem.
+   getlist:
+      description: Zeigt dir alle vorhandenen Waffen.
+   sprengung:
+      description: Lass dich Explodieren.
+      aliases: sp

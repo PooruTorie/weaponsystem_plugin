@@ -202,6 +202,30 @@ public class Crate implements Listener {
 		}
 	}
 	
+	public void removeWeaopon(Player p, Weapon weapon) {
+		if (weapon != null) {
+			if (playerHasWeapon(p, weapon)) {
+				int i = 0;
+				for (ItemStack item : p.getInventory()) {
+					if (item != null) {
+						if (item.hasItemMeta()) {
+							if (item.getItemMeta().hasLocalizedName()) {
+								if (item.getItemMeta().getLocalizedName().contains(weapon.getName())) {
+									if (item.getItemMeta().getLocalizedName().contains(getName())) {
+										int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+										WeaponItem.items.get(id).remove();
+										p.getInventory().setItem(i, new ItemStack(Material.AIR));
+									}
+								}
+							}
+						}
+					}
+					i++;
+				}
+			}
+		}
+	}
+	
 	public static HashMap<UUID, Inventory> invs = new HashMap<>();
 	
 	@EventHandler

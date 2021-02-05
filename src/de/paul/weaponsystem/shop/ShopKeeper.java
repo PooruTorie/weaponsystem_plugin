@@ -25,6 +25,7 @@ import org.json.simple.JSONObject;
 import de.dyroxplays.revieve.objects.DeathPlayer;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.config.Config;
+import de.paul.weaponsystem.storages.PlayerWeapons;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.muni.Muni;
 
@@ -114,7 +115,15 @@ public class ShopKeeper {
 			int i = 11;
 			if (type == ShopType.weapon) {
 				for (Weapon w : Weapon.getAll()) {
-					inv.setItem(i, w.toItemStack(true));
+					ItemStack item = w.toItemStack(true);
+					if (PlayerWeapons.getForPlayer(p).hasWeapon(w)) {
+						ItemMeta m = item.getItemMeta();
+						List<String> l = m.getLore();
+						l.add(WeaponSystem.loadConfig("config", "messages").getChatColorString("hasweapon"));
+						m.setLore(l);
+						item.setItemMeta(m);
+					}
+					inv.setItem(i, item);
 					i++;
 					if (i == 16) {
 						i+=2;

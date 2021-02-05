@@ -23,6 +23,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Villager;
+import org.bukkit.entity.Villager.Profession;
 import org.bukkit.entity.Witch;
 import org.bukkit.entity.Entity.Spigot;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -52,6 +54,7 @@ import de.paul.weaponsystem.config.CrateConfig.CratePos.ItemType;
 import de.paul.weaponsystem.crates.Crate;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.WeaponItem;
+import net.minecraft.server.v1_12_R1.Village;
 
 public class Storage extends Crate {
 	
@@ -69,10 +72,12 @@ public class Storage extends Crate {
 			c.setLocation("loc", loc);
 			c.set("type", s.getType());
 			ws.add(c.toJSON());
-			
-			s.getEntity().remove();
 		}
 		weapons.set("storages", ws);
+		
+		for (Entity e : storagesEnitys.keySet()) {
+			e.remove();
+		}
 	}
 	
 	public static void load() {
@@ -96,7 +101,7 @@ public class Storage extends Crate {
 	
 	private StorageType type;
 
-	private Witch v;
+	private Villager v;
 	
 	public Storage(StorageType type) {
 		super("storage"+type.name);
@@ -132,8 +137,10 @@ public class Storage extends Crate {
 	
 	@Override
 	public Storage place(Location loc) {
-		v = (Witch) loc.getWorld().spawnEntity(loc, EntityType.WITCH);
+		v = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
+		v.setAdult();
 		v.setAI(false);
+		v.setProfession(Profession.PRIEST);
 		v.setCollidable(false);
 		v.setCanPickupItems(false);
 		v.setSilent(true);
