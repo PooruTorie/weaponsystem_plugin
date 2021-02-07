@@ -28,6 +28,7 @@ public class Weapon {
 	private int gunAcuracy;
 	private int gunMuniId;
 	private int gunReloadTime;
+	private boolean inShop;
 	private boolean gunZoom;
 	private String gunShotSound;
 	private int costs;
@@ -51,9 +52,10 @@ public class Weapon {
 		gunShotSound = config.getGunShotSound();
 		gunZoom = config.isGunZoom();
 		costs = config.getCosts();
+		inShop = config.isInShop();
 	}
 	
-	public Weapon(WeaponType type, String name, String itemName, int itemID, int gunMuniCapacity, int gunMuniId, int gunReloadTime, int costs, Class<? extends WeaponItem> weaponClass) {
+	public Weapon(WeaponType type, String name, String itemName, int itemID, int gunMuniCapacity, int gunMuniId, int gunReloadTime, int costs, boolean inShop, Class<? extends WeaponItem> weaponClass) {
 		this.type = type;
 		this.name = name;
 		this.itemName = itemName;
@@ -69,6 +71,7 @@ public class Weapon {
 		this.gunShotSound = "";
 		this.weaponClass = weaponClass;
 		this.costs = costs;
+		this.inShop = inShop;
 	}
 	
 	public WeaponType getType() {
@@ -85,6 +88,10 @@ public class Weapon {
 	
 	public int getItemID() {
 		return itemID;
+	}
+	
+	public boolean isInShop() {
+		return inShop;
 	}
 	
 	public int getItemDamage() {

@@ -1,5 +1,6 @@
 package de.paul.weaponsystem.weapon;
 
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -8,6 +9,7 @@ import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.CauldronLevelChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerChangedMainHandEvent;
@@ -21,6 +23,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import de.dyroxplays.revieve.objects.DeathPlayer;
+import de.paul.weaponsystem.BlockCrack;
 import de.paul.weaponsystem.armor.BulletVest;
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
 
@@ -39,19 +42,23 @@ public class WeaponEventListener implements Listener {
 							Player hit = (Player) e.getHitEntity();
 							if (!BulletVest.isOn.contains(hit.getUniqueId())) {
 								hit.damage(damage);
+								hit.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, Material.REDSTONE_BLOCK.getNewData((byte) 0x00));
 							} else {
 								boolean is = BulletVest.isLastBlocked.get(hit.getUniqueId());
 								if (is == true) {
 									hit.damage(damage);
+									hit.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, Material.REDSTONE_BLOCK.getNewData((byte) 0x00));
 								}
 								BulletVest.isLastBlocked.put(hit.getUniqueId(), !is);
 							}
 						} else {
 							((LivingEntity) e.getHitEntity()).damage(damage);
+							p.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, Material.REDSTONE_BLOCK.getNewData((byte) 0x00));
 						}
 					}
 					if (e.getHitBlock() != null) {
-						e.getHitBlock().getWorld().spawnParticle(Particle.SMOKE_NORMAL, e.getHitBlock().getLocation(), 30, 0, 0, 0, 0.01);
+						BlockCrack.crack(e.getHitBlock());
+						p.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, BlockCrack.getParticle(e.getHitBlock()));
 					}
 				}
 			}

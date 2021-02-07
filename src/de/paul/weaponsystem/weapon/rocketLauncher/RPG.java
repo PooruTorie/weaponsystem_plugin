@@ -96,7 +96,7 @@ public class RPG extends WeaponItem {
 	}
 	
 	public static void register() {
-		Weapon.register(new Weapon(WeaponType.gun, "rpg", "§8RPG", 286, 1, 3, 4, 75000, RPG.class));
+		Weapon.register(new Weapon(WeaponType.gun, "rpg", "§8RPG", 286, 1, 3, 4, 75000, true, RPG.class));
 		Bukkit.getPluginManager().registerEvents(new Rocket(), WeaponSystem.plugin);
 	}
 }

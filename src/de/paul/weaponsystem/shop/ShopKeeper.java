@@ -115,7 +115,7 @@ public class ShopKeeper {
 			int i = 11;
 			if (type == ShopType.weapon) {
 				for (Weapon w : Weapon.getAll()) {
-					if (w.getCosts() != 0 && !w.getName().equals("bulletvest")) {
+					if (w.isInShop()) {
 						ItemStack item = w.toItemStack(true);
 						if (PlayerWeapons.getForPlayer(p).hasWeapon(w)) {
 							ItemMeta m = item.getItemMeta();

@@ -60,7 +60,7 @@ public class BulletVest extends WeaponItem {
 	}
 	
 	public static void register() {
-		Weapon.register(new Weapon(WeaponType.gun, "bulletvest", "§8Schutzweste", 304, 0, 0, 0, 1500, BulletVest.class));
+		Weapon.register(new Weapon(WeaponType.gun, "bulletvest", "§8Schutzweste", 304, 0, 0, 0, 1500, false, BulletVest.class));
 		
 		Bukkit.getPluginManager().registerEvents(new BulletVestListener(), WeaponSystem.plugin);
 	}

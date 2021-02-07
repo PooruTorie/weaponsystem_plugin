@@ -27,6 +27,7 @@ public class WeaponConfig extends Config {
 	private int gunMuniCapacity;
 	private int gunMuniId;
 	private int gunReloadTime;
+	private boolean inShop = true;
 	private boolean gunZoom = false;
 	private String gunShotSound = "";
 	private int costs;
@@ -45,6 +46,9 @@ public class WeaponConfig extends Config {
 		itemDamage = ((Long) get("item_damage")).intValue();
 		cooldown = (double) get("cooldown");
 		costs = ((Long) get("costs")).intValue();
+		if (contains("inshoop")) {
+			inShop = (boolean) get("inshoop");
+		}
 		switch (type) {
 		case gun:
 			gunDamage = ((Long) get("damage_per_bullet")).intValue();
@@ -72,6 +76,10 @@ public class WeaponConfig extends Config {
 	
 	public WeaponType getType() {
 		return type;
+	}
+	
+	public boolean isInShop() {
+		return inShop;
 	}
 	
 	public String getName() {

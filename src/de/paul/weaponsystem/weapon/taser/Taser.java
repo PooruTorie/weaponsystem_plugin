@@ -81,6 +81,6 @@ public class Taser extends WeaponItem {
 	}
 	
 	public static void register() {
-		Weapon.register(new Weapon(WeaponType.gun, "taser", "§3Taser", 369, 0, 0, 0, 0, Taser.class));
+		Weapon.register(new Weapon(WeaponType.gun, "taser", "§3Taser", 369, 0, 0, 0, 0, false, Taser.class));
 	}
 }
