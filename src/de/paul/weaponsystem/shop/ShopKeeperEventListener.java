@@ -19,6 +19,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import de.dyroxplays.revieve.RevieveAPI;
+import de.dyroxplays.revieve.lizenz.Lizenz;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.storages.PlayerWeapons;
 import de.paul.weaponsystem.storages.Storage;
@@ -73,7 +74,7 @@ public class ShopKeeperEventListener implements Listener {
 								Weapon w = Weapon.getWeaponByName(item.getItemMeta().getLocalizedName().split("[_]")[0]);
 								if (w != null) {
 									if (!PlayerWeapons.getForPlayer(p).hasWeapon(w)) {
-										if (RevieveAPI.hasWeaponLicense(p)) {
+										if (w.hasLicense(Lizenz.getLicenses(p))) {
 											if (balance >= costs) {
 												if (!w.getName().equals("bulletvest")) {
 													PlayerWeapons.getForPlayer(p).buy(w);

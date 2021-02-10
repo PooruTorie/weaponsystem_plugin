@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import de.dyroxplays.revieve.lizenz.Lizenz.LizenzType;
 import de.paul.weaponsystem.config.WeaponConfig;
 import de.paul.weaponsystem.crates.Crate;
 
@@ -276,5 +277,12 @@ public class Weapon {
 			}
 			i++;
 		}
+	}
+
+	public boolean hasLicense(LizenzType[] licenses) {
+		for (LizenzType lizenzType : licenses) {
+			System.out.println(lizenzType.name());
+		}
+		return false;
 	}
 }
