@@ -155,21 +155,14 @@ public class WeaponItem extends ItemStack {
 							
 							@Override
 							public void run() {
-								String text = "";
-								for (int j = 0; j < 20; j++) {
-									if (j > i) {
-										text += "§7░";
-									} else {
-										text += "§a█";
-									}
-								}
+								String text = "§a"+i+"%";
 								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(text));
 								i++;
-								if (i == 20) {
+								if (i == 101) {
 									Bukkit.getScheduler().cancelTask(task);
 								}
 							}
-						}, 0, (weapon.getGunReloadTime()*20)/20).getTaskId();
+						}, 0, (weapon.getGunReloadTime()*20)/100).getTaskId();
 						Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
 							
 							@Override
