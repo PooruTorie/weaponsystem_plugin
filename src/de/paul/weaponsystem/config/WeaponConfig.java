@@ -48,6 +48,7 @@ public class WeaponConfig extends Config {
 		itemDamage = ((Long) get("item_damage")).intValue();
 		cooldown = (double) get("cooldown");
 		costs = ((Long) get("costs")).intValue();
+		System.out.println(name);
 		lizenz = LizenzType.values()[((Long) get("lizenz")).intValue()];
 		if (contains("inshoop")) {
 			inShop = (boolean) get("inshoop");
