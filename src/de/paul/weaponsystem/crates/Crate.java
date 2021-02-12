@@ -37,8 +37,10 @@ import de.paul.weaponsystem.weapon.muni.Muni;
 
 public class Crate implements Listener {
 
-	private static ItemStack none = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
-	private static HashMap<Location, Crate> placedCrates = new HashMap<>();
+	public static ItemStack none = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
+	public static HashMap<Location, Crate> placedCrates = new HashMap<>();
+	public static HashMap<UUID, Inventory> invs = new HashMap<>();
+	public static HashMap<UUID, Crate> open = new HashMap<>();
 	
 	public static void save() {
 		Config weapons = WeaponSystem.loadConfig("data");
@@ -68,6 +70,8 @@ public class Crate implements Listener {
 		ItemMeta m = none.getItemMeta();
 		m.setDisplayName("§4");
 		none.setItemMeta(m);
+		
+		Bukkit.getPluginManager().registerEvents(new CrateEventListener(), WeaponSystem.plugin);
 	}
 	
 	private String name;
@@ -86,8 +90,6 @@ public class Crate implements Listener {
 		permission = config.getPermission();
 		blockMat = config.getBlockMat();
 		items = config.getItems();
-		
-		Bukkit.getPluginManager().registerEvents(this, WeaponSystem.plugin);
 	}
 	
 	public String getName() {
@@ -150,6 +152,7 @@ public class Crate implements Listener {
 				WeaponSystem.playSound(p.getLocation(), "minecraft:block.chest.open", 6, 1);
 				p.openInventory(inv);
 				invs.put(p.getUniqueId(), inv);
+				open.put(p.getUniqueId(), this);
 			} else {
 				p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
 			}
@@ -226,79 +229,6 @@ public class Crate implements Listener {
 		}
 	}
 	
-	public static HashMap<UUID, Inventory> invs = new HashMap<>();
-	
-	@EventHandler
-	private void onClick(InventoryClickEvent e) {
-		Player p = (Player) e.getWhoClicked();
-		if (e.getClickedInventory() != null) {
-			if (invs.containsKey(p.getUniqueId())) {
-				if (invs.get(p.getUniqueId()).equals(e.getClickedInventory())) {
-					if (e.getCurrentItem() != null) {
-						if (e.getCurrentItem().equals(none)) {
-							e.setCancelled(true);
-						} else {
-							e.setCancelled(true);
-							ItemStack item = e.getCurrentItem();
-							if (item != null) {
-								Weapon w = Weapon.getWeaponByName(item.getItemMeta().getLocalizedName().split("[_]")[0]);
-								if (w != null) {
-									if (playerHasWeapon(p, w)) {
-										return;
-									} else {
-										w.give(p, this);
-										return;
-									}
-								}
-								
-								p.getInventory().addItem(item);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	@EventHandler
-	private void onClose(InventoryCloseEvent e) {
-		Player p = (Player) e.getPlayer();
-		if (invs.containsKey(p.getUniqueId())) {
-			invs.remove(p.getUniqueId());
-		}
-	}
-	
-	@EventHandler
-	private void onInteract(PlayerInteractEvent e) {
-		Player p = e.getPlayer();
-		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			if (e.getHand() == EquipmentSlot.HAND) {
-				if (e.getClickedBlock() != null) {
-					Block b = e.getClickedBlock();
-					if (placedCrates.containsKey(b.getLocation())) {
-						placedCrates.get(b.getLocation()).openInv(p);
-						e.setCancelled(true);
-					}
-				}
-			}
-		}
-	}
-	
-	@EventHandler
-	private void onBreak(BlockBreakEvent e) {
-		Player p = e.getPlayer();
-		Block b = e.getBlock();
-		if (placedCrates.containsKey(b.getLocation())) {
-			if (p.hasPermission(permission)) {
-				b.setType(Material.AIR);
-				placedCrates.remove(b.getLocation());
-			} else {
-				p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
-				e.setCancelled(true);
-			}
-		}
-	}
-
 	public static HashMap<Integer, Crate> crates = new HashMap<>();
 	private static int index = 0;
 
