@@ -36,7 +36,7 @@ public class Deal {
 					PlayerWeapons.getForPlayer(other).buy(weapon.getWeapon());
 					
 					p.getInventory().setItem(slot, null);
-					weapon.remove();
+					weapon.remove(p);
 					weapon.getWeapon().give(other, StorageType.weapon.getStorage());
 					
 					p.sendMessage(WeaponSystem.prefix+"§aDu hast deine "+weapon.getWeapon().getItemName()+"§a für §e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(costs)+"$ verkauft.");

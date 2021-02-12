@@ -1,13 +1,13 @@
 {
-	"name": "police",
-	"inv_name": "&1Polizei",
-	"permission": "ec.police",
+	"name": "terror",
+	"inv_name": "&cTerrorist",
+	"permission": "ec.terror",
 	"blockid": 170,
 	"items": [
 		{
 			"type": "weapon",
 			"slot": 11,
-			"name": "gs36#1"
+			"name": "gs36#5"
 		},
 		{
 			"type": "muni",
@@ -17,17 +17,17 @@
 		{
 			"type": "weapon",
 			"slot": 15,
-			"name": "bulletvest"
+			"name": "rpg"
 		},
 		{
 			"type": "muni",
 			"slot": 13,
-			"name": "flashbang"
+			"name": "grenade"
 		},
 		{
-			"type": "weapon",
+			"type": "muni",
 			"slot": 14,
-			"name": "taser"
+			"name": "airstrike"
 		}
 	]
 }

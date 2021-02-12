@@ -20,8 +20,6 @@ public class BulletVest extends WeaponItem {
 	public static HashMap<UUID, Boolean> isLastBlocked = new HashMap<>();
 	public static ArrayList<UUID> isOn = new ArrayList<>();
 	
-	private Player p;
-	
 	public BulletVest(Weapon weapon) {
 		super(weapon);
 	}
@@ -44,7 +42,6 @@ public class BulletVest extends WeaponItem {
 	
 	@Override
 	public void gunShot(Player p) {
-		this.p = p;
 		p.setItemInHand(null);
 		p.getEquipment().setLeggings(this);
 		
@@ -53,8 +50,8 @@ public class BulletVest extends WeaponItem {
 	}
 	
 	@Override
-	public void remove() {
-		super.remove();
+	public void remove(Player p) {
+		super.remove(p);
 		
 		isOn.remove(p.getUniqueId());
 		isLastBlocked.remove(p.getUniqueId());

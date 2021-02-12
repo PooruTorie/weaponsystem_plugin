@@ -41,8 +41,7 @@ public class Taser extends WeaponItem {
 	}
 	
 	@Override
-	public void gunReleod(ItemStack item, Player p) {
-	}
+	public void gunReleod(ItemStack item, Player p) {}
 	
 	@Override
 	public void gunShot(Player p) {

@@ -190,7 +190,7 @@ public class Crate implements Listener {
 										if (item.getItemMeta().getLocalizedName().contains(weapon.getName())) {
 											if (item.getItemMeta().getLocalizedName().contains(getName())) {
 												int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-												WeaponItem.items.get(id).remove();
+												WeaponItem.items.get(id).remove(p);
 												p.getInventory().setItem(i, new ItemStack(Material.AIR));
 											}
 										}
@@ -216,7 +216,7 @@ public class Crate implements Listener {
 								if (item.getItemMeta().getLocalizedName().contains(weapon.getName())) {
 									if (item.getItemMeta().getLocalizedName().contains(getName())) {
 										int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-										WeaponItem.items.get(id).remove();
+										WeaponItem.items.get(id).remove(p);
 										p.getInventory().setItem(i, new ItemStack(Material.AIR));
 									}
 								}

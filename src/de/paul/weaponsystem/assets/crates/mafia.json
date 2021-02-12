@@ -1,0 +1,23 @@
+{
+	"name": "mafia",
+	"inv_name": "&2Mafia",
+	"permission": "ec.mafia",
+	"blockid": 170,
+	"items": [
+		{
+			"type": "weapon",
+			"slot": 11,
+			"name": "gs36#2"
+		},
+		{
+			"type": "muni",
+			"slot": 12,
+			"name": "gs36"
+		},
+		{
+			"type": "weapon",
+			"slot": 14,
+			"name": "taser"
+		}
+	]
+}

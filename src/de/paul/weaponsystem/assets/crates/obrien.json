@@ -1,0 +1,23 @@
+{
+	"name": "obrien",
+	"inv_name": "&6Obrien",
+	"permission": "ec.obrien",
+	"blockid": 170,
+	"items": [
+		{
+			"type": "weapon",
+			"slot": 11,
+			"name": "gs36#3"
+		},
+		{
+			"type": "muni",
+			"slot": 12,
+			"name": "gs36"
+		},
+		{
+			"type": "weapon",
+			"slot": 14,
+			"name": "taser"
+		}
+	]
+}

@@ -184,7 +184,7 @@ public class WeaponItem extends ItemStack {
 		}, 1);
 	}
 	
-	public void remove() {
+	public void remove(Player p) {
 		setType(Material.AIR);
 		items.remove(id);
 	}
