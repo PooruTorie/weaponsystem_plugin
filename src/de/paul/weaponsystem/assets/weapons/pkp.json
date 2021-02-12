@@ -11,5 +11,6 @@
 	"acuracy": 55,
 	"muni": 75,
 	"muni_id": 8,
-	"reload_time": 4
+	"reload_time": 4,
+	"costs": 45000
 }

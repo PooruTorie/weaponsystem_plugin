@@ -119,6 +119,7 @@ public class WeaponItem extends ItemStack {
 		this(weapon, id, magazin);
 		ItemMeta m = getItemMeta();
 		List<String> l = new ArrayList<>();
+		l.add("§3"+weapon.getLizenz().name().replace('_', ' '));
 		l.add("§ePreis:");
 		l.add("§8➥ §e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(costs)+"$");
 		m.setLocalizedName(weapon.getName()+"_"+id+"_"+costs);
