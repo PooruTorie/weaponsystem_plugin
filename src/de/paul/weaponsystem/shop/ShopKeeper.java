@@ -88,7 +88,7 @@ public class ShopKeeper {
 		}
 		v.setCanPickupItems(false);
 		v.setSilent(true);
-		v.setCustomName(type.getName());
+		v.setCustomName("§8• §e"+type.getName());
 		
 		shopKepperEnitys.put(v, this);
 		shopKepper.put(loc, this);
@@ -177,7 +177,7 @@ public class ShopKeeper {
 	}
 	
 	public enum ShopType {
-		weapon("§6Waffen Shop"), muni("§6Munitions Shop"), vest("§6Schutzweste");
+		weapon("§eWaffen Shop"), muni("§eMunitions Shop"), vest("§eSchutzweste");
 
 		private String name;
 

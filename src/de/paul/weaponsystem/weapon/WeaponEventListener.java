@@ -24,7 +24,10 @@ import org.bukkit.inventory.ItemStack;
 
 import de.dyroxplays.revieve.objects.DeathPlayer;
 import de.paul.weaponsystem.BlockCrack;
+import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.armor.BulletVest;
+import de.paul.weaponsystem.storages.PlayerWeapons;
+import de.paul.weaponsystem.storages.Storage.StorageType;
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
 
 public class WeaponEventListener implements Listener {
@@ -209,9 +212,14 @@ public class WeaponEventListener implements Listener {
 							if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
 								e.setDamage(0);
 							} else {
-								if (damager.getCooldown(item.getType()) == 0) {
-									e.setDamage(itemWeapon.getWeapon().getMeleeDamage());
-									damager.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20));
+								if (!PlayerWeapons.getForPlayer(damager).isBlocked()) {
+									if (damager.getCooldown(item.getType()) == 0) {
+										e.setDamage(itemWeapon.getWeapon().getMeleeDamage());
+										damager.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20));
+									}
+								} else {
+									damager.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
+									e.setCancelled(true);
 								}
 							}
 						}

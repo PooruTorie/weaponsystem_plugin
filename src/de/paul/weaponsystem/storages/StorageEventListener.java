@@ -15,6 +15,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.storages.Storage.StorageType;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.muni.Muni;
@@ -82,15 +83,13 @@ public class StorageEventListener implements Listener {
 									Weapon w = Weapon.getWeaponByName(item.getItemMeta().getLocalizedName().split("[_]")[0]);
 									if (w != null) {
 										if (!StorageType.weapon.getStorage().playerHasWeapon(p, w)) {
-											w.give(p, StorageType.weapon.getStorage());
+											if (!PlayerWeapons.getForPlayer(p).isBlocked()) {
+												w.give(p, StorageType.weapon.getStorage());
+											} else {
+												p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
+											}
 										}
 									}
-									
-									Inventory i = e.getClickedInventory();
-									Inventory n = Bukkit.createInventory(p, i.getSize(), i.getName().split("[|]")[0]);
-									n.setContents(i.getContents());
-									p.openInventory(n);
-									Storage.invs.put(p.getUniqueId(), n);
 								}
 							}
 							e.setCancelled(true);

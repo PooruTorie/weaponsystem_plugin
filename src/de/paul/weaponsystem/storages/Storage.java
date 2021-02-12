@@ -144,7 +144,7 @@ public class Storage extends Crate {
 		v.setCollidable(false);
 		v.setCanPickupItems(false);
 		v.setSilent(true);
-		v.setCustomName(type.getName());
+		v.setCustomName("§8• "+type.getName());
 		
 		storagesEnitys.put(v, this);
 		storages.put(loc, this);
@@ -221,7 +221,7 @@ public class Storage extends Crate {
 	}
 	
 	public enum StorageType {
-		weapon("§6Waffen Schrank"), muni("§6Munitions Schrank");
+		weapon("§eWaffen Schrank"), muni("§eMunitions Schrank");
 
 		private String name;
 		private Storage storage;
