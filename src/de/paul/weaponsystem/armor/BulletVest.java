@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import de.dyroxplays.revieve.lizenz.Lizenz.LizenzType;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.crates.Crate;
 import de.paul.weaponsystem.weapon.Weapon;
@@ -60,7 +61,7 @@ public class BulletVest extends WeaponItem {
 	}
 	
 	public static void register() {
-		Weapon.register(new Weapon(WeaponType.gun, "bulletvest", "§8Schutzweste", 304, 0, 0, 0, 1500, false, BulletVest.class));
+		Weapon.register(new Weapon(WeaponType.gun, "bulletvest", "§8Schutzweste", 304, 0, 0, 0, 1500, false, LizenzType.Leichter_Waffenschein, BulletVest.class));
 		
 		Bukkit.getPluginManager().registerEvents(new BulletVestListener(), WeaponSystem.plugin);
 	}

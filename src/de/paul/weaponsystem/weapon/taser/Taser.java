@@ -12,6 +12,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import de.dyroxplays.revieve.lizenz.Lizenz.LizenzType;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.crates.Crate;
 import de.paul.weaponsystem.weapon.Weapon;
@@ -81,6 +82,6 @@ public class Taser extends WeaponItem {
 	}
 	
 	public static void register() {
-		Weapon.register(new Weapon(WeaponType.gun, "taser", "§3Taser", 369, 0, 0, 0, 0, false, Taser.class));
+		Weapon.register(new Weapon(WeaponType.gun, "taser", "§3Taser", 369, 0, 0, 0, 0, false, LizenzType.Leichter_Waffenschein, Taser.class));
 	}
 }

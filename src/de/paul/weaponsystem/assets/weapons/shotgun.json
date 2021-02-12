@@ -4,6 +4,7 @@
 	"item_name": "&4Shotgun",
 	"item_id": 2266,
 	"item_damage": 0,
+	"lizenz": 2,
 	"damage_per_bullet": 10,
 	"cooldown": 1.0,
 	"bullets": 8,

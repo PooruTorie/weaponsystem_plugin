@@ -92,7 +92,7 @@ public class ShopKeeperEventListener implements Listener {
 												p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney").replace("%money%", "§e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(costs-balance)+"$"));
 											}
 										} else {
-											p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nolicense"));
+											p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nolicense").replace("%license%", w.getLizenz().name().replace('_', ' ')));
 										}
 									} else {
 										p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("hasweapon"));

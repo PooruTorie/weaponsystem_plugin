@@ -4,6 +4,7 @@
 	"item_name": "&3Ballista",
 	"item_id": 2262,
 	"item_damage": 0,
+	"lizenz": 3,
 	"damage_per_bullet": 20,
 	"cooldown": 1.0,
 	"bullets": 1,

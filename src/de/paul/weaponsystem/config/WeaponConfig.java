@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 
+import de.dyroxplays.revieve.lizenz.Lizenz.LizenzType;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
 
@@ -31,6 +32,7 @@ public class WeaponConfig extends Config {
 	private boolean gunZoom = false;
 	private String gunShotSound = "";
 	private int costs;
+	private LizenzType lizenz;
 
 	public WeaponConfig(File f) throws IOException, ParseException {
 		super(f);
@@ -46,6 +48,7 @@ public class WeaponConfig extends Config {
 		itemDamage = ((Long) get("item_damage")).intValue();
 		cooldown = (double) get("cooldown");
 		costs = ((Long) get("costs")).intValue();
+		lizenz = LizenzType.values()[((Long) get("lizenz")).intValue()];
 		if (contains("inshoop")) {
 			inShop = (boolean) get("inshoop");
 		}
@@ -140,5 +143,9 @@ public class WeaponConfig extends Config {
 	
 	public String getGunShotSound() {
 		return gunShotSound;
+	}
+
+	public LizenzType getLizenz() {
+		return lizenz;
 	}
 }

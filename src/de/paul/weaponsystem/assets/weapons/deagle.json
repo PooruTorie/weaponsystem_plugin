@@ -4,6 +4,7 @@
 	"item_name": "&6Deagle",
 	"item_id": 417,
 	"item_damage": 0,
+	"lizenz": 2,
 	"damage_per_bullet": 10,
 	"cooldown": 0.4,
 	"bullets": 1,

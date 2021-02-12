@@ -3,6 +3,7 @@
 	"name": "pkp",
 	"item_name": "&4PKP",
 	"item_id": 2256,
+	"lizenz": 3,
 	"damage_per_bullet": 8,
 	"cooldown": 0.001,
 	"bullets": 1,

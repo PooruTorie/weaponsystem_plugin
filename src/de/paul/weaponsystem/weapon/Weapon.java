@@ -33,6 +33,7 @@ public class Weapon {
 	private boolean gunZoom;
 	private String gunShotSound;
 	private int costs;
+	private LizenzType lizenz;
 	
 	private Class<? extends WeaponItem> weaponClass = null;
 	
@@ -54,9 +55,10 @@ public class Weapon {
 		gunZoom = config.isGunZoom();
 		costs = config.getCosts();
 		inShop = config.isInShop();
+		lizenz = config.getLizenz();
 	}
 	
-	public Weapon(WeaponType type, String name, String itemName, int itemID, int gunMuniCapacity, int gunMuniId, int gunReloadTime, int costs, boolean inShop, Class<? extends WeaponItem> weaponClass) {
+	public Weapon(WeaponType type, String name, String itemName, int itemID, int gunMuniCapacity, int gunMuniId, int gunReloadTime, int costs, boolean inShop, LizenzType lizenz, Class<? extends WeaponItem> weaponClass) {
 		this.type = type;
 		this.name = name;
 		this.itemName = itemName;
@@ -73,6 +75,7 @@ public class Weapon {
 		this.weaponClass = weaponClass;
 		this.costs = costs;
 		this.inShop = inShop;
+		this.lizenz = lizenz;
 	}
 	
 	public WeaponType getType() {
@@ -278,10 +281,16 @@ public class Weapon {
 			i++;
 		}
 	}
+	
+	public LizenzType getLizenz() {
+		return lizenz;
+	}
 
 	public boolean hasLicense(LizenzType[] licenses) {
 		for (LizenzType lizenzType : licenses) {
-			System.out.println(lizenzType.name());
+			if (lizenzType == lizenz) {
+				return true;
+			}
 		}
 		return false;
 	}

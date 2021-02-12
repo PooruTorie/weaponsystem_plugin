@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.google.common.collect.Lists;
 
+import de.dyroxplays.revieve.lizenz.Lizenz.LizenzType;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.crates.Crate;
 import de.paul.weaponsystem.weapon.Weapon;
@@ -96,7 +97,7 @@ public class RPG extends WeaponItem {
 	}
 	
 	public static void register() {
-		Weapon.register(new Weapon(WeaponType.gun, "rpg", "§8RPG", 286, 1, 3, 4, 75000, true, RPG.class));
+		Weapon.register(new Weapon(WeaponType.gun, "rpg", "§8RPG", 286, 1, 3, 4, 75000, true, LizenzType.Schwerer_Waffenschein, RPG.class));
 		Bukkit.getPluginManager().registerEvents(new Rocket(), WeaponSystem.plugin);
 	}
 }

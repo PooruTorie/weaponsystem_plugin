@@ -4,6 +4,7 @@
 	"item_name": "&6Knife",
 	"item_id": 267,
 	"item_damage": 0,
+	"lizenz": 1,
 	"cooldown": 1.0,
 	"damage": 5,
 	"costs": 1000

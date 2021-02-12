@@ -4,6 +4,7 @@
 	"item_name": "&4AKM",
 	"item_id": 2256,
 	"item_damage": 0,
+	"lizenz": 2,
 	"damage_per_bullet": 8,
 	"cooldown": 0.001,
 	"bullets": 1,
