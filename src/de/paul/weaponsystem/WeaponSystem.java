@@ -35,6 +35,7 @@ import de.paul.weaponsystem.commands.CommandPlaceCrate;
 import de.paul.weaponsystem.commands.CommandPlaceShopNPC;
 import de.paul.weaponsystem.commands.CommandPlaceStorage;
 import de.paul.weaponsystem.commands.admin.CommandAdmin;
+import de.paul.weaponsystem.commands.admin.CommandBlock;
 import de.paul.weaponsystem.config.Config;
 import de.paul.weaponsystem.config.CrateConfig;
 import de.paul.weaponsystem.config.MuniConfig;
@@ -87,7 +88,11 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 				muniFolder.mkdirs();
 				Assets.loadFolder("muni", muniFolder);
 			}
-		
+			
+			loadConfig("config");
+			loadConfig("data");
+			loadConfig("playerdata");
+			
 			loadCrates();
 			loadWeapons();
 			loadMuni();
@@ -133,6 +138,9 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 		getCommand("sprengung").setTabCompleter(new CommandExplode());
 		getCommand("sprengung").setExecutor(new CommandExplode());
 		Bukkit.getPluginManager().registerEvents(new CommandExplode(), plugin);
+		
+		getCommand("waffensperre").setTabCompleter(new CommandBlock());
+		getCommand("waffensperre").setExecutor(new CommandBlock());
 		
 		if (!setupEconomy()) {
 			getLogger().log(Level.WARNING, "Can't find Economy Plugin");

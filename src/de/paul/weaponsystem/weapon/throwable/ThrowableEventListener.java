@@ -8,6 +8,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import de.paul.weaponsystem.WeaponSystem;
+import de.paul.weaponsystem.storages.PlayerWeapons;
+
 public class ThrowableEventListener implements Listener {
 	
 	@EventHandler
@@ -21,7 +24,11 @@ public class ThrowableEventListener implements Listener {
 						if (item.getItemMeta().hasLocalizedName()) {
 							int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
 							if (Throwable.items.containsKey(id)) {
-								Throwable.items.get(id).Throw(p);
+								if (!PlayerWeapons.getForPlayer(p).isBlocked()) {
+									Throwable.items.get(id).Throw(p);
+								} else {
+									p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
+								}
 							}
 						}
 					}

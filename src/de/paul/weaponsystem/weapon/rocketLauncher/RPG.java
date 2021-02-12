@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import de.dyroxplays.revieve.lizenz.Lizenz.LizenzType;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.crates.Crate;
+import de.paul.weaponsystem.storages.PlayerWeapons;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
 import de.paul.weaponsystem.weapon.muni.Muni;
@@ -88,12 +89,16 @@ public class RPG extends WeaponItem {
 	
 	@Override
 	public void gunShot(Player p) {
-		if (magazin > 0) {
-			WeaponSystem.playSound(p.getLocation(), "minecraft:rpg.rpg", 30, 1);
-			Rocket.shot(p);
-			magazin--;
+		if (!PlayerWeapons.getForPlayer(p).isBlocked()) {
+			if (magazin > 0) {
+				WeaponSystem.playSound(p.getLocation(), "minecraft:rpg.rpg", 30, 1);
+				Rocket.shot(p);
+				magazin--;
+			}
+			showAmmo(p);
+		} else {
+			p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
 		}
-		showAmmo(p);
 	}
 	
 	public static void register() {

@@ -62,6 +62,8 @@ public class CommandAdmin implements TabCompleter, CommandExecutor {
 						}
 					}
 				}
+			} else {
+				p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
 			}
 		}
 		return false;

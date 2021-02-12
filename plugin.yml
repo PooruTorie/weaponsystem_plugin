@@ -23,3 +23,5 @@ commands:
    sprengung:
       description: Lass dich Explodieren.
       aliases: sp
+   waffensperre:
+      description: Sperre einen spieler fuer eine bestimmte zeit.

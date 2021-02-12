@@ -91,8 +91,12 @@ public class CommandExplode implements TabCompleter, CommandExecutor, Listener {
 								}
 							}
 						}
+					} else {
+						p.sendMessage("§cUsage: /sp <Ort>");
 					}
 				}
+			} else {
+				p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
 			}
 		}
 		return false;

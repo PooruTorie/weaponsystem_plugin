@@ -15,6 +15,7 @@ import org.bukkit.util.Vector;
 import de.dyroxplays.revieve.lizenz.Lizenz.LizenzType;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.crates.Crate;
+import de.paul.weaponsystem.storages.PlayerWeapons;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.WeaponItem;
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
@@ -45,18 +46,21 @@ public class Taser extends WeaponItem {
 	
 	@Override
 	public void gunShot(Player p) {
-		if (p.getCooldown(getType()) <= 0) {
-			WeaponSystem.playSound(p.getLocation(), "minecraft:taser.taser", 6, 1);
-			p.setCooldown(getType(), 20*10);
-			
-			Player hit = drawLine(p, p.getEyeLocation(), p.getEyeLocation().add(p.getEyeLocation().getDirection().multiply(10)), 0.1);
-			if (hit != null) {
-				hit.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*10, 10, false, false), true);
-				hit.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20*10, 200, false, false), true);
-				hit.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20*10, 10, false, false), true);
+		if (!PlayerWeapons.getForPlayer(p).isBlocked()) {
+			if (p.getCooldown(getType()) <= 0) {
+				WeaponSystem.playSound(p.getLocation(), "minecraft:taser.taser", 6, 1);
+				p.setCooldown(getType(), 20*10);
+				
+				Player hit = drawLine(p, p.getEyeLocation(), p.getEyeLocation().add(p.getEyeLocation().getDirection().multiply(10)), 0.1);
+				if (hit != null) {
+					hit.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*10, 10, false, false), true);
+					hit.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20*10, 200, false, false), true);
+					hit.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20*10, 10, false, false), true);
+				}
 			}
+		} else {
+			p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
 		}
-		
 	}
 	
 	public Player drawLine(Player shooter, Location point1, Location point2, double space) {

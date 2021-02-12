@@ -33,6 +33,7 @@ import org.json.simple.JSONObject;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.config.Config;
 import de.paul.weaponsystem.crates.Crate;
+import de.paul.weaponsystem.storages.PlayerWeapons;
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
 import de.paul.weaponsystem.weapon.muni.Muni;
 import de.paul.weaponsystem.weapon.throwable.Throwable;
@@ -189,26 +190,30 @@ public class WeaponItem extends ItemStack {
 	}
 	
 	public void gunShot(Player p) {
-		if (magazin > 0) {
-			float a = ((weapon.getGunAcuracy()-100f)*-1f)/100f;
-			Random r = new Random();
-			if (weapon.getGunShotSound().isEmpty()) {
-				WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.blast1", 30, 1);
+		if (!PlayerWeapons.getForPlayer(p).isBlocked()) {
+			if (magazin > 0) {
+				float a = ((weapon.getGunAcuracy()-100f)*-1f)/100f;
+				Random r = new Random();
+				if (weapon.getGunShotSound().isEmpty()) {
+					WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.blast1", 30, 1);
+				} else {
+					WeaponSystem.playSound(p.getLocation(), "minecraft:"+weapon.getGunShotSound(), 30, 1);
+				}
+				for (int i = 0; i < weapon.getGunBullets(); i++) {
+					Snowball bullet = p.launchProjectile(Snowball.class);
+					bullet.setVelocity(bullet.getVelocity().multiply(2f).add(new Vector(((r.nextFloat()*2)-1)*a, ((r.nextFloat()*2)-1)*a, ((r.nextFloat()*2)-1)*a)));
+					bullet.setCustomName(weapon.getName()+"_"+weapon.getGunDamage());
+					bullet.setGravity(false);
+				}
+				p.spawnParticle(Particle.SMOKE_NORMAL, p.getEyeLocation().add(p.getEyeLocation().getDirection().multiply(0.45)), 2, 0.01, 0.01, 0.01, 0.03);
+				magazin--;
 			} else {
-				WeaponSystem.playSound(p.getLocation(), "minecraft:"+weapon.getGunShotSound(), 30, 1);
+				WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.empty", 5, 1);
 			}
-			for (int i = 0; i < weapon.getGunBullets(); i++) {
-				Snowball bullet = p.launchProjectile(Snowball.class);
-				bullet.setVelocity(bullet.getVelocity().multiply(2f).add(new Vector(((r.nextFloat()*2)-1)*a, ((r.nextFloat()*2)-1)*a, ((r.nextFloat()*2)-1)*a)));
-				bullet.setCustomName(weapon.getName()+"_"+weapon.getGunDamage());
-				bullet.setGravity(false);
-			}
-			p.spawnParticle(Particle.SMOKE_NORMAL, p.getEyeLocation().add(p.getEyeLocation().getDirection().multiply(0.45)), 2, 0.01, 0.01, 0.01, 0.03);
-			magazin--;
+			showAmmo(p);
 		} else {
-			WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.empty", 5, 1);
+			p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
 		}
-		showAmmo(p);
 	}
 
 	public void showHelp(Player p) {

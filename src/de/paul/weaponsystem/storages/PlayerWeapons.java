@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -16,8 +19,10 @@ import de.paul.weaponsystem.weapon.Weapon;
 public class PlayerWeapons {
 	
 	private static HashMap<UUID, PlayerWeapons> data = new HashMap<>();
+	private static HashMap<UUID, Float> blocks = new HashMap<>();
 	
 	private ArrayList<Weapon> buyedWeapons = new ArrayList<>();
+	private UUID id;
 	private JSONObject d;
 	
 	public static void save() {
@@ -29,6 +34,7 @@ public class PlayerWeapons {
 	}
 	
 	public PlayerWeapons(UUID id) {
+		this.id = id;
 		Config playerData = WeaponSystem.loadConfig("playerdata");
 		d = new JSONObject();
 		if (playerData.contains(id.toString())) {
@@ -84,5 +90,19 @@ public class PlayerWeapons {
 		}
 		d.put("buyed", a);
 	}
+
+	public void block(float f) {
+		blocks.put(id, f);
+		Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
+			
+			@Override
+			public void run() {
+				blocks.remove(id);
+			}
+		}, (long) (f*60*60*20));
+	}
 	
+	public boolean isBlocked() {
+		return blocks.containsKey(id);
+	}
 }
