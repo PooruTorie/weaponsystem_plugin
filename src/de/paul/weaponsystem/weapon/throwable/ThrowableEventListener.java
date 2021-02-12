@@ -27,7 +27,7 @@ public class ThrowableEventListener implements Listener {
 								if (!PlayerWeapons.getForPlayer(p).isBlocked()) {
 									Throwable.items.get(id).Throw(p);
 								} else {
-									p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
+									p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("block"));
 								}
 							}
 						}

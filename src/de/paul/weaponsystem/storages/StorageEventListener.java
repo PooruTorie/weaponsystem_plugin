@@ -86,7 +86,7 @@ public class StorageEventListener implements Listener {
 											if (!PlayerWeapons.getForPlayer(p).isBlocked()) {
 												w.give(p, StorageType.weapon.getStorage());
 											} else {
-												p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
+												p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("block"));
 											}
 										}
 									}

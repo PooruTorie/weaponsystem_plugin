@@ -212,7 +212,7 @@ public class WeaponItem extends ItemStack {
 			}
 			showAmmo(p);
 		} else {
-			p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
+			p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("block"));
 		}
 	}
 

@@ -218,7 +218,7 @@ public class WeaponEventListener implements Listener {
 										damager.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20));
 									}
 								} else {
-									damager.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
+									damager.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("block"));
 									e.setCancelled(true);
 								}
 							}
