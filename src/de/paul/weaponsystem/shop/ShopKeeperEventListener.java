@@ -83,6 +83,7 @@ public class ShopKeeperEventListener implements Listener {
 												}
 												
 												WeaponSystem.economy.depositPlayer(p, costs*-1);
+												
 												Inventory i = e.getClickedInventory();
 												Inventory n = Bukkit.createInventory(p, i.getSize(), i.getName().split("[|]")[0]+"| §e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(WeaponSystem.economy.getBalance(p))+"$");
 												n.setContents(i.getContents());

@@ -1,0 +1,17 @@
+{
+	"type": "gun",
+	"name": "gs36_1",
+	"item_name": "&4GS36",
+	"item_id": 2260,
+	"item_damage": 0,
+	"lizenz": 2,
+	"damage_per_bullet": 8,
+	"cooldown": 0.001,
+	"bullets": 1,
+	"acuracy": 88,
+	"muni": 30,
+	"muni_id": 361,
+	"reload_time": 4,
+	"costs": 0,
+	"inshoop": false
+}
