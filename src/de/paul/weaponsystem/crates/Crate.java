@@ -8,7 +8,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
+import org.bukkit.entity.Villager.Profession;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -30,6 +33,7 @@ import de.paul.weaponsystem.config.Config;
 import de.paul.weaponsystem.config.CrateConfig;
 import de.paul.weaponsystem.config.CrateConfig.CratePos;
 import de.paul.weaponsystem.config.CrateConfig.CratePos.ItemType;
+import de.paul.weaponsystem.shop.ShopKeeper.ShopType;
 import de.paul.weaponsystem.storages.Storage;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.WeaponItem;
@@ -39,6 +43,7 @@ public class Crate implements Listener {
 
 	public static ItemStack none = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
 	public static HashMap<Location, Crate> placedCrates = new HashMap<>();
+	public static HashMap<Villager, Crate> crateEnitys = new HashMap<>();
 	public static HashMap<UUID, Inventory> invs = new HashMap<>();
 	public static HashMap<UUID, Crate> open = new HashMap<>();
 	
@@ -62,7 +67,7 @@ public class Crate implements Listener {
 			Config c = new Config((JSONObject) o);
 			Location loc = c.getLocation("loc");
 			String name = (String) c.get("crateName");
-			placedCrates.put(loc, Crate.getCrateByName(name));
+			Crate.getCrateByName(name).place(loc);
 		}
 		ws.clear();
 		weapons.set("crates", ws);
@@ -78,6 +83,7 @@ public class Crate implements Listener {
 	private String invName;
 	private String permission;
 	private int blockMat;
+	private Villager v;
 	private ArrayList<CratePos> items;
 	
 	public Crate(String name) {
@@ -112,11 +118,22 @@ public class Crate implements Listener {
 		return items;
 	}
 	
+	public Villager getV() {
+		return v;
+	}
+	
 	public Object place(Location loc) {
-		loc = loc.getBlock().getLocation();
+		v = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
+		v.setAdult();
+		v.setAI(false);
+		v.setAgeLock(true);
+		v.setCollidable(false);
+		v.setProfession(Profession.BUTCHER);
+		v.setCanPickupItems(false);
+		v.setSilent(true);
+		v.setCustomName("§8• "+getInvName());
 		
-		loc.getBlock().setTypeId(blockMat);
-		
+		crateEnitys.put(v, this);
 		placedCrates.put(loc, this);
 		return this;
 	}

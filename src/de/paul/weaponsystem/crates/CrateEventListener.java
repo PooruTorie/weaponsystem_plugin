@@ -2,18 +2,23 @@ package de.paul.weaponsystem.crates;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import de.paul.weaponsystem.WeaponSystem;
+import de.paul.weaponsystem.shop.ShopKeeper;
 import de.paul.weaponsystem.weapon.Weapon;
 
 public class CrateEventListener implements Listener {
@@ -59,35 +64,26 @@ public class CrateEventListener implements Listener {
 	}
 	
 	@EventHandler
-	private void onInteract(PlayerInteractEvent e) {
+	private void onClick(PlayerInteractEntityEvent e) {
 		Player p = e.getPlayer();
-		if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			if (e.getHand() == EquipmentSlot.HAND) {
-				if (e.getClickedBlock() != null) {
-					Block b = e.getClickedBlock();
-					if (Crate.placedCrates.containsKey(b.getLocation())) {
-						Crate.placedCrates.get(b.getLocation()).openInv(p);
-						e.setCancelled(true);
-					}
+		Entity ent = e.getRightClicked();
+		if (ent != null) {
+			if (Crate.crateEnitys.containsKey(ent)) {
+				if (e.getHand() == EquipmentSlot.HAND) {
+					Crate.crateEnitys.get(ent).openInv(p);
+					e.setCancelled(true);
 				}
 			}
 		}
 	}
 	
 	@EventHandler
-	private void onBreak(BlockBreakEvent e) {
-		Player p = e.getPlayer();
-		Block b = e.getBlock();
-		if (Crate.placedCrates.containsKey(b.getLocation())) {
-			Crate c = Crate.placedCrates.get(b.getLocation());
-			if (p.hasPermission(c.getPermission())) {
-				b.setType(Material.AIR);
-				Crate.placedCrates.remove(b.getLocation());
-			} else {
-				p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
+	private void onDamage(EntityDamageEvent e) {
+		Entity ent = e.getEntity();
+		if (Crate.crateEnitys.containsKey(ent)) {
+			if (e.getCause() != DamageCause.VOID) {
 				e.setCancelled(true);
 			}
 		}
 	}
-	
 }
