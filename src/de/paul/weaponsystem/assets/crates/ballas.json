@@ -2,7 +2,7 @@
 	"name": "ballas",
 	"inv_name": "&bBallas",
 	"permission": "ec.ballas",
-	"blockid": 170,
+	"size": 27,
 	"items": [
 		{
 			"type": "weapon",

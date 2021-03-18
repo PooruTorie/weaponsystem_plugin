@@ -2,7 +2,7 @@
 	"name": "mafia",
 	"inv_name": "&2Mafia",
 	"permission": "ec.mafia",
-	"blockid": 170,
+	"size": 27,
 	"items": [
 		{
 			"type": "weapon",

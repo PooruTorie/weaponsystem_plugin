@@ -2,7 +2,7 @@
 	"name": "obrien",
 	"inv_name": "&6Obrien",
 	"permission": "ec.obrien",
-	"blockid": 170,
+	"size": 27,
 	"items": [
 		{
 			"type": "weapon",

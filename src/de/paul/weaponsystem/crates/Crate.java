@@ -82,7 +82,7 @@ public class Crate implements Listener {
 	private String name;
 	private String invName;
 	private String permission;
-	private int blockMat;
+	private int size;
 	private Villager v;
 	private ArrayList<CratePos> items;
 	
@@ -94,7 +94,7 @@ public class Crate implements Listener {
 		name = config.getName();
 		invName = config.getInvName();
 		permission = config.getPermission();
-		blockMat = config.getBlockMat();
+		size = config.getInventorySize();
 		items = config.getItems();
 	}
 	
@@ -110,8 +110,8 @@ public class Crate implements Listener {
 		return permission;
 	}
 	
-	public int getBlockMat() {
-		return blockMat;
+	public int getInventorySize() {
+		return size;
 	}
 	
 	public ArrayList<CratePos> getItems() {
@@ -141,7 +141,8 @@ public class Crate implements Listener {
 	public void openInv(Player p) {
 		if (!DeathPlayer.isDead(p)) {
 			if (p.hasPermission(permission)) {
-				Inventory inv = Bukkit.createInventory(p, 9*3, invName);
+				System.out.println(getInventorySize());
+				Inventory inv = Bukkit.createInventory(p, getInventorySize(), invName);
 				
 				for (int i = 0; i < inv.getSize(); i++) {
 					inv.setItem(i, none);

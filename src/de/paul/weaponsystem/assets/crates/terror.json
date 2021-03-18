@@ -2,7 +2,7 @@
 	"name": "terror",
 	"inv_name": "&cTerrorist",
 	"permission": "ec.terror",
-	"blockid": 170,
+	"size": 27,
 	"items": [
 		{
 			"type": "weapon",

@@ -17,7 +17,7 @@ public class CrateConfig extends Config {
 	private String name;
 	private String permission;
 	private String invName;
-	private int blockMat;
+	private int size;
 	private ArrayList<CratePos> items = new ArrayList<>();
 
 	public CrateConfig(File f) throws IOException, ParseException {
@@ -31,7 +31,9 @@ public class CrateConfig extends Config {
 		name = (String) get("name");
 		invName = getChatColorString("inv_name");
 		permission = (String) get("permission");
-		blockMat = ((Long) get("blockid")).intValue();
+		size = ((Long) get("size")).intValue();
+		size = Math.round(size/9f)*9;
+		size = Math.max(9, Math.min(size, 9*9));
 		((JSONArray) get("items")).forEach(new Consumer<Object>() {
 
 			@Override
@@ -57,8 +59,8 @@ public class CrateConfig extends Config {
 		return invName;
 	}
 	
-	public int getBlockMat() {
-		return blockMat;
+	public int getInventorySize() {
+		return size;
 	}
 	
 	public ArrayList<CratePos> getItems() {

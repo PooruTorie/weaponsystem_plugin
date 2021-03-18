@@ -2,7 +2,7 @@
 	"name": "soeldner",
 	"inv_name": "&4Soeldner",
 	"permission": "ec.soeldner",
-	"blockid": 170,
+	"size": 27,
 	"items": [
 		{
 			"type": "weapon",

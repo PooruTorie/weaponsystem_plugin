@@ -2,7 +2,7 @@
 	"name": "police",
 	"inv_name": "&1Polizei",
 	"permission": "ec.police",
-	"blockid": 170,
+	"size": 27,
 	"items": [
 		{
 			"type": "weapon",

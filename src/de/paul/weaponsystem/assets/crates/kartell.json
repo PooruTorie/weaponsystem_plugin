@@ -2,7 +2,7 @@
 	"name": "kartell",
 	"inv_name": "&3Kartell",
 	"permission": "ec.kartell",
-	"blockid": 170,
+	"size": 27,
 	"items": [
 		{
 			"type": "weapon",
