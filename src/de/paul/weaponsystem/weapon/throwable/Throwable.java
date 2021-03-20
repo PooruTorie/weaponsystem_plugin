@@ -87,9 +87,12 @@ public abstract class Throwable extends MuniItem {
 	}
 
 	public static void register() {
-		Muni.register(new Muni(-1, "grenade", "§7Gre§6na§7de", 351, 8, 1000, Grenade.class));
+		Muni.register(new Muni(-1, "grenade", "§7Gre§6na§7de", 351, 8, 1000, ExplosiveGrenade.class));
 		Muni.register(new Muni(-2, "flashbang", "§fFlashbang", 341, 0, 1000, FlashBang.class));
 		Muni.register(new Muni(-3, "airstrike", "§cAir Strike", 76, 0, 10000, AirStrike.class));
+		Muni.register(new Muni(-4, "smoke", "§8Smoke Grenade", 263, 1, 500, SmokeGrenade.class));
+		Muni.register(new Muni(-5, "fire", "§6Fire Grenade", 385, 0, 700, FireGrenade.class));
+		Muni.register(new Muni(-6, "molotov", "§cMolotov §6Cocktail", 374, 0, 600, Molotov.class));
 		
 		Bukkit.getPluginManager().registerEvents(new ThrowableEventListener(), WeaponSystem.plugin);
 	}

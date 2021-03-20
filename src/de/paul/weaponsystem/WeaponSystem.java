@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -239,6 +240,14 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 	}
 
 	public static void playSound(Location l, String name, float radius, float pitch) {
+		for (Player p : l.getWorld().getPlayers()) {
+			Location pl = p.getLocation();
+			float d = (float) (radius*100f/pl.distanceSquared(l));
+			p.playSound(l, name, d, pitch);
+		}
+	}
+	
+	public static void playSound(Location l, Sound name, float radius, float pitch) {
 		for (Player p : l.getWorld().getPlayers()) {
 			Location pl = p.getLocation();
 			float d = (float) (radius*100f/pl.distanceSquared(l));

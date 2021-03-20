@@ -27,15 +27,15 @@ import org.bukkit.util.Vector;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.weapon.muni.Muni;
 
-public class FlashBang extends Throwable implements Listener {
+public class FireGrenade extends Throwable implements Listener {
 
-	public FlashBang(Muni muni) {
+	public FireGrenade(Muni muni) {
 		super(muni);
 		
 		Bukkit.getPluginManager().registerEvents(this, WeaponSystem.plugin);
 	}
 	
-	public FlashBang(Muni muni, int costs) {
+	public FireGrenade(Muni muni, int costs) {
 		super(muni, costs);
 	}
 	
@@ -50,15 +50,10 @@ public class FlashBang extends Throwable implements Listener {
 			
 			@Override
 			public void run() {
-				i.getWorld().spawnParticle(Particle.END_ROD, i.getLocation(), 1000, 0.4, 0.4, 0.4, 0.2);
-				for (Entity ent : i.getWorld().getNearbyEntities(i.getLocation(), 14, 14, 14)) {
-					if (ent instanceof Player) {
-						Player p = (Player) ent;
-						p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 7*20, 3, false, false), true);
-						p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 7*20, 2, false, false), true);
-					}
+				i.getWorld().spawnParticle(Particle.FLAME, i.getLocation(), 1000, 0.4, 0.4, 0.4, 0.08);
+				for (Entity ent : i.getWorld().getNearbyEntities(i.getLocation(), 8, 8, 8)) {
+					ent.setFireTicks(20*20);
 				}
-				WeaponSystem.playSound(i.getLocation(), "minecraft:weapon.explosion", 1, 1);
 				i.remove();
 			}
 		}, 20*2);

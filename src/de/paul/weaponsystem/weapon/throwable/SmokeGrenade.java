@@ -1,27 +1,43 @@
 package de.paul.weaponsystem.weapon.throwable;
 
+import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
+
 import de.paul.weaponsystem.WeaponSystem;
+import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.muni.Muni;
 import de.paul.weaponsystem.weapon.rocketLauncher.Rocket;
 
-public class AirStrike extends Throwable implements Listener {
+public class SmokeGrenade extends Throwable implements Listener {
 
-	public AirStrike(Muni muni) {
+	public SmokeGrenade(Muni muni) {
 		super(muni);
 		
 		Bukkit.getPluginManager().registerEvents(this, WeaponSystem.plugin);
 	}
 	
-	public AirStrike(Muni muni, int costs) {
+	public SmokeGrenade(Muni muni, int costs) {
 		super(muni, costs);
 	}
 	
@@ -44,25 +60,21 @@ public class AirStrike extends Throwable implements Listener {
 					
 					@Override
 					public void run() {
-						i.getWorld().spawnParticle(Particle.REDSTONE, i.getLocation(), (int) ((8f*20f)/100f*j), (1f/(8f*20f))*j, (4f/(8f*20f))*j, (1f/(8f*20f))*j, 0);
+						i.getWorld().spawnParticle(Particle.SMOKE_NORMAL, i.getLocation(), 10, 0.1, 0.1, 0.1, 0.05);
 						j++;
-						if (j == 8*20) {
-							i.getWorld().spawnParticle(Particle.FLAME, i.getLocation(), 100, 0, 0, 0, 0.05);
-							
-							Location l = i.getLocation().getBlock().getLocation();
-							l.setPitch(90);
-							Random r = new Random();
-							for (int j = 0; j < 20; j++) {
-								Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
-									
-									@Override
-									public void run() {
-										Rocket.spawn(l.clone().add(r.nextInt(20)-10, 60, r.nextInt(20)-10));
-									}
-								}, 4*j);
+						if (j >= 5*20 && j%10 == 0) {
+							i.getWorld().spawnParticle(Particle.SMOKE_LARGE, i.getLocation(), 1000, 1, 1, 1, 0.15);
+							for (Entity ent : i.getWorld().getNearbyEntities(i.getLocation(), 6, 6, 6)) {
+								if (ent instanceof Player) {
+									Player p = (Player) ent;
+									p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 2*20, 3, false, false), true);
+								}
 							}
-							
 							i.remove();
+							WeaponSystem.playSound(i.getLocation(), "minecraft:weapon.explosion", 1, 1);
+						}
+						
+						if (j == 20*18) {
 							Bukkit.getScheduler().cancelTask(task);
 						}
 					}

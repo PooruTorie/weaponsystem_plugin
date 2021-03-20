@@ -26,15 +26,15 @@ import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.muni.Muni;
 
-public class Grenade extends Throwable implements Listener {
+public class ExplosiveGrenade extends Throwable implements Listener {
 
-	public Grenade(Muni muni) {
+	public ExplosiveGrenade(Muni muni) {
 		super(muni);
 		
 		Bukkit.getPluginManager().registerEvents(this, WeaponSystem.plugin);
 	}
 	
-	public Grenade(Muni muni, int costs) {
+	public ExplosiveGrenade(Muni muni, int costs) {
 		super(muni, costs);
 	}
 	
@@ -42,7 +42,7 @@ public class Grenade extends Throwable implements Listener {
 		ItemStack e = this.clone();
 		e.setAmount(1);
 		Item i = p.getWorld().dropItem(p.getLocation(), e);
-		i.setVelocity(p.getEyeLocation().getDirection());
+		i.setVelocity(p.getEyeLocation().getDirection().add(p.getVelocity()));
 		i.setPickupDelay(9999999);
 		
 		Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {

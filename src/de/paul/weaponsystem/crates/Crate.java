@@ -56,6 +56,8 @@ public class Crate implements Listener {
 			c.setLocation("loc", loc);
 			c.set("crateName", crate.getName());
 			ws.add(c.toJSON());
+			
+			crate.getV().remove();
 		}
 		weapons.set("crates", ws);
 	}
