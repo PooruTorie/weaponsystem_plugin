@@ -216,16 +216,6 @@ public class WeaponItem extends ItemStack {
 		}
 	}
 
-	public void showHelp(Player p) {
-		Config c = WeaponSystem.loadConfig("config");
-		JSONArray a = (JSONArray) c.get("weaponhelp");
-		for (Object o : a) {
-			String s = (String) o;
-			s = ChatColor.translateAlternateColorCodes('&', s);
-			p.sendMessage(s);
-		}
-	}
-
 	public static WeaponItem getWeaponByItem(ItemStack item) {
 		if (item != null) {
 			if (item.hasItemMeta()) {

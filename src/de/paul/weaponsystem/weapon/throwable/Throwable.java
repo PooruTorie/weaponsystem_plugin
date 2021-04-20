@@ -87,12 +87,19 @@ public abstract class Throwable extends MuniItem {
 	}
 
 	public static void register() {
-		Muni.register(new Muni(-1, "grenade", "§7Gre§6na§7de", 351, 8, 1000, ExplosiveGrenade.class));
-		Muni.register(new Muni(-2, "flashbang", "§fFlashbang", 341, 0, 1000, FlashBang.class));
-		Muni.register(new Muni(-3, "airstrike", "§cAir Strike", 76, 0, 10000, AirStrike.class));
-		Muni.register(new Muni(-4, "smoke", "§8Smoke Grenade", 263, 1, 500, SmokeGrenade.class));
-		Muni.register(new Muni(-5, "fire", "§6Fire Grenade", 385, 0, 700, FireGrenade.class));
-		Muni.register(new Muni(-6, "molotov", "§cMolotov §6Cocktail", 374, 0, 600, Molotov.class));
+		Config config = WeaponSystem.loadConfig("config", "throwable");
+		String grenade = (String) config.get("grenade");
+		Muni.register(new Muni(-1, "grenade", "§7Gre§6na§7de", Integer.parseInt(grenade.split("[:]")[0]), Integer.parseInt(grenade.split("[:]")[1]), 1000, ExplosiveGrenade.class));
+		String flashbang = (String) config.get("flashbang");
+		Muni.register(new Muni(-2, "flashbang", "§fFlashbang", Integer.parseInt(flashbang.split("[:]")[0]), Integer.parseInt(flashbang.split("[:]")[1]), 1000, FlashBang.class));
+		String airstrike = (String) config.get("airstrike");
+		Muni.register(new Muni(-3, "airstrike", "§cAir Strike", Integer.parseInt(airstrike.split("[:]")[0]), Integer.parseInt(airstrike.split("[:]")[1]), 10000, AirStrike.class));
+		String smoke = (String) config.get("smoke");
+		Muni.register(new Muni(-4, "smoke", "§8Smoke Grenade", Integer.parseInt(smoke.split("[:]")[0]), Integer.parseInt(smoke.split("[:]")[1]), 500, SmokeGrenade.class));
+		String fire = (String) config.get("fire");
+		Muni.register(new Muni(-5, "fire", "§6Fire Grenade", Integer.parseInt(fire.split("[:]")[0]), Integer.parseInt(fire.split("[:]")[1]), 700, FireGrenade.class));
+		String molotov = (String) config.get("molotov");
+		Muni.register(new Muni(-6, "molotov", "§cMolotov §6Cocktail", Integer.parseInt(molotov.split("[:]")[0]), Integer.parseInt(molotov.split("[:]")[1]), 600, Molotov.class));
 		
 		Bukkit.getPluginManager().registerEvents(new ThrowableEventListener(), WeaponSystem.plugin);
 	}

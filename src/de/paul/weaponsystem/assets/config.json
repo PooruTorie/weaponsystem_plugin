@@ -23,10 +23,13 @@
 		"hasweapon": "&cDu hast diese Waffe schon",
 		"nolicense": "&cDu hast keine %license%",
 		"block": "&cDu darfst das nicht du hast eine Waffensperre"
+	},
+	"Throwable": {
+		"grenade": "10:1",
+		"flashbang": "10:1",
+		"airstrike": "10:1",
+		"smoke": "10:1",
+		"fire": "10:1",
+		"molotov": "10:1"
 	}
-	"weaponhelp": [
-		"&6 Rechtsklick zum Schiessen",
-		"&6 Q oder F zum Nachladen",
-		""
-	]
 }
