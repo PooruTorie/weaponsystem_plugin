@@ -78,7 +78,7 @@ public class WeaponItem extends ItemStack {
 	protected Weapon weapon;
 	protected int magazin = 0;
 	protected int id;
-	private boolean reloading;
+	private boolean reloading = false;
 	
 	public WeaponItem(Weapon weapon) {
 		super(weapon.getItemID(), 1, (short) weapon.getItemDamage());
@@ -142,8 +142,8 @@ public class WeaponItem extends ItemStack {
 	}
 	
 	public void gunReleod(ItemStack item, Player p) {
+		System.out.println(reloading);
 		if (reloading == false) {
-			reloading = true;
 			Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
 				
 				private int task;
@@ -151,6 +151,7 @@ public class WeaponItem extends ItemStack {
 				@Override
 				public void run() {
 					if (magazin < weapon.getGunMuniCapacity()) {
+						reloading = true;
 						Muni muni = Muni.getMuniById(weapon.getGunMuniId());
 						int i = muni.getMuniItems(p.getInventory());
 						if (i > 0) {
@@ -167,7 +168,7 @@ public class WeaponItem extends ItemStack {
 										Bukkit.getScheduler().cancelTask(task);
 									}
 								}
-							}, 0, (weapon.getGunReloadTime()*20)/100).getTaskId();
+							}, 0, (weapon.getGunReloadTime()*20)/120).getTaskId();
 							Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
 								
 								@Override
