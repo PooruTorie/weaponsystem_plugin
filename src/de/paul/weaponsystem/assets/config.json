@@ -24,7 +24,7 @@
 		"nolicense": "&cDu hast keine %license%",
 		"block": "&cDu darfst das nicht du hast eine Waffensperre"
 	},
-	"Throwable": {
+	"throwable": {
 		"grenade": "10:1",
 		"flashbang": "10:1",
 		"airstrike": "10:1",
