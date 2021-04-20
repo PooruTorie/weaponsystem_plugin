@@ -78,6 +78,7 @@ public class WeaponItem extends ItemStack {
 	protected Weapon weapon;
 	protected int magazin = 0;
 	protected int id;
+	private boolean reloading;
 	
 	public WeaponItem(Weapon weapon) {
 		super(weapon.getItemID(), 1, (short) weapon.getItemDamage());
@@ -141,47 +142,51 @@ public class WeaponItem extends ItemStack {
 	}
 	
 	public void gunReleod(ItemStack item, Player p) {
-		Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
-			
-			private int task;
-
-			@Override
-			public void run() {
-				if (magazin < weapon.getGunMuniCapacity()) {
-					Muni muni = Muni.getMuniById(weapon.getGunMuniId());
-					int i = muni.getMuniItems(p.getInventory());
-					if (i > 0) {
-						WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.reload", 5, 1);
-						task = Bukkit.getScheduler().runTaskTimer(WeaponSystem.plugin, new Runnable() {
-							int i = 0;
-							
-							@Override
-							public void run() {
-								String text = "§a"+i+"%";
-								p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(text));
-								i++;
-								if (i == 101) {
-									Bukkit.getScheduler().cancelTask(task);
+		if (reloading == false) {
+			reloading = true;
+			Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
+				
+				private int task;
+	
+				@Override
+				public void run() {
+					if (magazin < weapon.getGunMuniCapacity()) {
+						Muni muni = Muni.getMuniById(weapon.getGunMuniId());
+						int i = muni.getMuniItems(p.getInventory());
+						if (i > 0) {
+							WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.reload", 5, 1);
+							task = Bukkit.getScheduler().runTaskTimer(WeaponSystem.plugin, new Runnable() {
+								int i = 0;
+								
+								@Override
+								public void run() {
+									String text = "§a"+i+"%";
+									p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(text));
+									i++;
+									if (i == 101) {
+										Bukkit.getScheduler().cancelTask(task);
+									}
 								}
-							}
-						}, 0, (weapon.getGunReloadTime()*20)/100).getTaskId();
-						Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
-							
-							@Override
-							public void run() {
-								muni.removeItem(p.getInventory());
-								magazin = weapon.getGunMuniCapacity();
-							}
-						}, weapon.getGunReloadTime()*20);
+							}, 0, (weapon.getGunReloadTime()*20)/100).getTaskId();
+							Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
+								
+								@Override
+								public void run() {
+									muni.removeItem(p.getInventory());
+									magazin = weapon.getGunMuniCapacity();
+									reloading = false;
+								}
+							}, weapon.getGunReloadTime()*20);
+						} else {
+							p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("hasnomuni"));
+						}
+						showAmmo(p);
 					} else {
-						p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("hasnomuni"));
+						p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("munifull"));
 					}
-					showAmmo(p);
-				} else {
-					p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("munifull"));
 				}
-			}
-		}, 1);
+			}, 1);
+		}
 	}
 	
 	public void remove(Player p) {

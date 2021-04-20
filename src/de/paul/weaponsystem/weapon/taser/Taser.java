@@ -5,13 +5,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import de.dyroxplays.revieve.Main;
 import de.dyroxplays.revieve.lizenz.Lizenz.LizenzType;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.crates.Crate;
@@ -55,6 +58,16 @@ public class Taser extends WeaponItem {
 					hit.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*10, 10, false, false), true);
 					hit.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20*10, 200, false, false), true);
 					hit.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20*10, 10, false, false), true);
+					
+					hit.sendMessage("§3Du wurdest Getasert.");
+					for (Entity ent : hit.getWorld().getNearbyEntities(hit.getLocation(), 10, 10, 10)) {
+						if (ent instanceof Player) {
+							Player pp = (Player) ent;
+							if (pp != hit) {
+								pp.sendMessage("§3"+hit.getName()+" wurde Getasert.");
+							}
+						}
+					}
 				}
 			}
 		} else {
