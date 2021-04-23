@@ -142,7 +142,6 @@ public class WeaponItem extends ItemStack {
 	}
 	
 	public void gunReleod(ItemStack item, Player p) {
-		System.out.println(reloading);
 		if (reloading == false) {
 			Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
 				
@@ -151,10 +150,10 @@ public class WeaponItem extends ItemStack {
 				@Override
 				public void run() {
 					if (magazin < weapon.getGunMuniCapacity()) {
-						reloading = true;
 						Muni muni = Muni.getMuniById(weapon.getGunMuniId());
 						int i = muni.getMuniItems(p.getInventory());
 						if (i > 0) {
+							reloading = true;
 							WeaponSystem.playSound(p.getLocation(), "minecraft:weapon.reload", 5, 1);
 							task = Bukkit.getScheduler().runTaskTimer(WeaponSystem.plugin, new Runnable() {
 								int i = 0;
@@ -168,7 +167,7 @@ public class WeaponItem extends ItemStack {
 										Bukkit.getScheduler().cancelTask(task);
 									}
 								}
-							}, 0, (weapon.getGunReloadTime()*20)/120).getTaskId();
+							}, 0, (weapon.getGunReloadTime()*20)/100).getTaskId();
 							Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
 								
 								@Override
@@ -187,6 +186,8 @@ public class WeaponItem extends ItemStack {
 					}
 				}
 			}, 1);
+		} else {
+			p.sendMessage(WeaponSystem.prefix+"§7Du lädst bereits nach.");
 		}
 	}
 	

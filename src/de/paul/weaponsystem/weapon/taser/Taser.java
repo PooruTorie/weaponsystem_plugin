@@ -3,6 +3,7 @@ package de.paul.weaponsystem.weapon.taser;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
@@ -86,6 +87,9 @@ public class Taser extends WeaponItem {
 	    for (; length < distance; p1.add(vector)) {
 	        world.spawnParticle(Particle.CRIT_MAGIC, p1.getX(), p1.getY(), p1.getZ(), 0);
 	        length += space;
+	        if (world.getBlockAt(p1.toLocation(world)).getType() != Material.AIR) {
+				return null;
+			}
 	        for (Entity ent : world.getNearbyEntities(p1.toLocation(world), 0.2, 0.3, 0.2)) {
 				if (ent instanceof Player) {
 					if (ent != shooter) {

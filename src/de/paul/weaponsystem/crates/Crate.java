@@ -143,7 +143,6 @@ public class Crate implements Listener {
 	public void openInv(Player p) {
 		if (!DeathPlayer.isDead(p)) {
 			if (p.hasPermission(permission)) {
-				System.out.println(getInventorySize());
 				Inventory inv = Bukkit.createInventory(p, getInventorySize(), invName);
 				
 				for (int i = 0; i < inv.getSize(); i++) {
