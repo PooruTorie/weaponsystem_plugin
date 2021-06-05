@@ -167,7 +167,7 @@ public class ShopKeeper {
 						i+=2;
 					}
 				}
-			} else if (type == ShopType.vest) {
+			} else if (type == ShopType.equip) {
 				inv.setItem(22, Weapon.getWeaponByName("bulletvest").toItemStack(true));
 			}
 			
@@ -177,7 +177,7 @@ public class ShopKeeper {
 	}
 	
 	public enum ShopType {
-		weapon("§eWaffen Shop"), muni("§eMunitions Shop"), vest("§eSchutzweste");
+		weapon("§eWaffen Shop"), muni("§eMunitions Shop"), equip("§eEquipment");
 
 		private String name;
 

@@ -102,7 +102,7 @@ public class RPG extends WeaponItem {
 	}
 	
 	public static void register() {
-		Weapon.register(new Weapon(WeaponType.gun, "rpg", "§8RPG", 286, 1, 3, 4, 75000, true, LizenzType.Schwerer_Waffenschein, RPG.class));
+		Weapon.register(new Weapon(WeaponType.gun, "rpg", "§8RPG", 286, 1, 3, 4, 75000, false, LizenzType.Schwerer_Waffenschein, RPG.class));
 		Bukkit.getPluginManager().registerEvents(new Rocket(), WeaponSystem.plugin);
 	}
 }

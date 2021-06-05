@@ -2,6 +2,7 @@ package de.paul.weaponsystem.weapon;
 
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -43,19 +44,47 @@ public class WeaponEventListener implements Listener {
 					if (e.getHitEntity() instanceof LivingEntity) {
 						if (e.getHitEntity() instanceof Player) {
 							Player hit = (Player) e.getHitEntity();
-							if (!BulletVest.isOn.contains(hit.getUniqueId())) {
-								hit.damage(damage);
-								hit.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, Material.REDSTONE_BLOCK.getNewData((byte) 0x00));
-							} else {
-								boolean is = BulletVest.isLastBlocked.get(hit.getUniqueId());
-								if (is == true) {
+							if (!hit.isBlocking()) {
+								if (!BulletVest.isOn.contains(hit.getUniqueId())) {
 									hit.damage(damage);
+									hit.setVelocity(hit.getLocation().getDirection().multiply(-.6));
 									hit.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, Material.REDSTONE_BLOCK.getNewData((byte) 0x00));
+								} else {
+									boolean is = BulletVest.isLastBlocked.get(hit.getUniqueId());
+									if (is == true) {
+										hit.damage(damage);
+										hit.setVelocity(hit.getLocation().getDirection().multiply(-.6));
+										hit.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, Material.REDSTONE_BLOCK.getNewData((byte) 0x00));
+									} else {
+										WeaponSystem.playSound(hit.getLocation(), Sound.ITEM_ARMOR_EQUIP_CHAIN, 4, 1);
+									}
+									BulletVest.isLastBlocked.put(hit.getUniqueId(), !is);
 								}
-								BulletVest.isLastBlocked.put(hit.getUniqueId(), !is);
+							} else {
+								double dot = hit.getLocation().getDirection().dot(p.getVelocity().normalize());
+								if (Math.abs(dot) > 0.4d && dot < 0) {
+									WeaponSystem.playSound(hit.getLocation(), Sound.ITEM_SHIELD_BLOCK, 4, 1);
+								} else {
+									if (!BulletVest.isOn.contains(hit.getUniqueId())) {
+										hit.damage(damage);
+										hit.setVelocity(hit.getLocation().getDirection().multiply(-.6));
+										hit.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, Material.REDSTONE_BLOCK.getNewData((byte) 0x00));
+									} else {
+										boolean is = BulletVest.isLastBlocked.get(hit.getUniqueId());
+										if (is == true) {
+											hit.damage(damage);
+											hit.setVelocity(hit.getLocation().getDirection().multiply(-.6));
+											hit.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, Material.REDSTONE_BLOCK.getNewData((byte) 0x00));
+										} else {
+											WeaponSystem.playSound(hit.getLocation(), Sound.ITEM_ARMOR_EQUIP_CHAIN, 4, 1);
+										}
+										BulletVest.isLastBlocked.put(hit.getUniqueId(), !is);
+									}
+								}
 							}
 						} else {
 							((LivingEntity) e.getHitEntity()).damage(damage);
+							((LivingEntity) e.getHitEntity()).setVelocity(((LivingEntity) e.getHitEntity()).getLocation().getDirection().multiply(-.6));
 							p.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, Material.REDSTONE_BLOCK.getNewData((byte) 0x00));
 						}
 					}
@@ -74,7 +103,7 @@ public class WeaponEventListener implements Listener {
 		ItemStack item = e.getItem();
 		if (!DeathPlayer.isDead(p)) {
 			if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-				if (e.getHand() == EquipmentSlot.HAND) {
+				if (e.getHand() == EquipmentSlot.HAND || e.getHand() == EquipmentSlot.OFF_HAND) {
 					if (item != null) {
 						if (item.hasItemMeta()) {
 							if (item.getItemMeta().hasLocalizedName()) {
@@ -86,7 +115,7 @@ public class WeaponEventListener implements Listener {
 											p.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20f));
 											itemWeapon.gunShot(p);
 										}
-										e.setCancelled(true);
+										e.setCancelled(itemWeapon.getWeapon().getItemID() != 442);
 									}
 								}
 							}
@@ -150,23 +179,6 @@ public class WeaponEventListener implements Listener {
 	@EventHandler
 	private void onDrop(PlayerDropItemEvent e) {
 		ItemStack item = e.getItemDrop().getItemStack();
-		if (item.hasItemMeta()) {
-			if (item.getItemMeta().hasLocalizedName()) {
-				int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-				if (WeaponItem.items.containsKey(id)) {
-					WeaponItem itemWeapon = WeaponItem.items.get(id);
-					if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
-						itemWeapon.gunReleod(item, e.getPlayer());
-					}
-					e.setCancelled(true);
-				}
-			}
-		}
-	}
-	
-	@EventHandler
-	private void onHandSwitch(PlayerSwapHandItemsEvent e) {
-		ItemStack item = e.getOffHandItem();
 		if (item.hasItemMeta()) {
 			if (item.getItemMeta().hasLocalizedName()) {
 				int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);

@@ -1,12 +1,15 @@
 package de.paul.weaponsystem.armor;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
+import de.dyroxplays.revieve.objects.PlayerRealDeathEvent;
 import de.paul.weaponsystem.weapon.WeaponItem;
 
 public class BulletVestListener implements Listener {
@@ -22,6 +25,8 @@ public class BulletVestListener implements Listener {
 					if (w != null) {
 						if (w.getWeapon().getName().equals("bulletvest")) {
 							e.setCancelled(true);
+							p.getInventory().setItem(e.getSlot(), new ItemStack(Material.AIR));
+							BulletVest.isOn.remove(p.getUniqueId());
 						}
 					}
 					w = WeaponItem.getWeaponByItem(e.getCursor());
@@ -35,4 +40,9 @@ public class BulletVestListener implements Listener {
 		}
 	}
 	
+	@EventHandler
+	private void onDeath(PlayerRealDeathEvent e) {
+		Player p = e.getDeathPlayer().getPlayer();
+		BulletVest.isOn.remove(p.getUniqueId());
+	}
 }

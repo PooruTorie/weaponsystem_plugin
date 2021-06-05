@@ -25,6 +25,7 @@ import de.dyroxplays.revieve.command.GetMK;
 import de.dyroxplays.revieve.objects.DeathPlayer;
 import de.dyroxplays.revieve.objects.FlyingItems;
 import de.dyroxplays.revieve.objects.PlayerRealDeathEvent;
+import de.paul.weaponsystem.armor.BulletShield;
 import de.paul.weaponsystem.armor.BulletVest;
 import de.paul.weaponsystem.assets.Assets;
 import de.paul.weaponsystem.commands.CommandDealWeapon;
@@ -101,6 +102,7 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 			RPG.register();
 			Taser.register();
 			BulletVest.register();
+			BulletShield.register();
 			Throwable.register();
 			
 			WeaponItem.load();
