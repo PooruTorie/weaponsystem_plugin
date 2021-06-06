@@ -47,13 +47,13 @@ public class WeaponEventListener implements Listener {
 							if (!hit.isBlocking()) {
 								if (!BulletVest.isOn.contains(hit.getUniqueId())) {
 									hit.damage(damage);
-									hit.setVelocity(hit.getLocation().getDirection().multiply(-.6));
+									hit.setVelocity(p.getLocation().getDirection().multiply(.6));
 									hit.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, Material.REDSTONE_BLOCK.getNewData((byte) 0x00));
 								} else {
 									boolean is = BulletVest.isLastBlocked.get(hit.getUniqueId());
 									if (is == true) {
 										hit.damage(damage);
-										hit.setVelocity(hit.getLocation().getDirection().multiply(-.6));
+										hit.setVelocity(p.getLocation().getDirection().multiply(.6));
 										hit.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, Material.REDSTONE_BLOCK.getNewData((byte) 0x00));
 									} else {
 										WeaponSystem.playSound(hit.getLocation(), Sound.ITEM_ARMOR_EQUIP_CHAIN, 4, 1);
@@ -67,13 +67,13 @@ public class WeaponEventListener implements Listener {
 								} else {
 									if (!BulletVest.isOn.contains(hit.getUniqueId())) {
 										hit.damage(damage);
-										hit.setVelocity(hit.getLocation().getDirection().multiply(-.6));
+										hit.setVelocity(p.getLocation().getDirection().multiply(.6));
 										hit.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, Material.REDSTONE_BLOCK.getNewData((byte) 0x00));
 									} else {
 										boolean is = BulletVest.isLastBlocked.get(hit.getUniqueId());
 										if (is == true) {
 											hit.damage(damage);
-											hit.setVelocity(hit.getLocation().getDirection().multiply(-.6));
+											hit.setVelocity(p.getLocation().getDirection().multiply(.6));
 											hit.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, Material.REDSTONE_BLOCK.getNewData((byte) 0x00));
 										} else {
 											WeaponSystem.playSound(hit.getLocation(), Sound.ITEM_ARMOR_EQUIP_CHAIN, 4, 1);
@@ -84,7 +84,7 @@ public class WeaponEventListener implements Listener {
 							}
 						} else {
 							((LivingEntity) e.getHitEntity()).damage(damage);
-							((LivingEntity) e.getHitEntity()).setVelocity(((LivingEntity) e.getHitEntity()).getLocation().getDirection().multiply(-.6));
+							((LivingEntity) e.getHitEntity()).setVelocity(p.getLocation().getDirection().multiply(.6));
 							p.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, Material.REDSTONE_BLOCK.getNewData((byte) 0x00));
 						}
 					}
