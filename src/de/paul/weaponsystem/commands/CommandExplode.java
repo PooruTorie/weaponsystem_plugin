@@ -24,6 +24,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -32,10 +34,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import de.dyroxplays.revieve.objects.DeathPlayer;
+import de.dyroxplays.revieve.objects.PlayerRealDeathEvent;
 import de.paul.weaponsystem.WeaponSystem;
 
 public class CommandExplode implements TabCompleter, CommandExecutor, Listener {
 	
+	private static List<Player> explosion = new ArrayList<Player>();
 	private static HashMap<UUID, Integer> delay = new HashMap<>();
 	
 	@Override
@@ -59,6 +63,14 @@ public class CommandExplode implements TabCompleter, CommandExecutor, Listener {
 									c.setMaxFuseTicks(0);
 									WeaponSystem.economy.withdrawPlayer(p, 5000);
 									
+									explosion.add(p);
+									
+									for (Entity e : p.getNearbyEntities(30, 30, 30)) {
+										if (e.getType() == EntityType.PLAYER) {
+											explosion.add((Player) e);
+										}
+									}
+									
 									delay.put(p.getUniqueId(), 60*15);
 									Bukkit.getScheduler().runTaskTimer(WeaponSystem.plugin, new BukkitRunnable() {
 										
@@ -67,6 +79,7 @@ public class CommandExplode implements TabCompleter, CommandExecutor, Listener {
 											delay.put(p.getUniqueId(), delay.get(p.getUniqueId())-1);
 											if (delay.get(p.getUniqueId()) <= 0) {
 												delay.remove(p.getUniqueId());
+												explosion.clear();
 												cancel();
 											}
 										}
@@ -120,6 +133,24 @@ public class CommandExplode implements TabCompleter, CommandExecutor, Listener {
 			tab.add("info");
 		}
 		return tab;
+	}
+	
+	@EventHandler
+	private void onDeath(PlayerDeathEvent e) {
+		Player p = e.getEntity();
+		EntityDamageEvent last = p.getLastDamageCause();
+		if (last.getCause() == DamageCause.ENTITY_EXPLOSION) {
+			if (explosion.contains(p)) {
+				Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
+					
+					@Override
+					public void run() {
+						DeathPlayer.getDeathPlayer(p).remove(false);
+					}
+				}, 10);
+				explosion.remove(p);
+			}
+		}
 	}
 	
 	@EventHandler
