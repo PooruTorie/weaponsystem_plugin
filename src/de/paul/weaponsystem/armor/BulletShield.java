@@ -44,6 +44,6 @@ public class BulletShield extends WeaponItem {
 	public void remove(Player p) {}
 	
 	public static void register() {
-		Weapon.register(new Weapon(WeaponType.gun, "bulletshield", "§8S.W.A.T Schild", 442, 0, 0, 0, 1500, false, LizenzType.Leichter_Waffenschein, BulletShield.class));
+		Weapon.register(new Weapon(WeaponType.gun, "bulletshield", "§8S.W.A.T Schild", 442, 0, 0, 0, 1500, false, false, LizenzType.Leichter_Waffenschein, BulletShield.class));
 	}
 }

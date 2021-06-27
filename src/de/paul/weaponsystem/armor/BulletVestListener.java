@@ -43,8 +43,6 @@ public class BulletVestListener implements Listener {
 					WeaponItem w = WeaponItem.getWeaponByItem(e.getCurrentItem());
 					if (w != null) {
 						if (w.getWeapon().getName().equals("bulletvest")) {
-							e.setCancelled(true);
-							p.getInventory().setItem(e.getSlot(), new ItemStack(Material.AIR));
 							BulletVest.isOn.remove(p.getUniqueId());
 						}
 					}

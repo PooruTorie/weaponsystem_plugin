@@ -145,6 +145,38 @@ public class ShopKeeper {
 						i+=2;
 					}
 				}
+			} else if (type == ShopType.privat) {
+				for (Weapon w : Weapon.getAll()) {
+					if (w.isPrivateShop()) {
+						ItemStack item = w.toItemStack(true);
+						if (PlayerWeapons.getForPlayer(p).hasWeapon(w)) {
+							ItemMeta m = item.getItemMeta();
+							List<String> l = m.getLore();
+							l.add(WeaponSystem.loadConfig("config", "messages").getChatColorString("hasweapon"));
+							m.setLore(l);
+							item.setItemMeta(m);
+						}
+						inv.setItem(i, item);
+						i++;
+					}
+					if (i == 16) {
+						i+=2;
+					}
+					if (i == 36) {
+						i+=2;
+					}
+				}
+				
+				for (; i <= 42;) {
+					inv.setItem(i, null);
+					i++;
+					if (i == 16) {
+						i+=2;
+					}
+					if (i == 36) {
+						i+=2;
+					}
+				}
 			} else if (type == ShopType.muni) {
 				for (Muni m : Muni.getAll()) {
 					inv.setItem(i, m.toItemStack(true));
@@ -177,7 +209,7 @@ public class ShopKeeper {
 	}
 	
 	public enum ShopType {
-		weapon("§eWaffen Shop"), muni("§eMunitions Shop"), equip("§eEquipment");
+		weapon("§eWaffen Shop"), privat("§ePrivater Shop"), muni("§eMunitions Shop"), equip("§eEquipment");
 
 		private String name;
 

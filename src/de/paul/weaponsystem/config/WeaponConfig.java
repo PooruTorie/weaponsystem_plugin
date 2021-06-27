@@ -29,6 +29,7 @@ public class WeaponConfig extends Config {
 	private int gunMuniId;
 	private int gunReloadTime;
 	private boolean inShop = true;
+	private boolean privateShop = false;
 	private boolean gunZoom = false;
 	private String gunShotSound = "";
 	private int costs;
@@ -44,22 +45,26 @@ public class WeaponConfig extends Config {
 		type = Weapon.WeaponType.valueOf(((String) get("type")).toLowerCase());
 		name = (String) get("name");
 		itemName = getChatColorString("item_name");
-		itemID = ((Long) get("item_id")).intValue();
-		itemDamage = ((Long) get("item_damage")).intValue();
+		itemID = ((int) get("item_id"));
+		itemDamage = ((int) get("item_damage"));
 		cooldown = (double) get("cooldown");
-		costs = ((Long) get("costs")).intValue();
-		lizenz = LizenzType.values()[((Long) get("lizenz")).intValue()];
-		if (contains("inshoop")) {
-			inShop = (boolean) get("inshoop");
+		costs = ((int) get("costs"));
+		lizenz = LizenzType.values()[((int) get("lizenz"))];
+		if (contains("inshop")) {
+			inShop = (boolean) get("inshop");
+		}
+		if (contains("privateshop")) {
+			inShop = false;
+			privateShop = (boolean) get("privateshop");
 		}
 		switch (type) {
 		case gun:
-			gunDamage = ((Long) get("damage_per_bullet")).intValue();
-			gunMuniCapacity = ((Long) get("muni")).intValue();
-			gunMuniId = ((Long) get("muni_id")).intValue();
-			gunReloadTime = ((Long) get("reload_time")).intValue();
-			gunBullets = ((Long) get("bullets")).intValue();
-			gunAcuracy = ((Long) get("acuracy")).intValue();
+			gunDamage = ((int) get("damage_per_bullet"));
+			gunMuniCapacity = ((int) get("muni"));
+			gunMuniId = ((int) get("muni_id"));
+			gunReloadTime = ((int) get("reload_time"));
+			gunBullets = ((int) get("bullets"));
+			gunAcuracy = ((int) get("acuracy"));
 			if (contains("shootsound")) {
 				gunShotSound = (String) get("shootsound");
 			}
@@ -68,7 +73,7 @@ public class WeaponConfig extends Config {
 			}
 			break;
 		case melee:
-			meleeDamage = ((Long) get("damage")).intValue();
+			meleeDamage = ((int) get("damage"));
 			break;
 		}
 	}
@@ -147,5 +152,9 @@ public class WeaponConfig extends Config {
 
 	public LizenzType getLizenz() {
 		return lizenz;
+	}
+
+	public boolean isPrivateShop() {
+		return privateShop;
 	}
 }

@@ -102,6 +102,6 @@ public class Taser extends WeaponItem {
 	}
 	
 	public static void register() {
-		Weapon.register(new Weapon(WeaponType.gun, "taser", "§3Taser", 369, 0, 0, 0, 0, false, LizenzType.Leichter_Waffenschein, Taser.class));
+		Weapon.register(new Weapon(WeaponType.gun, "taser", "§3Taser", 369, 0, 0, 0, 0, false, false, LizenzType.Leichter_Waffenschein, Taser.class));
 	}
 }
