@@ -10,15 +10,11 @@ import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.CauldronLevelChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.player.PlayerChangedMainHandEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
-import org.bukkit.event.player.PlayerResourcePackStatusEvent;
-import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -28,7 +24,6 @@ import de.paul.weaponsystem.BlockCrack;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.armor.BulletVest;
 import de.paul.weaponsystem.storages.PlayerWeapons;
-import de.paul.weaponsystem.storages.Storage.StorageType;
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
 
 public class WeaponEventListener implements Listener {
@@ -57,6 +52,10 @@ public class WeaponEventListener implements Listener {
 										hit.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, Material.REDSTONE_BLOCK.getNewData((byte) 0x00));
 									} else {
 										WeaponSystem.playSound(hit.getLocation(), Sound.ITEM_ARMOR_EQUIP_CHAIN, 4, 1);
+										
+										ItemStack item = hit.getEquipment().getLeggings();
+										item.setDurability((short) (item.getDurability()+1));
+										hit.getEquipment().setLeggings(item);
 									}
 									BulletVest.isLastBlocked.put(hit.getUniqueId(), !is);
 								}
@@ -64,6 +63,18 @@ public class WeaponEventListener implements Listener {
 								double dot = hit.getLocation().getDirection().dot(p.getVelocity().normalize());
 								if (Math.abs(dot) > 0.4d && dot < 0) {
 									WeaponSystem.playSound(hit.getLocation(), Sound.ITEM_SHIELD_BLOCK, 4, 1);
+									
+									ItemStack item = hit.getEquipment().getItemInMainHand();
+									if (item.getType() == Material.SHIELD) {
+										item.setDurability((short) (item.getDurability()+1));
+										hit.getEquipment().setItemInMainHand(item);
+									} else {
+										item = hit.getEquipment().getItemInOffHand();
+										if (item.getType() == Material.SHIELD) {
+											item.setDurability((short) (item.getDurability()+1));
+											hit.getEquipment().setItemInOffHand(item);
+										}
+									}
 								} else {
 									if (!BulletVest.isOn.contains(hit.getUniqueId())) {
 										hit.damage(damage);
@@ -77,6 +88,10 @@ public class WeaponEventListener implements Listener {
 											hit.getWorld().spawnParticle(Particle.BLOCK_CRACK, p.getLocation(), 40, 0.1, 0.1, 0.1, 0, Material.REDSTONE_BLOCK.getNewData((byte) 0x00));
 										} else {
 											WeaponSystem.playSound(hit.getLocation(), Sound.ITEM_ARMOR_EQUIP_CHAIN, 4, 1);
+											
+											ItemStack item = hit.getEquipment().getLeggings();
+											item.setDurability((short) (item.getDurability()+1));
+											hit.getEquipment().setLeggings(item);
 										}
 										BulletVest.isLastBlocked.put(hit.getUniqueId(), !is);
 									}
