@@ -47,7 +47,7 @@ public abstract class Throwable extends MuniItem {
 		for (int i : items.keySet()) {
 			Config c = new Config(new JSONObject());
 			Throwable item = items.get(i);
-			c.set("id", (long) i);
+			c.set("id", i);
 			c.set("weaponName", item.getMuni().getName());
 			ws.add(c.toJSON());
 		}
@@ -59,7 +59,7 @@ public abstract class Throwable extends MuniItem {
 		JSONArray ws = (JSONArray) weapons.get("throwable");
 		for (Object o : ws) {
 			Config c = new Config((JSONObject) o);
-			int i = ((Long) c.get("id")).intValue();
+			int i = ((int) c.get("id"));
 			String name = (String) c.get("weaponName");
 			Muni muni = Muni.getMuniByName(name);
 			items.put(i, muni.getThrowable());

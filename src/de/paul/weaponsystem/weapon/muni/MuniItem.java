@@ -25,7 +25,7 @@ public class MuniItem extends ItemStack {
 		for (int i : items.keySet()) {
 			Config c = new Config(new JSONObject());
 			MuniItem item = items.get(i);
-			c.set("id", (long) i);
+			c.set("id", i);
 			c.set("weaponName", item.getMuni().getName());
 			ws.add(c.toJSON());
 		}
@@ -37,7 +37,7 @@ public class MuniItem extends ItemStack {
 		JSONArray ws = (JSONArray) weapons.get("muni");
 		for (Object o : ws) {
 			Config c = new Config((JSONObject) o);
-			int i = ((Long) c.get("id")).intValue();
+			int i = ((int) c.get("id"));
 			String name = (String) c.get("weaponName");
 			Muni muni = Muni.getMuniByName(name);
 			items.put(i, new MuniItem(muni));

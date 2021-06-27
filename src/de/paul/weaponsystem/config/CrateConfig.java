@@ -31,7 +31,7 @@ public class CrateConfig extends Config {
 		name = (String) get("name");
 		invName = getChatColorString("inv_name");
 		permission = (String) get("permission");
-		size = ((Long) get("size")).intValue();
+		size = ((int) get("size"));
 		size = Math.round(size/9f)*9;
 		size = Math.max(9, Math.min(size, 9*9));
 		((JSONArray) get("items")).forEach(new Consumer<Object>() {
@@ -41,7 +41,7 @@ public class CrateConfig extends Config {
 				Config c = new Config((JSONObject) o);
 				ItemType t = ItemType.valueOf((String) c.get("type"));
 				String n = (String) c.get("name");
-				int s = ((Long) c.get("slot")).intValue();
+				int s = ((int) c.get("slot"));
 				items.add(new CratePos(t, n, s));
 			}
 		});

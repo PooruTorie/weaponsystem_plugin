@@ -145,37 +145,47 @@ public class ShopKeeper {
 						i+=2;
 					}
 				}
-			} else if (type == ShopType.privat) {
-				for (Weapon w : Weapon.getAll()) {
-					if (w.isPrivateShop()) {
-						ItemStack item = w.toItemStack(true);
-						if (PlayerWeapons.getForPlayer(p).hasWeapon(w)) {
-							ItemMeta m = item.getItemMeta();
-							List<String> l = m.getLore();
-							l.add(WeaponSystem.loadConfig("config", "messages").getChatColorString("hasweapon"));
-							m.setLore(l);
-							item.setItemMeta(m);
-						}
-						inv.setItem(i, item);
-						i++;
-					}
-					if (i == 16) {
-						i+=2;
-					}
-					if (i == 36) {
-						i+=2;
-					}
-				}
 				
-				for (; i <= 42;) {
-					inv.setItem(i, null);
-					i++;
-					if (i == 16) {
-						i+=2;
+				p.openInventory(inv);
+				invs.put(p.getUniqueId(), inv);
+			} else if (type == ShopType.privat) {
+				if (p.hasPermission((String) Config.loadConfig("config", "permissions").get("privateshop"))) {
+					for (Weapon w : Weapon.getAll()) {
+						if (w.isPrivateShop()) {
+							ItemStack item = w.toItemStack(true);
+							if (PlayerWeapons.getForPlayer(p).hasWeapon(w)) {
+								ItemMeta m = item.getItemMeta();
+								List<String> l = m.getLore();
+								l.add(WeaponSystem.loadConfig("config", "messages").getChatColorString("hasweapon"));
+								m.setLore(l);
+								item.setItemMeta(m);
+							}
+							inv.setItem(i, item);
+							i++;
+						}
+						if (i == 16) {
+							i+=2;
+						}
+						if (i == 36) {
+							i+=2;
+						}
 					}
-					if (i == 36) {
-						i+=2;
+					
+					for (; i <= 42;) {
+						inv.setItem(i, null);
+						i++;
+						if (i == 16) {
+							i+=2;
+						}
+						if (i == 36) {
+							i+=2;
+						}
 					}
+					
+					p.openInventory(inv);
+					invs.put(p.getUniqueId(), inv);
+				} else {
+					p.sendMessage(WeaponSystem.prefix+Config.loadConfig("config", "messages").getChatColorString("privateshop"));
 				}
 			} else if (type == ShopType.muni) {
 				for (Muni m : Muni.getAll()) {
@@ -199,12 +209,15 @@ public class ShopKeeper {
 						i+=2;
 					}
 				}
+				
+				p.openInventory(inv);
+				invs.put(p.getUniqueId(), inv);
 			} else if (type == ShopType.equip) {
 				inv.setItem(22, Weapon.getWeaponByName("bulletvest").toItemStack(true));
+				
+				p.openInventory(inv);
+				invs.put(p.getUniqueId(), inv);
 			}
-			
-			p.openInventory(inv);
-			invs.put(p.getUniqueId(), inv);
 		}
 	}
 	

@@ -50,8 +50,8 @@ public class WeaponItem extends ItemStack {
 		for (int i : items.keySet()) {
 			Config c = new Config(new JSONObject());
 			WeaponItem item = items.get(i);
-			c.set("id", (long) i);
-			c.set("magazin", (long) item.getMagazin());
+			c.set("id", i);
+			c.set("magazin", item.getMagazin());
 			c.set("weaponName", item.getWeapon().getName());
 			ws.add(c.toJSON());
 		}
@@ -63,8 +63,8 @@ public class WeaponItem extends ItemStack {
 		JSONArray ws = (JSONArray) weapons.get("weapons");
 		for (Object o : ws) {
 			Config c = new Config((JSONObject) o);
-			int i = ((Long) c.get("id")).intValue();
-			int magazin = ((Long) c.get("magazin")).intValue();
+			int i = ((int) c.get("id"));
+			int magazin = ((int) c.get("magazin"));
 			String name = (String) c.get("weaponName");
 			Weapon weapon = Weapon.getWeaponByName(name);
 			items.put(i, (WeaponItem) weapon.loadItem(i, magazin));

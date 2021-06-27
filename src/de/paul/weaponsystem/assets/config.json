@@ -8,7 +8,8 @@
 		"dealweapon": "weaponsystem.dealweapon",
 		"admin": "weaponsystem.admin",
 		"explode": "weaponsystem.explode",
-		"block": "weaponsystem.sperre"
+		"block": "weaponsystem.sperre",
+		"privateshop": "system.ck"
 	},
 	"messages": {
 		"noweapon": "&cDiese Waffe gibt es nicht",
@@ -22,14 +23,15 @@
 		"hasnomuni": "&cDu hast keine Munition fuer diese Waffe",
 		"hasweapon": "&cDu hast diese Waffe schon",
 		"nolicense": "&cDu hast keine %license%",
-		"block": "&cDu darfst das nicht du hast eine Waffensperre"
+		"block": "&cDu darfst das nicht du hast eine Waffensperre",
+		"privateshop": "&cDu bist nicht beim Kartell angestellt"
 	},
 	"throwable": {
-		"grenade": "10:1",
-		"flashbang": "10:1",
-		"airstrike": "10:1",
-		"smoke": "10:1",
-		"fire": "10:1",
-		"molotov": "10:1"
+		"grenade": "1:0",
+		"flashbang": "1:0",
+		"airstrike": "1:0",
+		"smoke": "1:0",
+		"fire": "1:0",
+		"molotov": "1:0"
 	}
 }

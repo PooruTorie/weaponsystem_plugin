@@ -28,12 +28,12 @@ public class MuniConfig extends Config {
 	}
 
 	private void load() {
-		id = ((Long) get("id")).intValue();
+		id = ((int) get("id"));
 		name = (String) get("name");
 		itemName = getChatColorString("item_name");
-		itemID = ((Long) get("item_id")).intValue();
-		itemDamage = ((Long) get("item_damage")).intValue();
-		costs = ((Long) get("costs")).intValue();
+		itemID = ((int) get("item_id"));
+		itemDamage = ((int) get("item_damage"));
+		costs = ((int) get("costs"));
 	}
 	
 	public int getId() {

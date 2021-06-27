@@ -222,11 +222,11 @@ public class Weapon {
 		return new ArrayList(weapons.values());
 	}
 
-	public Object loadItem(int i, int magazin) {
+	public WeaponItem loadItem(int i, int magazin) {
 		if (hasWeaponClass()) {
 			try {
 				Object item = weaponClass.getConstructor(Weapon.class, int.class, int.class).newInstance(this, i, magazin);
-				return item;
+				return (WeaponItem) item;
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
