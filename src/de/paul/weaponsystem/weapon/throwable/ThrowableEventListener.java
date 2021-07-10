@@ -22,12 +22,14 @@ public class ThrowableEventListener implements Listener {
 				if (item != null) {
 					if (item.hasItemMeta()) {
 						if (item.getItemMeta().hasLocalizedName()) {
-							int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-							if (Throwable.items.containsKey(id)) {
-								if (!PlayerWeapons.getForPlayer(p).isBlocked()) {
-									Throwable.items.get(id).Throw(p);
-								} else {
-									p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("block"));
+							if (item.getItemMeta().getLocalizedName().contains("_")) {
+								int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+								if (Throwable.items.containsKey(id)) {
+									if (!PlayerWeapons.getForPlayer(p).isBlocked()) {
+										Throwable.items.get(id).Throw(p);
+									} else {
+										p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("block"));
+									}
 								}
 							}
 						}

@@ -122,15 +122,17 @@ public class WeaponEventListener implements Listener {
 					if (item != null) {
 						if (item.hasItemMeta()) {
 							if (item.getItemMeta().hasLocalizedName()) {
-								int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-								if (WeaponItem.items.containsKey(id)) {
-									WeaponItem itemWeapon = WeaponItem.items.get(id);
-									if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
-										if (p.getCooldown(item.getType()) == 0) {
-											p.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20f));
-											itemWeapon.gunShot(p);
+								if (item.getItemMeta().getLocalizedName().contains("_")) {
+									int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+									if (WeaponItem.items.containsKey(id)) {
+										WeaponItem itemWeapon = WeaponItem.items.get(id);
+										if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
+											if (p.getCooldown(item.getType()) == 0) {
+												p.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20f));
+												itemWeapon.gunShot(p);
+											}
+											e.setCancelled(itemWeapon.getWeapon().getItemID() != 442);
 										}
-										e.setCancelled(itemWeapon.getWeapon().getItemID() != 442);
 									}
 								}
 							}
@@ -148,15 +150,17 @@ public class WeaponEventListener implements Listener {
 		if (item != null) {
 			if (item.hasItemMeta()) {
 				if (item.getItemMeta().hasLocalizedName()) {
-					int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-					if (WeaponItem.items.containsKey(id)) {
-						WeaponItem itemWeapon = WeaponItem.items.get(id);
-						if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
-							if (itemWeapon.getWeapon().isGunZoom()) {
-								if (e.isSneaking()) {
-									p.setWalkSpeed(-1f);
-								} else {
-									p.setWalkSpeed(0.2f);
+					if (item.getItemMeta().getLocalizedName().contains("_")) {
+						int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+						if (WeaponItem.items.containsKey(id)) {
+							WeaponItem itemWeapon = WeaponItem.items.get(id);
+							if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
+								if (itemWeapon.getWeapon().isGunZoom()) {
+									if (e.isSneaking()) {
+										p.setWalkSpeed(-1f);
+									} else {
+										p.setWalkSpeed(0.2f);
+									}
 								}
 							}
 						}
@@ -173,15 +177,17 @@ public class WeaponEventListener implements Listener {
 		if (item != null) {
 			if (item.hasItemMeta()) {
 				if (item.getItemMeta().hasLocalizedName()) {
-					int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-					if (WeaponItem.items.containsKey(id)) {
-						WeaponItem itemWeapon = WeaponItem.items.get(id);
-						if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
-							if (itemWeapon.getWeapon().isGunZoom()) {
-								if (p.isSneaking()) {
-									p.setWalkSpeed(-1f);
+					if (item.getItemMeta().getLocalizedName().contains("_")) {
+						int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+						if (WeaponItem.items.containsKey(id)) {
+							WeaponItem itemWeapon = WeaponItem.items.get(id);
+							if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
+								if (itemWeapon.getWeapon().isGunZoom()) {
+									if (p.isSneaking()) {
+										p.setWalkSpeed(-1f);
+									}
+									return;
 								}
-								return;
 							}
 						}
 					}
@@ -196,13 +202,15 @@ public class WeaponEventListener implements Listener {
 		ItemStack item = e.getItemDrop().getItemStack();
 		if (item.hasItemMeta()) {
 			if (item.getItemMeta().hasLocalizedName()) {
-				int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-				if (WeaponItem.items.containsKey(id)) {
-					WeaponItem itemWeapon = WeaponItem.items.get(id);
-					if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
-						itemWeapon.gunReleod(item, e.getPlayer());
+				if (item.getItemMeta().getLocalizedName().contains("_")) {
+					int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+					if (WeaponItem.items.containsKey(id)) {
+						WeaponItem itemWeapon = WeaponItem.items.get(id);
+						if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
+							itemWeapon.gunReleod(item, e.getPlayer());
+						}
+						e.setCancelled(true);
 					}
-					e.setCancelled(true);
 				}
 			}
 		}
@@ -216,20 +224,22 @@ public class WeaponEventListener implements Listener {
 			if (item != null) {
 				if (item.hasItemMeta()) {
 					if (item.getItemMeta().hasLocalizedName()) {
-						int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
-						if (WeaponItem.items.containsKey(id)) {
-							WeaponItem itemWeapon = WeaponItem.items.get(id);
-							if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
-								e.setDamage(0);
-							} else {
-								if (!PlayerWeapons.getForPlayer(damager).isBlocked()) {
-									if (damager.getCooldown(item.getType()) == 0) {
-										e.setDamage(itemWeapon.getWeapon().getMeleeDamage());
-										damager.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20));
-									}
+						if (item.getItemMeta().getLocalizedName().contains("_")) {
+							int id = Integer.parseInt(item.getItemMeta().getLocalizedName().split("[_]")[1]);
+							if (WeaponItem.items.containsKey(id)) {
+								WeaponItem itemWeapon = WeaponItem.items.get(id);
+								if (itemWeapon.getWeapon().getType() == WeaponType.gun) {
+									e.setDamage(0);
 								} else {
-									damager.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("block"));
-									e.setCancelled(true);
+									if (!PlayerWeapons.getForPlayer(damager).isBlocked()) {
+										if (damager.getCooldown(item.getType()) == 0) {
+											e.setDamage(itemWeapon.getWeapon().getMeleeDamage());
+											damager.setCooldown(item.getType(), (int) (itemWeapon.getWeapon().getCooldown()*20));
+										}
+									} else {
+										damager.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("block"));
+										e.setCancelled(true);
+									}
 								}
 							}
 						}
