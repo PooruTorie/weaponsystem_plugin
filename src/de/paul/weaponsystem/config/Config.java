@@ -106,7 +106,8 @@ public class Config {
 					try {
 						w.close();
 					} catch (IOException e1) {
-						e1.printStackTrace();
+						System.err.println("Error by Loading JSON File: "+f);
+						System.err.println(e1.getMessage());
 					}
 				}
 			}
