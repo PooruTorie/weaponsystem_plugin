@@ -7,7 +7,7 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/paulm/Desktop/java/api/spigot-1.12.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/paulm/Downloads/Vault.jar"/>
 	<classpathentry kind="lib" path="C:/Users/paulm/Desktop/Minecraft Server/Plugins/test.1.12/plugins/Revieve.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paulm/Desktop/Minecraft Server/Plugins/test.1.12/plugins/Vault.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

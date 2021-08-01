@@ -106,10 +106,11 @@ public class Config {
 					try {
 						w.close();
 					} catch (IOException e1) {
-						System.err.println("Error by Loading JSON File: "+f);
-						System.err.println(e1.getMessage());
+						e1.printStackTrace();
 					}
 				}
+				System.err.println("Error by Saving JSON File: "+f);
+				System.err.println(e.getMessage());
 			}
 		}
 	}
@@ -162,6 +163,8 @@ public class Config {
 					e1.printStackTrace();
 				}
 			}
+			System.err.println("Error by Loading JSON File: "+f);
+			System.err.println(e.getMessage());
 			throw e;
 		}
 	}

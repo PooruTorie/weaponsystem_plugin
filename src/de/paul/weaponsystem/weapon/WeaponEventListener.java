@@ -1,5 +1,9 @@
 package de.paul.weaponsystem.weapon;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -11,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -18,6 +23,8 @@ import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+
+import com.google.common.collect.Lists;
 
 import de.dyroxplays.revieve.objects.DeathPlayer;
 import de.paul.weaponsystem.BlockCrack;
@@ -36,6 +43,7 @@ public class WeaponEventListener implements Listener {
 			if (name != null) {
 				if (name.contains("_")) {
 					int damage = Integer.parseInt(name.split("[_]")[1]);
+					Player shooter = Bukkit.getPlayer(UUID.fromString(name.split("[_]")[2]));
 					if (e.getHitEntity() instanceof LivingEntity) {
 						if (e.getHitEntity() instanceof Player) {
 							Player hit = (Player) e.getHitEntity();
@@ -96,6 +104,11 @@ public class WeaponEventListener implements Listener {
 										BulletVest.isLastBlocked.put(hit.getUniqueId(), !is);
 									}
 								}
+							}
+							
+							if (hit.isDead()) {
+								PlayerDeathEvent deathEvent = new PlayerDeathEvent(hit, Lists.newArrayList(hit.getInventory().getContents()), damage, hit.getName()+" wurde von "+shooter.getName()+" erschossen.");
+								Bukkit.getPluginManager().callEvent(deathEvent);
 							}
 						} else {
 							((LivingEntity) e.getHitEntity()).damage(damage);

@@ -209,7 +209,7 @@ public class WeaponItem extends ItemStack {
 				for (int i = 0; i < weapon.getGunBullets(); i++) {
 					Snowball bullet = p.launchProjectile(Snowball.class);
 					bullet.setVelocity(bullet.getVelocity().multiply(2f).add(new Vector(((r.nextFloat()*2)-1)*a, ((r.nextFloat()*2)-1)*a, ((r.nextFloat()*2)-1)*a)));
-					bullet.setCustomName(weapon.getName()+"_"+weapon.getGunDamage());
+					bullet.setCustomName(weapon.getName()+"_"+weapon.getGunDamage()+"_"+p.getUniqueId().toString());
 					bullet.setGravity(false);
 				}
 				p.spawnParticle(Particle.SMOKE_NORMAL, p.getEyeLocation().add(p.getEyeLocation().getDirection().multiply(0.45)), 2, 0.01, 0.01, 0.01, 0.03);
