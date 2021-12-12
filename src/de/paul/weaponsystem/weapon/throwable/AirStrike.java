@@ -9,6 +9,8 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
+
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.weapon.muni.Muni;
 import de.paul.weaponsystem.weapon.rocketLauncher.Rocket;
@@ -35,7 +37,7 @@ public class AirStrike extends Throwable implements Listener {
 			public void run() {
 				e.setAmount(1);
 				Item i = p.getWorld().dropItem(p.getLocation(), e);
-				i.setVelocity(p.getEyeLocation().getDirection().add(p.getVelocity()));
+				i.setVelocity(p.getEyeLocation().getDirection().add(p.getVelocity()).add(new Vector(0, 1, 0)));
 				i.setPickupDelay(9999999);
 				
 				task = Bukkit.getScheduler().runTaskTimer(WeaponSystem.plugin, new Runnable() {

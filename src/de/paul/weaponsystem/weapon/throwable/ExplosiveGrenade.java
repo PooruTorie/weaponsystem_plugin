@@ -42,7 +42,7 @@ public class ExplosiveGrenade extends Throwable implements Listener {
 		ItemStack e = this.clone();
 		e.setAmount(1);
 		Item i = p.getWorld().dropItem(p.getLocation(), e);
-		i.setVelocity(p.getEyeLocation().getDirection().add(p.getVelocity()));
+		i.setVelocity(p.getEyeLocation().getDirection().add(p.getVelocity()).add(new Vector(0, 1, 0)));
 		i.setPickupDelay(9999999);
 		
 		Bukkit.getScheduler().runTaskLater(WeaponSystem.plugin, new Runnable() {
