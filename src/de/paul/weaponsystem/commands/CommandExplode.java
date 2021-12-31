@@ -50,7 +50,7 @@ public class CommandExplode implements TabCompleter, CommandExecutor, Listener {
 				if (!DeathPlayer.isDead(p)) {
 					if (args.length > 0) {
 						if (args[0].equalsIgnoreCase("info")) {
-							p.sendMessage(WeaponSystem.prefix+"§4Eine Sprengung kostet §e5000$");
+							p.sendMessage(WeaponSystem.prefix+"§7Eine Sprengung kostet §e5000$");
 						} else {
 							if (!delay.containsKey(p.getUniqueId())) {
 								String dest = args[0];
@@ -86,7 +86,7 @@ public class CommandExplode implements TabCompleter, CommandExecutor, Listener {
 									}, 0, 20);
 									
 									for (Player op : Bukkit.getOnlinePlayers()) {
-										op.sendMessage(WeaponSystem.prefix+"§7Es gab einen Terror anschlag §8(§7"+dest+"§8)");
+										op.sendMessage(WeaponSystem.prefix+"§7Es gab einen Terror anschlag §8(§c"+dest+"§8)");
 									}
 								} else {
 									p.sendMessage(WeaponSystem.prefix+WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nomoney").replace("%money%", "§e"+DecimalFormat.getIntegerInstance(Locale.GERMAN).format(5000-balance)+"$"));
@@ -95,17 +95,17 @@ public class CommandExplode implements TabCompleter, CommandExecutor, Listener {
 								int[] time = splitToComponentTimes(delay.get(p.getUniqueId()));
 								if (time[0] == 0) {
 									if (time[1] == 0) {
-										p.sendMessage(WeaponSystem.prefix+"§cDu hast noch einen Cooldown: §4"+time[0]+" Stunden "+time[1]+" Minuten "+time[2]+" Sekunden");
+										p.sendMessage(WeaponSystem.prefix+"§7Du hast noch einen Cooldown: §c"+time[0]+" Stunden "+time[1]+" Minuten "+time[2]+" Sekunden");
 									} else {
-										p.sendMessage(WeaponSystem.prefix+"§cDu hast noch einen Cooldown: §4"+time[1]+" Minuten "+time[2]+" Sekunden");
+										p.sendMessage(WeaponSystem.prefix+"§7Du hast noch einen Cooldown: §c"+time[1]+" Minuten "+time[2]+" Sekunden");
 									}
 								} else {
-									p.sendMessage(WeaponSystem.prefix+"§cDu hast noch einen Cooldown: §4"+time[2]+" Sekunden");
+									p.sendMessage(WeaponSystem.prefix+"§7Du hast noch einen Cooldown: §c"+time[2]+" Sekunden");
 								}
 							}
 						}
 					} else {
-						p.sendMessage("§cUsage: /sp <Ort>");
+						p.sendMessage("§cNutze§8: §8/§csp <Ort>");
 					}
 				}
 			} else {

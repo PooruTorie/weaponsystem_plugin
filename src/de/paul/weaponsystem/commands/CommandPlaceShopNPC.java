@@ -28,7 +28,7 @@ public class CommandPlaceShopNPC implements TabCompleter, CommandExecutor {
 						p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("noshoptype"));
 					}
 				} else {
-					p.sendMessage("§cUsage: /placeShopNPC <ShopType>");
+					p.sendMessage("§cNutze§8: §8/§cplaceShopNPC <ShopType>");
 				}
 			} else {
 				p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));
