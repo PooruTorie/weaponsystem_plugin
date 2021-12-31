@@ -14,11 +14,11 @@ public class CommandGetList implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
-			p.sendMessage("Aktuelle Waffen:");
+			p.sendMessage("§cAktuelle Waffen§8:");
 			for (Weapon w : Weapon.getAll()) {
 				p.sendMessage(w.getItemName());
 			}
-			p.sendMessage("Aktuelle Munitionen:");
+			p.sendMessage("§cAktuelle Munitionen§8:");
 			for (Muni m : Muni.getAll()) {
 				p.sendMessage(m.getItemName());
 			}

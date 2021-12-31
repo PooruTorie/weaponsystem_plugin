@@ -62,7 +62,7 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 	
 	public static Economy economy;
 	
-	public static final String prefix = "§8• §eWaffenSystem §8┃ ";
+	public static final String prefix = "§eSystem §8× ";
 	
 	private static File cratesFolder;
 	private static File weaponFolder;

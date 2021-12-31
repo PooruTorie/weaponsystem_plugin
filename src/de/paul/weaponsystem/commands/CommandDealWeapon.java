@@ -50,7 +50,7 @@ public class CommandDealWeapon implements CommandExecutor, TabCompleter {
 								}
 							} catch (Exception e) {
 								e.printStackTrace();
-								p.sendMessage("§cUsage: /dealWeapon <Preis>");
+								p.sendMessage("§cNutze§8: §8/§cdealWeapon <Preis>");
 							}
 						}
 					} else {
