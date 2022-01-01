@@ -105,6 +105,7 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 			BulletVest.register();
 			BulletShield.register();
 			Throwable.register();
+			Consumable.register();
 			
 			WeaponItem.load();
 			MuniItem.load();
@@ -184,6 +185,7 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 		WeaponItem.save();
 		MuniItem.save();
 		Throwable.save();
+		Consumable.save();
 		Crate.save();
 		ShopKeeper.save();
 		Storage.save();
