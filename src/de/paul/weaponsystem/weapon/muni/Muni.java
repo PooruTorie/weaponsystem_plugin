@@ -13,6 +13,7 @@ import org.bukkit.inventory.PlayerInventory;
 import de.paul.weaponsystem.config.MuniConfig;
 import de.paul.weaponsystem.crates.Crate;
 import de.paul.weaponsystem.weapon.Weapon;
+import de.paul.weaponsystem.weapon.consumable.Consumable;
 import de.paul.weaponsystem.weapon.throwable.Throwable;
 
 public class Muni {
@@ -207,6 +208,18 @@ public class Muni {
 			try {
 				Object item = itemClass.getConstructor(Muni.class).newInstance(this);
 				return (Throwable) item;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+	
+	public Consumable getConsumable() {
+		if (hasItemClass()) {
+			try {
+				Object item = itemClass.getConstructor(Muni.class).newInstance(this);
+				return (Consumable) item;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

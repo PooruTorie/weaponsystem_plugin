@@ -59,10 +59,5 @@ public class FireGrenade extends Throwable implements Listener {
 		}, 20*2);
 		
 		getMuni().removeItem(p.getInventory(), id);
-		
-		int a = getMuni().getMuniItems(p.getInventory());
-		if (a == 0) {
-			items.remove(id);
-		}
 	}
 }

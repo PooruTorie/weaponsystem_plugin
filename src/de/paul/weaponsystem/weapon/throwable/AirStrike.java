@@ -71,11 +71,6 @@ public class AirStrike extends Throwable implements Listener {
 				}, 0, 1).getTaskId();
 				
 				getMuni().removeItem(p.getInventory(), id);
-				
-				int a = getMuni().getMuniItems(p.getInventory());
-				if (a == 0) {
-					items.remove(id);
-				}
 			}
 		});
 	}

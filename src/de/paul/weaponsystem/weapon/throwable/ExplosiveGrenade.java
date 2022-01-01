@@ -59,11 +59,6 @@ public class ExplosiveGrenade extends Throwable implements Listener {
 		}, 20*4);
 		
 		getMuni().removeItem(p.getInventory(), id);
-		
-		int a = getMuni().getMuniItems(p.getInventory());
-		if (a == 0) {
-			items.remove(id);
-		}
 	}
 	
 	@EventHandler

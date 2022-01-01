@@ -189,13 +189,15 @@ public class ShopKeeper {
 				}
 			} else if (type == ShopType.muni) {
 				for (Muni m : Muni.getAll()) {
-					inv.setItem(i, m.toItemStack(true));
-					i++;
-					if (i == 16) {
-						i+=2;
-					}
-					if (i == 36) {
-						i+=2;
+					if (m.getCosts() > 0) {
+						inv.setItem(i, m.toItemStack(true));
+						i++;
+						if (i == 16) {
+							i+=2;
+						}
+						if (i == 36) {
+							i+=2;
+						}
 					}
 				}
 				
