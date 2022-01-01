@@ -49,6 +49,7 @@ import de.paul.weaponsystem.storages.Storage;
 import de.paul.weaponsystem.storages.Storage.StorageType;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.WeaponItem;
+import de.paul.weaponsystem.weapon.consumable.Consumable;
 import de.paul.weaponsystem.weapon.muni.Muni;
 import de.paul.weaponsystem.weapon.muni.MuniItem;
 import de.paul.weaponsystem.weapon.rocketLauncher.RPG;
@@ -108,6 +109,7 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 			WeaponItem.load();
 			MuniItem.load();
 			Throwable.load();
+			Consumable.load();
 			Crate.load();
 			ShopKeeper.load();
 			Storage.load();
