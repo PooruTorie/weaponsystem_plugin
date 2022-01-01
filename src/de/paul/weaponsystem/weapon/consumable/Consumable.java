@@ -76,7 +76,7 @@ public abstract class Consumable extends MuniItem {
 		Muni.register(new Muni(-100, "narcotics", "§6Narcotics", Integer.parseInt(nacrotic.split("[:]")[0]), Integer.parseInt(nacrotic.split("[:]")[1]), -1,  Narcotics.class));
 		Muni.register(new Muni(-101, "antinarcotics", "§aAnti §6Narcotics", Integer.parseInt(nacrotic.split("[:]")[0]), Integer.parseInt(nacrotic.split("[:]")[1]), -1,  AntiNarcotics.class));
 		
-		Bukkit.getPluginManager().registerEvents(new ThrowableEventListener(), WeaponSystem.plugin);
+		Bukkit.getPluginManager().registerEvents(new ConsumableListener(), WeaponSystem.plugin);
 	}
 
 	abstract void Use(Player p, Player p2);
