@@ -25,3 +25,7 @@ commands:
       aliases: sp
    waffensperre:
       description: Sperre einen spieler fuer eine bestimmte zeit.
+   packen:
+      description: Greife einen Spieler.
+   loslassen:
+      description: Lasse einen Spieler los.

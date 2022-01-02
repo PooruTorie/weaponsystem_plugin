@@ -38,6 +38,9 @@ import de.paul.weaponsystem.commands.CommandPlaceShopNPC;
 import de.paul.weaponsystem.commands.CommandPlaceStorage;
 import de.paul.weaponsystem.commands.admin.CommandAdmin;
 import de.paul.weaponsystem.commands.admin.CommandBlock;
+import de.paul.weaponsystem.commands.pack.CommandPack;
+import de.paul.weaponsystem.commands.pack.CommandRelease;
+import de.paul.weaponsystem.commands.pack.PackListener;
 import de.paul.weaponsystem.config.Config;
 import de.paul.weaponsystem.config.CrateConfig;
 import de.paul.weaponsystem.config.MuniConfig;
@@ -147,6 +150,12 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 		
 		getCommand("waffensperre").setTabCompleter(new CommandBlock());
 		getCommand("waffensperre").setExecutor(new CommandBlock());
+		
+		getCommand("packen").setTabCompleter(new CommandPack());
+		getCommand("packen").setExecutor(new CommandPack());
+		
+		getCommand("loslassen").setExecutor(new CommandRelease());
+		Bukkit.getPluginManager().registerEvents(new PackListener(), plugin);
 		
 		if (!setupEconomy()) {
 			getLogger().log(Level.WARNING, "Can't find Economy Plugin");

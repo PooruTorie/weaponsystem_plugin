@@ -9,7 +9,8 @@
 		"admin": "weaponsystem.admin",
 		"explode": "weaponsystem.explode",
 		"block": "weaponsystem.sperre",
-		"privateshop": "system.ck"
+		"privateshop": "system.ck",
+		"packen": "weaponsystem.packen"
 	},
 	"messages": {
 		"noweapon": "&cDiese Waffe gibt es nicht",
