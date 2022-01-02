@@ -30,13 +30,13 @@ public class CommandBlock implements TabCompleter, CommandExecutor {
 							float f = Float.parseFloat(args[1]);
 							PlayerWeapons.getForPlayer(other).block(f);
 						} catch (Exception e) {
-							p.sendMessage("§cUsage: /waffensperre <Spieler> <Zeit in Stunden>");
+							p.sendMessage("§cNutze§8: §8/§cwaffensperre <Spieler> <Zeit in Stunden>");
 						}
 					} else {
 						p.sendMessage(WeaponSystem.prefix+"§cDer Spieler §a"+args[0]+"§c ist nicht online.");
 					}
 				} else {
-					p.sendMessage("§cUsage: /waffensperre <Spieler> <Zeit in Stunden>");
+					p.sendMessage("§cNutze§8: §8/§cwaffensperre <Spieler> <Zeit in Stunden>");
 				}
 			} else {
 				p.sendMessage(WeaponSystem.prefix+WeaponSystem.loadConfig("config", "messages").getChatColorString("nopermission"));

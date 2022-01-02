@@ -54,7 +54,7 @@ public class CommandDealWeapon implements CommandExecutor, TabCompleter {
 							}
 						}
 					} else {
-						p.sendMessage("§cUsage: /dealWeapon <Preis> oder /dealWeapon accept");
+						p.sendMessage("§cNutze§8: §8/§cdealWeapon <Preis> oder /dealWeapon accept");
 					}
 				}
 			} else {
