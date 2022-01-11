@@ -1,8 +1,8 @@
 {
 	"type": "gun",
-	"name": "akm",
-	"item_name": "&eAKM",
-	"item_id": 2256,
+	"name": "ak",
+	"item_name": "&eAK",
+	"item_id": 2261,
 	"item_damage": 0,
 	"lizenz": 2,
 	"damage_per_bullet": 8,

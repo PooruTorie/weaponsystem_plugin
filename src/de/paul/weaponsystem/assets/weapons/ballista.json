@@ -1,7 +1,7 @@
 {
 	"type": "gun",
 	"name": "ballista",
-	"item_name": "&3Ballista",
+	"item_name": "&eBallista",
 	"item_id": 2262,
 	"item_damage": 0,
 	"lizenz": 3,
@@ -10,8 +10,10 @@
 	"bullets": 1,
 	"acuracy": 100,
 	"muni": 5,
-	"muni_id": 1,
+	"muni_id": 241,
 	"zoom": true,
 	"reload_time": 3,
+	"privateshop": false,
+	"inshop": false,	
 	"costs": 50000
 }

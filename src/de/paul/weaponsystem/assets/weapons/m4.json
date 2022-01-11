@@ -1,8 +1,8 @@
 {
 	"type": "gun",
-	"name": "akm",
-	"item_name": "&eAKM",
-	"item_id": 2256,
+	"name": "m4",
+	"item_name": "&eM4",
+	"item_id": 2267,
 	"item_damage": 0,
 	"lizenz": 2,
 	"damage_per_bullet": 8,
@@ -10,9 +10,9 @@
 	"bullets": 1,
 	"acuracy": 80,
 	"muni": 30,
-	"muni_id": 15,
+	"muni_id": 368,
 	"reload_time": 4,
 	"privateshop": false,
 	"inshop": true,
-	"costs": 30000
+	"costs": 80000
 }

@@ -1,0 +1,19 @@
+{
+	"type": "gun",
+	"name": "jg1",
+	"item_name": "&eJagdgewehr",
+	"item_id": 277,
+	"item_damage": 0,
+	"lizenz": 3,
+	"damage_per_bullet": 14,
+	"cooldown": 1.5,
+	"bullets": 1,
+	"acuracy": 80,
+	"muni": 4,
+	"muni_id": 5152,
+	"reload_time": 8,
+	"privateshop": false,
+	"inshop": true,
+	"shootsound": "shotgun.shotgun",
+	"costs": 45000
+}

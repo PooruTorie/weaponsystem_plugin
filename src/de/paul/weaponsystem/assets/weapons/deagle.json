@@ -1,10 +1,10 @@
 {
 	"type": "gun",
 	"name": "deagle",
-	"item_name": "&6Deagle",
+	"item_name": "&eDeagle",
 	"item_id": 417,
 	"item_damage": 0,
-	"lizenz": 2,
+	"lizenz": 1,
 	"damage_per_bullet": 10,
 	"cooldown": 0.4,
 	"bullets": 1,
@@ -12,5 +12,7 @@
 	"muni": 10,
 	"muni_id": 1,
 	"reload_time": 1,
-	"costs": 20000
+	"privateshop": false,
+	"inshop": true,
+	"costs": 3500
 }

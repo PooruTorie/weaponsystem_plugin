@@ -1,11 +1,13 @@
 {
 	"type": "melee",
 	"name": "knife",
-	"item_name": "&6Knife",
+	"item_name": "&eMesser",
 	"item_id": 267,
 	"item_damage": 0,
 	"lizenz": 1,
 	"cooldown": 1.0,
 	"damage": 5,
-	"costs": 1000
+	"privateshop": false,
+	"inshop": true,		
+	"costs": 150
 }

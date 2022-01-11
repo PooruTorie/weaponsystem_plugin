@@ -1,0 +1,19 @@
+{
+	"type": "gun",
+	"name": "jg2",
+	"item_name": "&eJagdgewehr",
+	"item_id": 279,
+	"item_damage": 0,
+	"lizenz": 3,
+	"damage_per_bullet": 12,
+	"cooldown": 1.0,
+	"bullets": 1,
+	"acuracy": 80,
+	"muni": 8,
+	"muni_id": 5152,
+	"reload_time": 5,
+	"privateshop": false,
+	"inshop": true,
+	"shootsound": "shotgun.shotgun",	
+	"costs": 42000
+}

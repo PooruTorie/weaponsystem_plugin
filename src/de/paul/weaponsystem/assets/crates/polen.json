@@ -1,33 +1,33 @@
 {
-	"name": "obrien",
-	"inv_name": "&bEquip",
-	"permission": "f.ob",
+	"name": "polen",
+	"inv_name": "&fEquip",
+	"permission": "f.pm",
 	"size": 27,
 	"items": [
 		{
 			"type": "weapon",
 			"slot": 11,
-			"name": "ballista"
+			"name": "akm"
 		},
 		{
 			"type": "muni",
 			"slot": 12,
-			"name": "ballistamuni"
+			"name": "akmmuni"
 		},
 		{
 			"type": "weapon",
 			"slot": 13,
-			"name": "deagle"
+			"name": "pkp"
 		},
 		{
 			"type": "muni",
 			"slot": 14,
-			"name": "patrone"
+			"name": "pkpmuni"
 		},
 		{
 			"type": "weapon",
 			"slot": 15,
-			"name": "knife"				
+			"name": "basball"			
 		}
 	]
 }

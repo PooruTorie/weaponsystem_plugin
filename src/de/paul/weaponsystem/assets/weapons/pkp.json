@@ -1,8 +1,8 @@
 {
 	"type": "gun",
 	"name": "pkp",
-	"item_name": "&4PKP",
-	"item_id": 2256,
+	"item_name": "&ePKP",
+	"item_id": 2265,
 	"item_damage": 0,
 	"lizenz": 3,
 	"damage_per_bullet": 8,
@@ -12,5 +12,7 @@
 	"muni": 75,
 	"muni_id": 8,
 	"reload_time": 4,
-	"costs": 45000
+	"privateshop": false,
+	"inshop": true,		
+	"costs": 95000
 }

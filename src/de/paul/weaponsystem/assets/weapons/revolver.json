@@ -1,0 +1,18 @@
+{
+	"type": "gun",
+	"name": "revolver",
+	"item_name": "&eRevolver",
+	"item_id": 273,
+	"item_damage": 0,
+	"lizenz": 1,
+	"damage_per_bullet": 5,
+	"cooldown": 0.5,
+	"bullets": 1,
+	"acuracy": 80,
+	"muni": 12,
+	"muni_id": 5152,
+	"reload_time": 5,
+	"privateshop": false,
+	"inshop": true,
+	"costs": 7500
+}

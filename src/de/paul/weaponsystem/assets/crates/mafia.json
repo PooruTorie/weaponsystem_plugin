@@ -1,23 +1,33 @@
 {
 	"name": "mafia",
-	"inv_name": "&2Mafia",
-	"permission": "ec.mafia",
+	"inv_name": "&cEquip",
+	"permission": "f.cn",
 	"size": 27,
 	"items": [
 		{
 			"type": "weapon",
 			"slot": 11,
-			"name": "gs36#2"
+			"name": "m4"
 		},
 		{
 			"type": "muni",
 			"slot": 12,
-			"name": "gs36"
+			"name": "m4muni"
 		},
 		{
 			"type": "weapon",
+			"slot": 13,
+			"name": "mp5"
+		},
+		{
+			"type": "muni",
 			"slot": 14,
-			"name": "taser"
+			"name": "mp5muni"
+		},
+		{
+			"type": "weapon",
+			"slot": 15,
+			"name": "knife"				
 		}
 	]
 }

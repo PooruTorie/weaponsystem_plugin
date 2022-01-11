@@ -1,8 +1,8 @@
 {
 	"type": "gun",
-	"name": "akm",
+	"name": "akmrainbow",
 	"item_name": "&eAKM",
-	"item_id": 2256,
+	"item_id": 292,
 	"item_damage": 0,
 	"lizenz": 2,
 	"damage_per_bullet": 8,
@@ -11,8 +11,8 @@
 	"acuracy": 80,
 	"muni": 30,
 	"muni_id": 15,
-	"reload_time": 4,
-	"privateshop": false,
-	"inshop": true,
+	"reload_time": 3,
+	"privateshop": true,
+	"inshop": false,
 	"costs": 30000
 }

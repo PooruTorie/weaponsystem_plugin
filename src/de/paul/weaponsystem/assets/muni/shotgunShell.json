@@ -1,8 +1,10 @@
 {
 	"id": 2,
 	"name": "shotgunshell",
-	"item_name": "&cShotgun Shell",
+	"item_name": "&bShotgun Munition",
 	"item_id": 262,
 	"item_damage": 0,
-	"costs": 100
+	"privateshop": false,
+	"inshop": true,		
+	"costs": 350
 }

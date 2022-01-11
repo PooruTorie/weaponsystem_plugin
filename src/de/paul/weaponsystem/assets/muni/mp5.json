@@ -1,0 +1,10 @@
+{
+	"id": 12234,
+	"name": "mp5muni",
+	"item_name": "&bMP5 Munition",
+	"item_id": 338,
+	"item_damage": 0,
+	"privateshop": false,
+	"inshop": true,		
+	"costs": 100
+}

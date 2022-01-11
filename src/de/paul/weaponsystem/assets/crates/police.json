@@ -1,22 +1,22 @@
 {
 	"name": "police",
-	"inv_name": "&1Polizei",
-	"permission": "ec.police",
+	"inv_name": "&9Equip",
+	"permission": "f.pd",
 	"size": 27,
 	"items": [
 		{
 			"type": "weapon",
-			"slot": 11,
-			"name": "gs36#1"
+			"slot": 10,
+			"name": "g36"
 		},
 		{
 			"type": "muni",
-			"slot": 12,
-			"name": "gs36"
+			"slot": 11,
+			"name": "g36muni"
 		},
 		{
 			"type": "weapon",
-			"slot": 15,
+			"slot": 12,
 			"name": "bulletvest"
 		},
 		{
@@ -25,9 +25,19 @@
 			"name": "flashbang"
 		},
 		{
-			"type": "weapon",
+			"type": "muni",
 			"slot": 14,
+			"name": "smoke"
+		},		
+		{
+			"type": "weapon",
+			"slot": 15,
 			"name": "taser"
+		},
+		{
+			"type": "weapon",
+			"slot": 16,
+			"name": "bulletshield"
 		}
 	]
 }

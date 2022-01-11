@@ -1,23 +1,33 @@
 {
 	"name": "kartell",
-	"inv_name": "&3Kartell",
-	"permission": "ec.kartell",
+	"inv_name": "&2Equip",
+	"permission": "f.ck",
 	"size": 27,
 	"items": [
 		{
 			"type": "weapon",
 			"slot": 11,
-			"name": "gs36#3"
+			"name": "akm"
 		},
 		{
 			"type": "muni",
 			"slot": 12,
-			"name": "gs36"
+			"name": "akmmuni"
 		},
 		{
 			"type": "weapon",
+			"slot": 13,
+			"name": "ak"
+		},
+		{
+			"type": "muni",
 			"slot": 14,
-			"name": "taser"
+			"name": "akmmuni"
+		},
+		{
+			"type": "muni",
+			"slot": 15,
+			"name": "molotov"				
 		}
 	]
 }

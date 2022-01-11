@@ -1,8 +1,10 @@
 {
 	"id": 3,
 	"name": "rocket",
-	"item_name": "&6Rocket",
+	"item_name": "&bRakete",
 	"item_id": 351,
 	"item_damage": 2,
+	"privateshop": false,
+	"inshop": false,
 	"costs": 1000
 }

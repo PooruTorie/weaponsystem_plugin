@@ -1,23 +1,33 @@
 {
 	"name": "ballas",
-	"inv_name": "&bBallas",
-	"permission": "ec.ballas",
+	"inv_name": "&5Equip",
+	"permission": "f.bs",
 	"size": 27,
 	"items": [
 		{
 			"type": "weapon",
 			"slot": 11,
-			"name": "gs36#3"
+			"name": "m4"
 		},
 		{
 			"type": "muni",
 			"slot": 12,
-			"name": "gs36"
+			"name": "m4muni"
+		},
+		{
+			"type": "weapon",
+			"slot": 13,
+			"name": "basball"
 		},
 		{
 			"type": "weapon",
 			"slot": 14,
-			"name": "taser"
+			"name": "knife"
+		},
+		{
+			"type": "muni",
+			"slot": 15,
+			"name": "molotov"				
 		}
 	]
 }

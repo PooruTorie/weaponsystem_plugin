@@ -4,7 +4,7 @@
 	"item_name": "&4Shotgun",
 	"item_id": 2266,
 	"item_damage": 0,
-	"lizenz": 2,
+	"lizenz": 3,
 	"damage_per_bullet": 10,
 	"cooldown": 1.0,
 	"bullets": 8,
@@ -12,6 +12,8 @@
 	"muni": 4,
 	"muni_id": 2,
 	"reload_time": 3,
+	"privateshop": false,
+	"inshop": true,		
 	"shootsound": "shotgun.shotgun",
 	"costs": 30000
 }

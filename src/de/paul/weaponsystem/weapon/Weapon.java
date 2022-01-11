@@ -194,6 +194,7 @@ public class Weapon {
 
 	public static void register(Weapon weapon) {
 		weapons.put(index, weapon);
+		System.out.println("[WEAPONSYSTEM] REGISTER "+weapon.name);
 		index++;
 	}
 	

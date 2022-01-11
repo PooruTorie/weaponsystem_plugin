@@ -1,0 +1,53 @@
+{
+	"name": "terroristen",
+	"inv_name": "&3Equip",
+	"permission": "f.tn",
+	"size": 27,
+	"items": [
+		{
+			"type": "weapon",
+			"slot": 9,
+			"name": "akm"
+		},
+		{
+			"type": "muni",
+			"slot": 10,
+			"name": "akmmuni"
+		},
+		{
+			"type": "weapon",
+			"slot": 11,
+			"name": "pkp"
+		},
+		{
+			"type": "muni",
+			"slot": 12,
+			"name": "pkpmuni"
+		},
+		{
+			"type": "weapon",
+			"slot": 13,
+			"name": "rpg"	
+		},
+		{
+			"type": "muni",
+			"slot": 14,
+			"name": "rocket"
+		},
+		{
+			"type": "muni",
+			"slot": 15,
+			"name": "flashbang"	
+		},
+		{
+			"type": "muni",
+			"slot": 16,
+			"name": "grenade"
+		},
+		{
+			"type": "muni",
+			"slot": 17,
+			"name": "molotov"			
+		}
+	]
+}

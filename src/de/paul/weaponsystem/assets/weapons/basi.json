@@ -1,11 +1,13 @@
 {
 	"type": "melee",
 	"name": "basball",
-	"item_name": "&fBaseball Schlaeger",
+	"item_name": "&eBaseballschläger",
 	"item_id": 352,
 	"item_damage": 0,
 	"lizenz": 1,
 	"cooldown": 3.0,
-	"damage": 15,
-	"costs": 3000
+	"damage": 4,
+	"privateshop": false,
+	"inshop": true,
+	"costs": 300
 }

@@ -99,9 +99,9 @@ public class WeaponSystem extends JavaPlugin implements Listener {
 			loadConfig("data");
 			loadConfig("playerdata");
 			
-			loadCrates();
 			loadWeapons();
 			loadMuni();
+			loadCrates();
 			
 			RPG.register();
 			Taser.register();
