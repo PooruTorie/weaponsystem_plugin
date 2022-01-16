@@ -50,10 +50,11 @@ public class Assets {
 		        String name = entries.nextElement().getName();
 		        String classDir = "de/paul/weaponsystem/assets/";
 		        String path = classDir+jarFolderPath;
-		        Path p = Paths.get(name);
-				if (p.startsWith(path) && p.toFile().isFile()) {
-					copyFile(new File(folder, p.getFileName().toString()), name.replace(classDir, ""));
-		        }
+		        if (name.startsWith(path)) {
+					if (!name.endsWith("/")) {
+						copyFile(new File(folder, "/"+name.replace(path, "")), name.replace(classDir, "").substring(1));
+					}
+				}
 		    }
 		    jar.close();
 		} catch (Exception e) {

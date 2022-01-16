@@ -1,5 +1,5 @@
 name: WeaponSystem
-version: 1.5.5
+version: 1.6
 author: paulO5
 main: de.paul.weaponsystem.WeaponSystem
 depend: [Vault, RevieveNew]
