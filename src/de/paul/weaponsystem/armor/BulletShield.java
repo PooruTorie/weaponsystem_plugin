@@ -10,8 +10,8 @@ import org.bukkit.inventory.ItemStack;
 import de.dyroxplays.revieve.lizenz.Lizenz.LizenzType;
 import de.paul.weaponsystem.crates.Crate;
 import de.paul.weaponsystem.weapon.Weapon;
-import de.paul.weaponsystem.weapon.WeaponItem;
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
+import de.paul.weaponsystem.weapon.WeaponItem;
 
 public class BulletShield extends WeaponItem {
 	

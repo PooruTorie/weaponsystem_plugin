@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.crates.Crate;
-import de.paul.weaponsystem.weapon.Weapon;
 
 public class CommandPlaceCrate implements TabCompleter, CommandExecutor {
 

@@ -13,7 +13,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import de.paul.weaponsystem.WeaponSystem;
-import de.paul.weaponsystem.weapon.muni.Muni;
 
 public class CommandPack implements TabCompleter, CommandExecutor {
 	

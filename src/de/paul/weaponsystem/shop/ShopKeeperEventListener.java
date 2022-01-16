@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.util.Locale;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,21 +12,17 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import de.dyroxplays.revieve.RevieveAPI;
 import de.dyroxplays.revieve.lizenz.Lizenz;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.storages.PlayerWeapons;
 import de.paul.weaponsystem.storages.Storage;
-import de.paul.weaponsystem.storages.Storage.StorageType;
 import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.muni.Muni;
-import net.minecraft.server.v1_12_R1.ICommandHandler;
 
 public class ShopKeeperEventListener implements Listener {
 	

@@ -3,7 +3,6 @@ package de.paul.weaponsystem.weapon.muni;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -11,8 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import de.paul.weaponsystem.config.MuniConfig;
-import de.paul.weaponsystem.crates.Crate;
-import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.consumable.Consumable;
 import de.paul.weaponsystem.weapon.throwable.Throwable;
 

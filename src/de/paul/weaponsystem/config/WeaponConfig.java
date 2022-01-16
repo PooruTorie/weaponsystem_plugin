@@ -2,11 +2,7 @@ package de.paul.weaponsystem.config;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.function.Consumer;
 
-import org.bukkit.ChatColor;
-import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 
 import de.dyroxplays.revieve.lizenz.Lizenz.LizenzType;

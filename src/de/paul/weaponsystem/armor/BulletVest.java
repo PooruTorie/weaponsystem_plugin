@@ -12,8 +12,8 @@ import de.dyroxplays.revieve.lizenz.Lizenz.LizenzType;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.crates.Crate;
 import de.paul.weaponsystem.weapon.Weapon;
-import de.paul.weaponsystem.weapon.WeaponItem;
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
+import de.paul.weaponsystem.weapon.WeaponItem;
 
 public class BulletVest extends WeaponItem {
 	

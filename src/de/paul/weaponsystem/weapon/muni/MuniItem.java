@@ -13,7 +13,6 @@ import org.json.simple.JSONObject;
 
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.config.Config;
-import de.paul.weaponsystem.crates.Crate;
 
 public class MuniItem extends ItemStack {
 	

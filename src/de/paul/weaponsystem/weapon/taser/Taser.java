@@ -1,30 +1,24 @@
 package de.paul.weaponsystem.weapon.taser;
 
 import org.apache.commons.lang3.Validate;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import de.dyroxplays.revieve.Main;
 import de.dyroxplays.revieve.lizenz.Lizenz.LizenzType;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.crates.Crate;
 import de.paul.weaponsystem.storages.PlayerWeapons;
 import de.paul.weaponsystem.weapon.Weapon;
-import de.paul.weaponsystem.weapon.WeaponItem;
 import de.paul.weaponsystem.weapon.Weapon.WeaponType;
-import de.paul.weaponsystem.weapon.rocketLauncher.RPG;
-import de.paul.weaponsystem.weapon.rocketLauncher.Rocket;
+import de.paul.weaponsystem.weapon.WeaponItem;
 
 public class Taser extends WeaponItem {
 	

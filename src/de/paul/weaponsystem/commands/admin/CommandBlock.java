@@ -10,11 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import de.dyroxplays.revieve.RevieveAPI;
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.storages.PlayerWeapons;
-import de.paul.weaponsystem.storages.Storage.StorageType;
-import de.paul.weaponsystem.weapon.Weapon;
 
 public class CommandBlock implements TabCompleter, CommandExecutor {
 

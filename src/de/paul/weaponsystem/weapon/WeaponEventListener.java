@@ -1,6 +1,5 @@
 package de.paul.weaponsystem.weapon;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;

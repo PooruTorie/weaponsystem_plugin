@@ -34,7 +34,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import de.dyroxplays.revieve.objects.DeathPlayer;
-import de.dyroxplays.revieve.objects.PlayerRealDeathEvent;
 import de.paul.weaponsystem.WeaponSystem;
 
 public class CommandExplode implements TabCompleter, CommandExecutor, Listener {

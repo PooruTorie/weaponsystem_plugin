@@ -11,14 +11,6 @@ import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.config.Config;
 import de.paul.weaponsystem.weapon.muni.Muni;
 import de.paul.weaponsystem.weapon.muni.MuniItem;
-import de.paul.weaponsystem.weapon.throwable.AirStrike;
-import de.paul.weaponsystem.weapon.throwable.ExplosiveGrenade;
-import de.paul.weaponsystem.weapon.throwable.FireGrenade;
-import de.paul.weaponsystem.weapon.throwable.FlashBang;
-import de.paul.weaponsystem.weapon.throwable.Molotov;
-import de.paul.weaponsystem.weapon.throwable.SmokeGrenade;
-import de.paul.weaponsystem.weapon.throwable.Throwable;
-import de.paul.weaponsystem.weapon.throwable.ThrowableEventListener;
 
 public abstract class Consumable extends MuniItem {
 	

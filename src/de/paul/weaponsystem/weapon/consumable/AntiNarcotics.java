@@ -1,7 +1,6 @@
 package de.paul.weaponsystem.weapon.consumable;
 
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import de.paul.weaponsystem.WeaponSystem;

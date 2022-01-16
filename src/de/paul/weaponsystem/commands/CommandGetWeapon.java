@@ -1,6 +1,5 @@
 package de.paul.weaponsystem.commands;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.command.Command;
@@ -11,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import de.paul.weaponsystem.WeaponSystem;
 import de.paul.weaponsystem.weapon.Weapon;
-import de.paul.weaponsystem.weapon.muni.Muni;
 
 public class CommandGetWeapon implements CommandExecutor, TabCompleter {
 

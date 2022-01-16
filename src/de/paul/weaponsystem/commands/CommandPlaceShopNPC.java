@@ -9,7 +9,6 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import de.paul.weaponsystem.WeaponSystem;
-import de.paul.weaponsystem.crates.Crate;
 import de.paul.weaponsystem.shop.ShopKeeper;
 import de.paul.weaponsystem.shop.ShopKeeper.ShopType;
 

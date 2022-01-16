@@ -23,7 +23,6 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
 
 import de.paul.weaponsystem.WeaponSystem;
-import de.paul.weaponsystem.weapon.Weapon;
 import de.paul.weaponsystem.weapon.muni.Muni;
 
 public class ExplosiveGrenade extends Throwable implements Listener {
