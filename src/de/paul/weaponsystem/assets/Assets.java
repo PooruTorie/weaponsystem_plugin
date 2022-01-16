@@ -1,13 +1,9 @@
 package de.paul.weaponsystem.assets;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -21,19 +17,18 @@ public class Assets {
 	public static void copyFile(File f, String fileInJar) {
 		try {
 			if (!f.exists()) {
+				f.getParentFile().mkdirs();
 				f.createNewFile();
 			}
 			InputStream stream = getFile(fileInJar);
 			if (stream != null) {
-				BufferedWriter w = new BufferedWriter(new FileWriter(f));
-				BufferedReader r = new BufferedReader(new InputStreamReader(stream));
+				OutputStream w = new FileOutputStream(f);
 				
-				while (r.ready()) {
-					w.write(r.readLine());
-					w.newLine();
+				while (stream.available() > 0) {
+					w.write(stream.read());
 				}
 				
-				r.close();
+				stream.close();
 				w.close();
 			}
 		} catch (Exception e) {
@@ -43,19 +38,23 @@ public class Assets {
 
 	public static void loadFolder(String jarFolderPath, File folder) {
 		try {
+			if (!jarFolderPath.startsWith("[\\/]")) {
+				jarFolderPath = "/"+jarFolderPath;
+			}
+			
 			File jarFile = new File(Assets.class.getProtectionDomain().getCodeSource().getLocation().toURI());
 			JarFile jar = new JarFile(jarFile);
 		    Enumeration<JarEntry> entries = jar.entries();
-		    while(entries.hasMoreElements()) {
-		        String name = entries.nextElement().getName();
-		        String classDir = "de/paul/weaponsystem/assets/";
-		        String path = classDir+jarFolderPath;
-		        if (name.startsWith(path)) {
+			while (entries.hasMoreElements()) {
+				String name = entries.nextElement().getName();
+				String classDir = Assets.class.getPackage().getName().replace('.', '/');
+				String path = classDir+jarFolderPath;
+				if (name.startsWith(path)) {
 					if (!name.endsWith("/")) {
 						copyFile(new File(folder, "/"+name.replace(path, "")), name.replace(classDir, "").substring(1));
 					}
 				}
-		    }
+			}
 		    jar.close();
 		} catch (Exception e) {
 			e.printStackTrace();
