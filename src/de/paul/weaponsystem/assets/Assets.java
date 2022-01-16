@@ -51,7 +51,7 @@ public class Assets {
 		        String classDir = "de/paul/weaponsystem/assets/";
 		        String path = classDir+jarFolderPath;
 		        Path p = Paths.get(name);
-				if (name.startsWith(path)) {
+				if (p.startsWith(path) && p.toFile().isFile()) {
 					copyFile(new File(folder, p.getFileName().toString()), name.replace(classDir, ""));
 		        }
 		    }
