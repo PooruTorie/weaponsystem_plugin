@@ -4,7 +4,5 @@
 	"item_name": "&bPatrone",
 	"item_id": 351,
 	"item_damage": 7,
-	"privateshop": false,
-	"inshop": true,		
 	"costs": 100
 }

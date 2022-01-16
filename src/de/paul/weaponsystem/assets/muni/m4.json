@@ -4,7 +4,5 @@
 	"item_name": "&bM4 Munition",
 	"item_id": 351,
 	"item_damage": 5,
-	"privateshop": false,
-	"inshop": true,		
 	"costs": 350
 }

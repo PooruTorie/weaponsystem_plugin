@@ -3,8 +3,6 @@
 	"name": "ballistamuni",
 	"item_name": "&bBallista Munition",
 	"item_id": 351,
-	"item_damage": 3,
-	"privateshop": false,
-	"inshop": true,		
+	"item_damage": 3,	
 	"costs": 350
 }

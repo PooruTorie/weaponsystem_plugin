@@ -5,6 +5,5 @@
 	"item_id": 351,
 	"item_damage": 2,
 	"privateshop": false,
-	"inshop": false,
-	"costs": 1000
+	"costs": 0
 }

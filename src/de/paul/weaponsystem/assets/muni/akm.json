@@ -4,7 +4,5 @@
 	"item_name": "&bAKM Munition",
 	"item_id": 351,
 	"item_damage": 6,
-	"privateshop": false,
-	"inshop": true,		
 	"costs": 250
 }
