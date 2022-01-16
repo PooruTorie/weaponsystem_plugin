@@ -50,8 +50,10 @@ public class WeaponConfig extends Config {
 			inShop = (boolean) get("inshop");
 		}
 		if (contains("privateshop")) {
-			inShop = false;
 			privateShop = (boolean) get("privateshop");
+			if (privateShop) {
+				inShop = false;
+			}
 		}
 		switch (type) {
 		case gun:
